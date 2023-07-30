@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import api from '../api'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { USERS_PROPS } from '../constants'
 
 const Users = () => {
-  const users = api.users.fetchAll()
+  const [users, setUsers] = useState(api.users.fetchAll())
   let heads = users.length !== 0 ? Object.keys(users[0]).filter((key) => !key.startsWith('_')) : USERS_PROPS
   heads = heads.slice(0, 5)
 
@@ -21,7 +21,7 @@ const Users = () => {
       )
     }
 
-    return ''
+    return <></>
   }
   const renderBadge = ({ name, color }) => {
     let classes = 'badge m-2 '
@@ -48,12 +48,20 @@ const Users = () => {
 
     return [].concat(data).map(renderItem)
   }
+  const handleDelete = (userToDelete) => {
+    setUsers(users.filter((user) => user._id !== userToDelete._id))
+  }
   const renderUsers = () => {
     return users.map((user) => (
       <tr key={user.name}>
         {heads.map((head) => (
           <td key={head}>{renderCellContent(user[head])}</td>
         ))}
+        <td>
+          <button className="btn btn-danger" type="button" onClick={() => handleDelete(user)}>
+            Delete
+          </button>
+        </td>
       </tr>
     ))
   }
@@ -81,7 +89,7 @@ const Users = () => {
       {renderInfo()}
       <table className="table">
         <thead>{renderHeads()}</thead>
-        <tbody>{renderUsers()}</tbody>
+        <tbody className="table-group-divider">{renderUsers()}</tbody>
       </table>
     </>
   )
