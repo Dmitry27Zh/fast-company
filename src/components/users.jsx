@@ -5,16 +5,23 @@ import { USERS_PROPS } from '../constants'
 
 const Users = () => {
   const users = api.users.fetchAll()
-  console.log(users)
   let heads = users.length !== 0 ? Object.keys(users[0]).filter((key) => !key.startsWith('_')) : USERS_PROPS
   heads = heads.slice(0, 5)
 
   const renderHeads = () => {
-    return heads.map((head) => (
-      <th scope="col" key={head}>
-        {head}
-      </th>
-    ))
+    if (users.length !== 0) {
+      return (
+        <tr>
+          {heads.map((head) => (
+            <th scope="col" key={head}>
+              {head}
+            </th>
+          ))}
+        </tr>
+      )
+    }
+
+    return ''
   }
   const renderBadge = ({ name, color }) => {
     let classes = 'badge m-2 '
@@ -50,14 +57,30 @@ const Users = () => {
       </tr>
     ))
   }
+  const renderInfo = () => {
+    const length = users.length
+    let classes = 'badge bg-'
+    classes += length === 0 ? 'danger' : 'primary'
+    const LongWord = {
+      LAST_DIGITS: [2, 3, 4],
+      EXCEPTIONS: [12, 13, 14],
+    }
+    let word =
+      LongWord.LAST_DIGITS.includes(length % 10) && !LongWord.EXCEPTIONS.includes(length) ? 'человека' : 'человек'
+    let message = length === 0 ? 'Никто с тобой не тусанет ' : `${length} ${word} тусанет с тобой сегодня`
+
+    return (
+      <h3>
+        <span className={classes}>{message}</span>
+      </h3>
+    )
+  }
 
   return (
     <>
-      <span></span>
+      {renderInfo()}
       <table className="table">
-        <thead>
-          <tr>{renderHeads()}</tr>
-        </thead>
+        <thead>{renderHeads()}</thead>
         <tbody>{renderUsers()}</tbody>
       </table>
     </>
