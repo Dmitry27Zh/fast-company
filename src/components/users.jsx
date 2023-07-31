@@ -21,12 +21,12 @@ const Users = () => {
       </tr>
     )
   }
-  const renderBadge = ({ name, color }) => {
+  const renderBadge = ({ name, color, _id }) => {
     let classes = 'badge m-2 '
     classes += `text-bg-${color}`
 
     return (
-      <span className={classes} key={name}>
+      <span className={classes} key={_id}>
         {name}
       </span>
     )
@@ -46,15 +46,19 @@ const Users = () => {
 
     return [].concat(data).map(renderItem)
   }
+  const renderCell = (user, head) => {
+    const data = user[head]
+    const key = data._id ?? head
+
+    return <td key={key}>{renderCellContent(data)}</td>
+  }
   const handleDelete = (userToDelete) => {
     setUsers(users.filter((user) => user._id !== userToDelete._id))
   }
   const renderUsers = () => {
     return users.map((user) => (
-      <tr key={user.name}>
-        {heads.map((head) => (
-          <td key={head}>{renderCellContent(user[head])}</td>
-        ))}
+      <tr key={user._id}>
+        {heads.map((head) => renderCell(user, head))}
         <td>
           <button className="btn btn-danger" type="button" onClick={() => handleDelete(user)}>
             Delete
