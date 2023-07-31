@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import api from '../api'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { USERS_PROPS } from '../constants'
+import { cancelCamelCase, capitalize } from '../utils'
 
 const Users = () => {
   const [users, setUsers] = useState(api.users.fetchAll())
@@ -9,19 +10,16 @@ const Users = () => {
   heads = heads.slice(0, 5)
 
   const renderHeads = () => {
-    if (users.length !== 0) {
-      return (
-        <tr>
-          {heads.map((head) => (
-            <th scope="col" key={head}>
-              {head}
-            </th>
-          ))}
-        </tr>
-      )
-    }
-
-    return <></>
+    return (
+      <tr>
+        {heads.map((head) => (
+          <th scope="col" key={head}>
+            {capitalize(cancelCamelCase(head))}
+          </th>
+        ))}
+        <th></th>
+      </tr>
+    )
   }
   const renderBadge = ({ name, color }) => {
     let classes = 'badge m-2 '
@@ -83,14 +81,21 @@ const Users = () => {
       </h3>
     )
   }
+  const renderTable = () => {
+    if (users.length !== 0) {
+      return (
+        <table className="table">
+          <thead>{renderHeads()}</thead>
+          <tbody className="table-group-divider">{renderUsers()}</tbody>
+        </table>
+      )
+    }
+  }
 
   return (
     <>
       {renderInfo()}
-      <table className="table">
-        <thead>{renderHeads()}</thead>
-        <tbody className="table-group-divider">{renderUsers()}</tbody>
-      </table>
+      {renderTable()}
     </>
   )
 }
