@@ -75,9 +75,11 @@ const Users = () => {
       LAST_DIGITS: [2, 3, 4],
       EXCEPTIONS: [12, 13, 14],
     }
-    let word =
-      LongWord.LAST_DIGITS.includes(length % 10) && !LongWord.EXCEPTIONS.includes(length) ? 'человека' : 'человек'
-    let message = length === 0 ? 'Никто с тобой не тусанет ' : `${length} ${word} тусанет с тобой сегодня`
+    let phrase =
+      LongWord.LAST_DIGITS.includes(length % 10) && !LongWord.EXCEPTIONS.includes(length)
+        ? 'человека тусанут'
+        : 'человек тусанет'
+    let message = length === 0 ? 'Никто с тобой не тусанет ' : `${length} ${phrase} с тобой сегодня`
 
     return (
       <h3>
