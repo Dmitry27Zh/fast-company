@@ -52,15 +52,15 @@ const Users = () => {
 
     return <td key={key}>{renderCellContent(data)}</td>
   }
-  const handleDelete = (userToDelete) => {
-    setUsers(users.filter((user) => user._id !== userToDelete._id))
+  const handleDelete = (id) => {
+    setUsers(users.filter((user) => user._id !== id))
   }
   const renderUsers = () => {
     return users.map((user) => (
       <tr key={user._id}>
         {heads.map((head) => renderCell(user, head))}
         <td>
-          <button className="btn btn-danger" type="button" onClick={() => handleDelete(user)}>
+          <button className="btn btn-danger" type="button" onClick={() => handleDelete(user._id)}>
             Delete
           </button>
         </td>
