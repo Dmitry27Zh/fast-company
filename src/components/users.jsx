@@ -3,6 +3,7 @@ import api from '../api'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { USERS_PROPS } from '../constants'
 import { cancelCamelCase, capitalize } from '../utils'
+import User from './user'
 
 const Users = () => {
   const [users, setUsers] = useState(api.users.fetchAll())
@@ -23,37 +24,7 @@ const Users = () => {
       </thead>
     )
   }
-  const renderBadge = ({ name, color, _id }) => {
-    let classes = 'badge m-2 '
-    classes += `text-bg-${color}`
 
-    return (
-      <span className={classes} key={_id}>
-        {name}
-      </span>
-    )
-  }
-  const renderCellContent = (data) => {
-    const renderItem = (item) => {
-      if (typeof item !== 'object') {
-        return item
-      }
-
-      if ('color' in item) {
-        return renderBadge(item)
-      }
-
-      return `${item.name} `
-    }
-
-    return [].concat(data).map(renderItem)
-  }
-  const renderCell = (user, head) => {
-    const data = user[head]
-    const key = data._id ?? head
-
-    return <td key={key}>{renderCellContent(data)}</td>
-  }
   const handleDelete = (id) => {
     setUsers(users.filter((user) => user._id !== id))
   }
@@ -61,14 +32,7 @@ const Users = () => {
     return (
       <tbody className="table-group-divider">
         {users.map((user) => (
-          <tr key={user._id}>
-            {heads.map((head) => renderCell(user, head))}
-            <td>
-              <button className="btn btn-danger" type="button" onClick={() => handleDelete(user._id)}>
-                Delete
-              </button>
-            </td>
-          </tr>
+          <User key={user._id} heads={heads} onDelete={handleDelete} {...user}></User>
         ))}
       </tbody>
     )
