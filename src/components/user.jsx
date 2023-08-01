@@ -1,25 +1,16 @@
 import React from 'react'
+import Qualities from './qualities'
 
 const User = (props) => {
   const { heads, _id, onDelete } = props
-  const renderBadge = ({ name, color, _id }) => {
-    let classes = 'badge m-2 '
-    classes += `text-bg-${color}`
-
-    return (
-      <span className={classes} key={_id}>
-        {name}
-      </span>
-    )
-  }
   const renderCellContent = (data) => {
+    if (Array.isArray(data) && 'color' in data[0]) {
+      return <Qualities data={data}></Qualities>
+    }
+
     const renderItem = (item) => {
       if (typeof item !== 'object') {
         return item
-      }
-
-      if ('color' in item) {
-        return renderBadge(item)
       }
 
       return `${item.name} `
