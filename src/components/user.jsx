@@ -1,11 +1,16 @@
 import React from 'react'
 import Qualities from './qualities'
+import Bookmark from './bookmark'
 
 const User = (props) => {
   const { heads, _id, onDelete } = props
-  const renderCellContent = (data) => {
+  const renderCellContent = (data, key) => {
     if (Array.isArray(data) && 'color' in data[0]) {
       return <Qualities data={data}></Qualities>
+    }
+
+    if (key === 'bookmark') {
+      return <Bookmark done={data}></Bookmark>
     }
 
     const renderItem = (item) => {
@@ -22,7 +27,7 @@ const User = (props) => {
     const data = props[head]
     const key = data._id ?? head
 
-    return <td key={key}>{renderCellContent(data)}</td>
+    return <td key={key}>{renderCellContent(data, key)}</td>
   }
 
   return (

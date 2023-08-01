@@ -9,7 +9,7 @@ import Status from './status'
 const Users = () => {
   const [users, setUsers] = useState(api.users.fetchAll())
   let heads = users.length !== 0 ? Object.keys(users[0]).filter((key) => !key.startsWith('_')) : USERS_PROPS
-  heads = heads.slice(0, 5)
+  heads = heads.slice(0, 6)
 
   const renderHeads = () => {
     return (
