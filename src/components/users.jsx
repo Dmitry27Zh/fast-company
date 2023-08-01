@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import { USERS_PROPS } from '../constants'
 import { cancelCamelCase, capitalize } from '../utils'
 import User from './user'
+import Status from './status'
 
 const Users = () => {
   const [users, setUsers] = useState(api.users.fetchAll())
@@ -37,26 +38,6 @@ const Users = () => {
       </tbody>
     )
   }
-  const renderInfo = () => {
-    const length = users.length
-    let classes = 'badge bg-'
-    classes += length === 0 ? 'danger' : 'primary'
-    const LongWord = {
-      LAST_DIGITS: [2, 3, 4],
-      EXCEPTIONS: [12, 13, 14],
-    }
-    let phrase =
-      LongWord.LAST_DIGITS.includes(length % 10) && !LongWord.EXCEPTIONS.includes(length)
-        ? 'человека тусанут'
-        : 'человек тусанет'
-    let message = length === 0 ? 'Никто с тобой не тусанет ' : `${length} ${phrase} с тобой сегодня`
-
-    return (
-      <h3>
-        <span className={classes}>{message}</span>
-      </h3>
-    )
-  }
   const renderTable = () => {
     if (users.length !== 0) {
       return (
@@ -70,7 +51,7 @@ const Users = () => {
 
   return (
     <>
-      {renderInfo()}
+      <Status quantity={users.length}></Status>
       {renderTable()}
     </>
   )
