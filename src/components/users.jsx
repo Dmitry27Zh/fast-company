@@ -11,14 +11,16 @@ const Users = () => {
 
   const renderHeads = () => {
     return (
-      <tr>
-        {heads.map((head) => (
-          <th scope="col" key={head}>
-            {capitalize(cancelCamelCase(head))}
-          </th>
-        ))}
-        <th></th>
-      </tr>
+      <thead>
+        <tr>
+          {heads.map((head) => (
+            <th scope="col" key={head}>
+              {capitalize(cancelCamelCase(head))}
+            </th>
+          ))}
+          <th></th>
+        </tr>
+      </thead>
     )
   }
   const renderBadge = ({ name, color, _id }) => {
@@ -56,16 +58,20 @@ const Users = () => {
     setUsers(users.filter((user) => user._id !== id))
   }
   const renderUsers = () => {
-    return users.map((user) => (
-      <tr key={user._id}>
-        {heads.map((head) => renderCell(user, head))}
-        <td>
-          <button className="btn btn-danger" type="button" onClick={() => handleDelete(user._id)}>
-            Delete
-          </button>
-        </td>
-      </tr>
-    ))
+    return (
+      <tbody className="table-group-divider">
+        {users.map((user) => (
+          <tr key={user._id}>
+            {heads.map((head) => renderCell(user, head))}
+            <td>
+              <button className="btn btn-danger" type="button" onClick={() => handleDelete(user._id)}>
+                Delete
+              </button>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    )
   }
   const renderInfo = () => {
     const length = users.length
@@ -91,8 +97,8 @@ const Users = () => {
     if (users.length !== 0) {
       return (
         <table className="table">
-          <thead>{renderHeads()}</thead>
-          <tbody className="table-group-divider">{renderUsers()}</tbody>
+          {renderHeads()}
+          {renderUsers()}
         </table>
       )
     }
