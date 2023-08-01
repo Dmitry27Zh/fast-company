@@ -29,11 +29,21 @@ const Users = () => {
   const handleDelete = (id) => {
     setUsers(users.filter((user) => user._id !== id))
   }
+  const handleBookmark = (id) => {
+    const newUsers = users.map((user) => {
+      if (user._id === id) {
+        user.bookmark = !user.bookmark
+      }
+
+      return user
+    })
+    setUsers(newUsers)
+  }
   const renderUsers = () => {
     return (
       <tbody className="table-group-divider">
         {users.map((user) => (
-          <User key={user._id} heads={heads} onDelete={handleDelete} {...user}></User>
+          <User key={user._id} heads={heads} onDelete={handleDelete} onBookmark={handleBookmark} {...user}></User>
         ))}
       </tbody>
     )

@@ -3,14 +3,14 @@ import Qualities from './qualities'
 import Bookmark from './bookmark'
 
 const User = (props) => {
-  const { heads, _id, onDelete } = props
+  const { heads, _id, onDelete, onBookmark } = props
   const renderCellContent = (data, key) => {
     if (Array.isArray(data) && 'color' in data[0]) {
       return <Qualities data={data}></Qualities>
     }
 
     if (key === 'bookmark') {
-      return <Bookmark done={data}></Bookmark>
+      return <Bookmark done={data} id={_id} onBookmark={onBookmark}></Bookmark>
     }
 
     const renderItem = (item) => {
