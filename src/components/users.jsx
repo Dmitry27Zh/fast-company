@@ -5,10 +5,13 @@ import { USERS_PROPS } from '../constants'
 import { cancelCamelCase, capitalize } from '../utils'
 import User from './user'
 import Status from './status'
+import Pagination from './pagination'
 
 const Users = () => {
   const [users, setUsers] = useState(api.users.fetchAll())
-  let heads = users.length !== 0 ? Object.keys(users[0]).filter((key) => !key.startsWith('_')) : USERS_PROPS
+  const usersCount = users.length
+  const pageSize = 4
+  let heads = usersCount !== 0 ? Object.keys(users[0]).filter((key) => !key.startsWith('_')) : USERS_PROPS
   heads = heads.slice(0, 6)
 
   const renderHeads = () => {
@@ -49,7 +52,7 @@ const Users = () => {
     )
   }
   const renderTable = () => {
-    if (users.length !== 0) {
+    if (usersCount !== 0) {
       return (
         <table className="table">
           {renderHeads()}
@@ -61,8 +64,9 @@ const Users = () => {
 
   return (
     <>
-      <Status quantity={users.length}></Status>
+      <Status usersCount={usersCount}></Status>
       {renderTable()}
+      <Pagination itemsCount={usersCount} pageSize={pageSize} />
     </>
   )
 }
