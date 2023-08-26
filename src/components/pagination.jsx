@@ -25,17 +25,8 @@ const Pages = (props) => {
 const Pagination = (props) => {
   const { itemsCount, pageSize } = props
   const pagesCount = Math.trunc(itemsCount / pageSize)
-  const pages = new Array(pagesCount + 2).fill().map((_, index, arr) => {
-    if (index === 0) {
-      return 'Previous'
-    }
-
-    if (index === arr.length - 1) {
-      return 'Next'
-    }
-
-    return index
-  })
+  let pages = Array.from({ length: pagesCount }, (_, index) => index + 1)
+  pages = ['Previous', ...pages, 'Next']
 
   return (
     <nav aria-label="Page navigation">
