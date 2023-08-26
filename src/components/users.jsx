@@ -67,7 +67,7 @@ const Users = () => {
 
   return (
     <>
-      <Status usersCount={usersCount}></Status>
+      <Status usersCount={usersCount} />
       {renderTable()}
       <Pagination pagesCount={pagesCount} currentPage={currentPage} />
     </>

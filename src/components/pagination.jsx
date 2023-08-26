@@ -38,28 +38,36 @@ const PageItem = (props) => {
 
 const Pages = (props) => {
   const { pagesCount, currentPage } = props
-  let pages = Array.from({ length: pagesCount }, (_, index) => {
-    const page = index + 1
+  const getPages = () => {
+    let pages = Array.from({ length: pagesCount }, (_, index) => {
+      const page = index + 1
 
-    return {
-      text: page,
-      disabled: false,
-      active: page === currentPage,
+      return {
+        text: page,
+        disabled: false,
+        active: page === currentPage,
+      }
+    })
+
+    if (pagesCount > 1) {
+      pages = [
+        {
+          text: 'Previous',
+          disabled: currentPage === 1,
+          active: false,
+        },
+        ...pages,
+        {
+          text: 'Next',
+          disabled: currentPage === pagesCount,
+          active: false,
+        },
+      ]
     }
-  })
-  pages = [
-    {
-      text: 'Previous',
-      disabled: currentPage === 1,
-      active: false,
-    },
-    ...pages,
-    {
-      text: 'Next',
-      disabled: currentPage === pagesCount,
-      active: false,
-    },
-  ]
+
+    return pages
+  }
+  const pages = getPages()
 
   return (
     <ul className="pagination">
