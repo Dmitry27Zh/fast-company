@@ -1,7 +1,7 @@
 import React from 'react'
 
 const PageItem = (props) => {
-  const { text, disabled, active } = props
+  const { text, disabled, active, currentPage } = props
   const getClassName = () => {
     let result = 'page-item'
     result += disabled ? ' disabled' : ''
@@ -9,10 +9,29 @@ const PageItem = (props) => {
 
     return result
   }
+  const handleClick = (event) => {
+    if (active) {
+      return
+    }
+
+    let page = event.target.textContent
+
+    if (page === 'Previous') {
+      page = currentPage - 1
+    }
+
+    if (page === 'Next') {
+      page = currentPage + 1
+    }
+
+    console.log(page)
+  }
 
   return (
     <li className={getClassName()}>
-      <button className="page-link">{text}</button>
+      <button className="page-link" onClick={handleClick}>
+        {text}
+      </button>
     </li>
   )
 }
@@ -45,7 +64,7 @@ const Pages = (props) => {
   return (
     <ul className="pagination">
       {pages.map(({ text, disabled, active }, index) => (
-        <PageItem key={index} text={text} disabled={disabled} active={active} />
+        <PageItem key={index} text={text} disabled={disabled} active={active} currentPage={currentPage} />
       ))}
     </ul>
   )
