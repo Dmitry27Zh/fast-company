@@ -37,6 +37,14 @@ const PageItem = (props) => {
     )
 }
 
+PageItem.propTypes = {
+    text: PropTypes.string.isRequired,
+    disabled: PropTypes.bool.isRequired,
+    active: PropTypes.bool.isRequired,
+    currentPage: PropTypes.string.isRequired,
+    onPageChange: PropTypes.func.isRequired
+}
+
 const Pages = (props) => {
     const { pagesCount, currentPage, onPageChange } = props
     const getPages = () => {
@@ -84,6 +92,12 @@ const Pages = (props) => {
             ))}
         </ul>
     )
+}
+
+Pages.propTypes = {
+    pagesCount: PropTypes.number.isRequired,
+    currentPage: PropTypes.string.isRequired,
+    onPageChange: PropTypes.func.isRequired
 }
 
 const Pagination = (props) => {

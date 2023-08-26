@@ -1,6 +1,7 @@
 import React from 'react'
 import Qualities from './qualities'
 import Bookmark from './bookmark'
+import PropTypes from 'prop-types'
 
 const User = (props) => {
     const { heads, _id, onDelete, onBookmark } = props
@@ -50,6 +51,13 @@ const User = (props) => {
             </td>
         </tr>
     )
+}
+
+User.propTypes = {
+    heads: PropTypes.array.isRequired,
+    _id: PropTypes.string.isRequired,
+    onDelete: PropTypes.func.isRequired,
+    onBookmark: PropTypes.func.isRequired
 }
 
 export default User

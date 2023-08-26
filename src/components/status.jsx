@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 const Status = ({ usersCount }) => {
     let classes = 'badge bg-'
@@ -22,6 +23,10 @@ const Status = ({ usersCount }) => {
             <span className={classes}>{message}</span>
         </h3>
     )
+}
+
+Status.propTypes = {
+    usersCount: PropTypes.number.isRequired
 }
 
 export default Status

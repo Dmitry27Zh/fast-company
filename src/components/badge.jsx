@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 const Badge = ({ _id, name, color }) => {
     let classes = 'badge m-2 '
@@ -9,6 +10,12 @@ const Badge = ({ _id, name, color }) => {
             {name}
         </span>
     )
+}
+
+Badge.propTypes = {
+    _id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    color: PropTypes.string.isRequired
 }
 
 export default Badge

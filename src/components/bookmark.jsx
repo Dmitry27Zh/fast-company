@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 const Bookmark = ({ done, id, onBookmark }) => {
     let classes = 'bi bi-bookmark'
@@ -9,6 +10,12 @@ const Bookmark = ({ done, id, onBookmark }) => {
             <i className={classes}></i>
         </button>
     )
+}
+
+Bookmark.propTypes = {
+    done: PropTypes.bool.isRequired,
+    id: PropTypes.string.isRequired,
+    onBookmark: PropTypes.func.isRequired
 }
 
 export default Bookmark
