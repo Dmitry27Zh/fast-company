@@ -9,6 +9,7 @@ import Pagination from './pagination'
 
 const Users = () => {
   const [users, setUsers] = useState(api.users.fetchAll())
+  const [currentPage, setCurrentPage] = useState(1)
   const usersCount = users.length
   const pageSize = 4
   let heads = usersCount !== 0 ? Object.keys(users[0]).filter((key) => !key.startsWith('_')) : USERS_PROPS
@@ -66,7 +67,7 @@ const Users = () => {
     <>
       <Status usersCount={usersCount}></Status>
       {renderTable()}
-      <Pagination itemsCount={usersCount} pageSize={pageSize} />
+      <Pagination itemsCount={usersCount} pageSize={pageSize} currentPage={currentPage} />
     </>
   )
 }

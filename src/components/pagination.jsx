@@ -20,10 +20,12 @@ const PageItem = (props) => {
 const Pages = (props) => {
   const { pagesCount, currentPage } = props
   let pages = Array.from({ length: pagesCount }, (_, index) => {
+    const page = index + 1
+
     return {
-      text: index + 1,
+      text: page,
       disabled: false,
-      active: index + 1 === currentPage,
+      active: page === currentPage,
     }
   })
   pages = [
@@ -50,9 +52,8 @@ const Pages = (props) => {
 }
 
 const Pagination = (props) => {
-  const { itemsCount, pageSize } = props
+  const { itemsCount, pageSize, currentPage } = props
   const pagesCount = Math.trunc(itemsCount / pageSize)
-  let currentPage = 1
 
   return (
     <nav aria-label="Page navigation">
