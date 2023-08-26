@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 const PageItem = (props) => {
   const { text, disabled, active, currentPage, onPageChange } = props
@@ -96,6 +97,12 @@ const Pagination = (props) => {
   }
 
   return <nav aria-label="Page navigation">{renderPages()}</nav>
+}
+
+Pagination.propTypes = {
+  pagesCount: PropTypes.number.isRequired,
+  currentPage: PropTypes.string.isRequired,
+  onPageChange: PropTypes.func.isRequired,
 }
 
 export default Pagination
