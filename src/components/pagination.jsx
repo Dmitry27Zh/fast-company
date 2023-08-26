@@ -93,7 +93,13 @@ const Pagination = (props) => {
             return <p>No pages!</p>
         }
 
-        return <Pages pagesCount={pagesCount} currentPage={currentPage} onPageChange={onPageChange} />
+        return (
+            <Pages
+                pagesCount={pagesCount}
+                currentPage={currentPage}
+                onPageChange={onPageChange}
+            />
+        )
     }
 
     return <nav aria-label="Page navigation">{renderPages()}</nav>

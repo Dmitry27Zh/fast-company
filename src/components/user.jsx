@@ -10,7 +10,13 @@ const User = (props) => {
         }
 
         if (key === 'bookmark') {
-            return <Bookmark done={data} id={_id} onBookmark={onBookmark}></Bookmark>
+            return (
+                <Bookmark
+                    done={data}
+                    id={_id}
+                    onBookmark={onBookmark}
+                ></Bookmark>
+            )
         }
 
         const renderItem = (item) => {
@@ -34,8 +40,12 @@ const User = (props) => {
         <tr key={_id}>
             {heads.map(renderCell)}
             <td>
-                <button className="btn btn-danger" type="button" onClick={() => onDelete(_id)}>
-          Delete
+                <button
+                    className="btn btn-danger"
+                    type="button"
+                    onClick={() => onDelete(_id)}
+                >
+                    Delete
                 </button>
             </td>
         </tr>

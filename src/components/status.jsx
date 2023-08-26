@@ -8,10 +8,14 @@ const Status = ({ usersCount }) => {
         EXCEPTIONS: [12, 13, 14]
     }
     const phrase =
-    LongWord.LAST_DIGITS.includes(usersCount % 10) && !LongWord.EXCEPTIONS.includes(usersCount)
-        ? 'человека тусанут'
-        : 'человек тусанет'
-    const message = usersCount === 0 ? 'Никто с тобой не тусанет ' : `${usersCount} ${phrase} с тобой сегодня`
+        LongWord.LAST_DIGITS.includes(usersCount % 10) &&
+        !LongWord.EXCEPTIONS.includes(usersCount)
+            ? 'человека тусанут'
+            : 'человек тусанет'
+    const message =
+        usersCount === 0
+            ? 'Никто с тобой не тусанет '
+            : `${usersCount} ${phrase} с тобой сегодня`
 
     return (
         <h3>
