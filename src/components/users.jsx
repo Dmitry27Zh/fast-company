@@ -9,13 +9,16 @@ import Pagination from './pagination'
 
 const Users = () => {
   const [users, setUsers] = useState(api.users.fetchAll())
-  const [currentPage, setCurrentPage] = useState(1)
+  const [currentPage, setCurrentPage] = useState('1')
   const usersCount = users.length
   const pageSize = 4
   const pagesCount = Math.ceil(usersCount / pageSize)
   let heads = usersCount !== 0 ? Object.keys(users[0]).filter((key) => !key.startsWith('_')) : USERS_PROPS
   heads = heads.slice(0, 6)
   const usersOnCurrentPage = users.slice().splice((currentPage - 1) * pageSize, pageSize)
+  const handleCurrentPageChange = (page) => {
+    setCurrentPage(page)
+  }
 
   const renderHeads = () => {
     return (
@@ -69,7 +72,7 @@ const Users = () => {
     <>
       <Status usersCount={usersCount} />
       {renderTable()}
-      <Pagination pagesCount={pagesCount} currentPage={currentPage} />
+      <Pagination pagesCount={pagesCount} currentPage={currentPage} onPageChange={handleCurrentPageChange} />
     </>
   )
 }
