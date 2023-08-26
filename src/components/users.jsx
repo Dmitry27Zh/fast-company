@@ -12,8 +12,10 @@ const Users = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const usersCount = users.length
   const pageSize = 4
+  const pagesCount = Math.ceil(usersCount / pageSize)
   let heads = usersCount !== 0 ? Object.keys(users[0]).filter((key) => !key.startsWith('_')) : USERS_PROPS
   heads = heads.slice(0, 6)
+  const usersOnCurrentPage = users.slice().splice((currentPage - 1) * pageSize, pageSize)
 
   const renderHeads = () => {
     return (
@@ -46,7 +48,7 @@ const Users = () => {
   const renderUsers = () => {
     return (
       <tbody className="table-group-divider">
-        {users.map((user) => (
+        {usersOnCurrentPage.map((user) => (
           <User key={user._id} heads={heads} onDelete={handleDelete} onBookmark={handleBookmark} {...user}></User>
         ))}
       </tbody>
@@ -67,7 +69,7 @@ const Users = () => {
     <>
       <Status usersCount={usersCount}></Status>
       {renderTable()}
-      <Pagination itemsCount={usersCount} pageSize={pageSize} currentPage={currentPage} />
+      <Pagination pagesCount={pagesCount} currentPage={currentPage} />
     </>
   )
 }

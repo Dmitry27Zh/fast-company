@@ -71,14 +71,16 @@ const Pages = (props) => {
 }
 
 const Pagination = (props) => {
-  const { itemsCount, pageSize, currentPage } = props
-  const pagesCount = Math.trunc(itemsCount / pageSize)
+  const { pagesCount, currentPage } = props
+  const renderPages = () => {
+    if (pagesCount === 0) {
+      return <p>No pages!</p>
+    }
 
-  return (
-    <nav aria-label="Page navigation">
-      <Pages pagesCount={pagesCount} currentPage={currentPage} />
-    </nav>
-  )
+    return <Pages pagesCount={pagesCount} currentPage={currentPage} />
+  }
+
+  return <nav aria-label="Page navigation">{renderPages()}</nav>
 }
 
 export default Pagination
