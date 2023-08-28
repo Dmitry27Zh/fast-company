@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 const GroupList = (props) => {
-    const { items, valueProperty, contentProperty, currentItem } = props
+    const { items, valueProperty, contentProperty, currentItem, onSelect } = props
     const keys = Object.keys(items)
 
     return (
@@ -15,7 +15,7 @@ const GroupList = (props) => {
                     let className = 'list-group-item'
                     className += currentItem === item ? ' active' : ''
 
-                    return <li className={className} key={value} role='button'>{content}</li>
+                    return <li className={className} key={value} onClick={() => onSelect(item)} role='button'>{content}</li>
                 })}
             </ul>
         </>
@@ -31,7 +31,8 @@ GroupList.propTypes = {
     items: PropTypes.object.isRequired,
     valueProperty: PropTypes.string.isRequired,
     contentProperty: PropTypes.string.isRequired,
-    currentItem: PropTypes.object.isRequired
+    currentItem: PropTypes.object.isRequired,
+    onSelect: PropTypes.func
 }
 
 export default GroupList

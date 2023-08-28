@@ -11,7 +11,7 @@ import GroupList from './groupList'
 const Users = () => {
     const [users, setUsers] = useState(api.users.fetchAll())
     const [professions, setProfesions] = useState({})
-    const [currentProfession] = useState({})
+    const [currentProfession, setCurrentProfession] = useState({})
     useEffect(() => {
         api.professions.fetchAll().then((data) => setProfesions(data))
     }, [])
@@ -29,6 +29,9 @@ const Users = () => {
         .splice((currentPage - 1) * pageSize, pageSize)
     const handleCurrentPageChange = (page) => {
         setCurrentPage(page)
+    }
+    const handleProfessionSelect = (profession) => {
+        setCurrentProfession(profession)
     }
 
     const renderHeads = () => {
@@ -87,7 +90,7 @@ const Users = () => {
 
     return (
         <>
-            <GroupList items={professions} currentItem={currentProfession} />
+            <GroupList items={professions} currentItem={currentProfession} onSelect={handleProfessionSelect} />
             <Status usersCount={usersCount} />
             {renderTable()}
             <Pagination
