@@ -7,9 +7,11 @@ export const professions = {
     cook: { _id: '67rdca3eeb7f6fgeed471829', name: 'Повар' }
 }
 
-function fetchAll() {
-    return Object.values(professions)
-}
+const fetchAll = () => new Promise((resolve) => {
+    setTimeout(() => {
+        resolve(Object.values(professions))
+    }, 2000)
+})
 
 export default {
     fetchAll
