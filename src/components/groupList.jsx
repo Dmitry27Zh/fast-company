@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 const GroupList = (props) => {
-    const { items } = props
+    const { items, valueProperty, contentProperty } = props
     const keys = Object.keys(items)
 
     return (
@@ -15,16 +15,20 @@ const GroupList = (props) => {
                 <li className="list-group-item">Vestibulum at eros</li>
             </ul>
             <div>{keys.map((key) => {
-                const { _id, name } = items[key]
+                const item = items[key]
+                const value = item[valueProperty]
+                const content = item[contentProperty]
 
-                return <div key={_id}>{name}</div>
+                return <div key={value}>{content}</div>
             })}</div>
         </>
     )
 }
 
 GroupList.propTypes = {
-    items: PropTypes.object.isRequired
+    items: PropTypes.object.isRequired,
+    valueProperty: PropTypes.string.isRequired,
+    contentProperty: PropTypes.string.isRequired
 }
 
 export default GroupList

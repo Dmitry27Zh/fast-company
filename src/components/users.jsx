@@ -86,7 +86,7 @@ const Users = () => {
 
     return (
         <>
-            <GroupList items={professions} />
+            <GroupList items={professions} valueProperty='_id' contentProperty='name' />
             <Status usersCount={usersCount} />
             {renderTable()}
             <Pagination
