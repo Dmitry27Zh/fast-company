@@ -6,6 +6,7 @@ import { cancelCamelCase, capitalize } from '../utils'
 import User from './user'
 import Status from './status'
 import Pagination from './pagination'
+import GroupList from './groupList'
 
 const Users = () => {
     const [users, setUsers] = useState(api.users.fetchAll())
@@ -81,6 +82,7 @@ const Users = () => {
 
     return (
         <>
+            <GroupList items={[]} />
             <Status usersCount={usersCount} />
             {renderTable()}
             <Pagination
