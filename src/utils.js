@@ -9,4 +9,10 @@ const capitalize = (str) => {
     return `${str[0].toUpperCase()}${str.slice(1).toLowerCase()}`
 }
 
-export { cancelCamelCase, capitalize }
+const paginate = (items, size, page) => {
+    return items
+        .slice()
+        .splice((page - 1) * size, size)
+}
+
+export { cancelCamelCase, capitalize, paginate }

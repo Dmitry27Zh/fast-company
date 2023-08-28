@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import api from '../api'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { USERS_PROPS } from '../constants'
-import { cancelCamelCase, capitalize } from '../utils'
+import { cancelCamelCase, capitalize, paginate } from '../utils'
 import User from './user'
 import Status from './status'
 import Pagination from './pagination'
@@ -10,10 +10,10 @@ import GroupList from './groupList'
 
 const Users = () => {
     const [users, setUsers] = useState(api.users.fetchAll())
-    const [professions, setProfesions] = useState({})
-    const [currentProfession, setCurrentProfession] = useState({})
+    const [professions, setProfessions] = useState({})
+    const [selectedProfession, setSelectedProfession] = useState()
     useEffect(() => {
-        api.professions.fetchAll().then((data) => setProfesions(data))
+        api.professions.fetchAll().then((data) => setProfessions(data))
     }, [])
     const [currentPage, setCurrentPage] = useState('1')
     const usersCount = users.length
@@ -24,14 +24,13 @@ const Users = () => {
             ? Object.keys(users[0]).filter((key) => !key.startsWith('_'))
             : USERS_PROPS
     heads = heads.slice(0, 6)
-    const usersOnCurrentPage = users
-        .slice()
-        .splice((currentPage - 1) * pageSize, pageSize)
+    const filteredUsers = selectedProfession ? users.filter((user) => user.profession === selectedProfession) : users
+    const usersToRender = paginate(filteredUsers, pageSize, currentPage)
     const handleCurrentPageChange = (page) => {
         setCurrentPage(page)
     }
     const handleProfessionSelect = (profession) => {
-        setCurrentProfession(profession)
+        setSelectedProfession(profession)
     }
 
     const renderHeads = () => {
@@ -65,7 +64,7 @@ const Users = () => {
     const renderUsers = () => {
         return (
             <tbody className="table-group-divider">
-                {usersOnCurrentPage.map((user) => (
+                {usersToRender.map((user) => (
                     <User
                         key={user._id}
                         heads={heads}
@@ -90,7 +89,7 @@ const Users = () => {
 
     return (
         <>
-            <GroupList items={professions} currentItem={currentProfession} onSelect={handleProfessionSelect} />
+            <GroupList items={professions} selectedItem={selectedProfession} onSelect={handleProfessionSelect} />
             <Status usersCount={usersCount} />
             {renderTable()}
             <Pagination
