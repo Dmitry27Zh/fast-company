@@ -10,6 +10,7 @@ import GroupList from './groupList'
 
 const Users = () => {
     const [users, setUsers] = useState(api.users.fetchAll())
+    const [professions] = useState(api.professions.fetchAll())
     const [currentPage, setCurrentPage] = useState('1')
     const usersCount = users.length
     const pageSize = 4
@@ -82,7 +83,7 @@ const Users = () => {
 
     return (
         <>
-            <GroupList items={[]} />
+            <GroupList items={professions} />
             <Status usersCount={usersCount} />
             {renderTable()}
             <Pagination
