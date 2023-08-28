@@ -10,13 +10,10 @@ import GroupList from './groupList'
 
 const Users = () => {
     const [users, setUsers] = useState(api.users.fetchAll())
-    const [professions, setProfesions] = useState([])
+    const [professions, setProfesions] = useState({})
     useEffect(() => {
         api.professions.fetchAll().then((data) => setProfesions(data))
     }, [])
-    useEffect(() => {
-        console.log(professions)
-    }, [professions])
     const [currentPage, setCurrentPage] = useState('1')
     const usersCount = users.length
     const pageSize = 4

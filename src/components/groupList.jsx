@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 const GroupList = (props) => {
     const { items } = props
-    console.log(items)
+    const keys = Object.keys(items)
 
     return (
         <>
@@ -14,13 +14,17 @@ const GroupList = (props) => {
                 <li className="list-group-item">Porta ac consectetur ac</li>
                 <li className="list-group-item">Vestibulum at eros</li>
             </ul>
-            <div>{items.map(({ name, _id }) => <div key={_id}>{name}</div>)}</div>
+            <div>{keys.map((key) => {
+                const { _id, name } = items[key]
+
+                return <div key={_id}>{name}</div>
+            })}</div>
         </>
     )
 }
 
 GroupList.propTypes = {
-    items: PropTypes.array.isRequired
+    items: PropTypes.object.isRequired
 }
 
 export default GroupList

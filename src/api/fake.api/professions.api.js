@@ -9,7 +9,7 @@ export const professions = {
 
 const fetchAll = () => new Promise((resolve) => {
     setTimeout(() => {
-        resolve(Object.values(professions))
+        resolve(professions)
     }, 2000)
 })
 
