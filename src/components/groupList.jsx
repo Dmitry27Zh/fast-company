@@ -2,25 +2,22 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 const GroupList = (props) => {
-    const { items, valueProperty, contentProperty } = props
+    const { items, valueProperty, contentProperty, currentItem } = props
     const keys = Object.keys(items)
 
     return (
         <>
             <ul className="list-group">
-                <li className="list-group-item active">Cras justo odio</li>
-                <li className="list-group-item">Dapibus ac facilisis in</li>
-                <li className="list-group-item">Morbi leo risus</li>
-                <li className="list-group-item">Porta ac consectetur ac</li>
-                <li className="list-group-item">Vestibulum at eros</li>
-            </ul>
-            <div>{keys.map((key) => {
-                const item = items[key]
-                const value = item[valueProperty]
-                const content = item[contentProperty]
+                {keys.map((key) => {
+                    const item = items[key]
+                    const value = item[valueProperty]
+                    const content = item[contentProperty]
+                    let className = 'list-group-item'
+                    className += currentItem === item ? ' active' : ''
 
-                return <div key={value}>{content}</div>
-            })}</div>
+                    return <li className={className} key={value} role='button'>{content}</li>
+                })}
+            </ul>
         </>
     )
 }
@@ -33,7 +30,8 @@ GroupList.defaultProps = {
 GroupList.propTypes = {
     items: PropTypes.object.isRequired,
     valueProperty: PropTypes.string.isRequired,
-    contentProperty: PropTypes.string.isRequired
+    contentProperty: PropTypes.string.isRequired,
+    currentItem: PropTypes.object.isRequired
 }
 
 export default GroupList

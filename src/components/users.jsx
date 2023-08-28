@@ -11,6 +11,7 @@ import GroupList from './groupList'
 const Users = () => {
     const [users, setUsers] = useState(api.users.fetchAll())
     const [professions, setProfesions] = useState({})
+    const [currentProfession] = useState({})
     useEffect(() => {
         api.professions.fetchAll().then((data) => setProfesions(data))
     }, [])
@@ -86,7 +87,7 @@ const Users = () => {
 
     return (
         <>
-            <GroupList items={professions} />
+            <GroupList items={professions} currentItem={currentProfession} />
             <Status usersCount={usersCount} />
             {renderTable()}
             <Pagination
