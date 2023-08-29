@@ -32,6 +32,9 @@ const Users = () => {
     const handleProfessionSelect = (profession) => {
         setSelectedProfession(profession)
     }
+    const handleFilterCancel = () => {
+        setSelectedProfession()
+    }
 
     const renderHeads = () => {
         return (
@@ -90,6 +93,7 @@ const Users = () => {
     return (
         <>
             <GroupList items={professions} selectedItem={selectedProfession} onSelect={handleProfessionSelect} />
+            <button className='btn btn-secondary mt-2' type='button' onClick={handleFilterCancel}>Очистить</button>
             <Status usersCount={usersCount} />
             {renderTable()}
             <Pagination
