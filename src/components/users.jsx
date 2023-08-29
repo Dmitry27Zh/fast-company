@@ -12,10 +12,13 @@ const Users = () => {
     const [users, setUsers] = useState(api.users.fetchAll())
     const [professions, setProfessions] = useState({})
     const [selectedProfession, setSelectedProfession] = useState()
+    const [currentPage, setCurrentPage] = useState('1')
     useEffect(() => {
         api.professions.fetchAll().then((data) => setProfessions(data))
     }, [])
-    const [currentPage, setCurrentPage] = useState('1')
+    useEffect(() => {
+        setCurrentPage('1')
+    }, [selectedProfession])
     const usersCount = users.length
     let heads =
         usersCount !== 0
