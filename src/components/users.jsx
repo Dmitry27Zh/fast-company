@@ -33,7 +33,9 @@ const Users = () => {
             ? Object.keys(users[0]).filter((key) => !key.startsWith('_'))
             : USERS_PROPS
     heads = heads.slice(0, 6)
-    const filteredUsers = selectedProfession ? users.filter((user) => user.profession === selectedProfession) : users
+    const filteredUsers = selectedProfession
+        ? users.filter((user) => JSON.stringify(user.profession) === JSON.stringify(selectedProfession))
+        : users
     const filteredUsersCount = filteredUsers.length
     const pageSize = 4
     const pagesCount = Math.ceil(filteredUsersCount / pageSize)
