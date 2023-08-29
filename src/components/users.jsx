@@ -17,8 +17,6 @@ const Users = () => {
     }, [])
     const [currentPage, setCurrentPage] = useState('1')
     const usersCount = users.length
-    const pageSize = 4
-    const pagesCount = Math.ceil(usersCount / pageSize)
     let heads =
         usersCount !== 0
             ? Object.keys(users[0]).filter((key) => !key.startsWith('_'))
@@ -26,6 +24,8 @@ const Users = () => {
     heads = heads.slice(0, 6)
     const filteredUsers = selectedProfession ? users.filter((user) => user.profession === selectedProfession) : users
     const filteredUsersCount = filteredUsers.length
+    const pageSize = 4
+    const pagesCount = Math.ceil(filteredUsersCount / pageSize)
     const usersToRender = paginate(filteredUsers, pageSize, currentPage)
     const handleCurrentPageChange = (page) => {
         setCurrentPage(page)
