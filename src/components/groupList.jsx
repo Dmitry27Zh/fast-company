@@ -3,13 +3,12 @@ import PropTypes from 'prop-types'
 
 const GroupList = (props) => {
     const { items, valueProperty, contentProperty, selectedItem, onSelect } = props
-    const keys = Object.keys(items)
+    const itemsToRender = Array.isArray(items) ? items : Object.values(items)
 
     return (
         <>
             <ul className="list-group">
-                {keys.map((key) => {
-                    const item = items[key]
+                {itemsToRender.map((item) => {
                     const value = item[valueProperty]
                     const content = item[contentProperty]
                     let className = 'list-group-item'
@@ -28,7 +27,7 @@ GroupList.defaultProps = {
 }
 
 GroupList.propTypes = {
-    items: PropTypes.object.isRequired,
+    items: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
     valueProperty: PropTypes.string.isRequired,
     contentProperty: PropTypes.string.isRequired,
     selectedItem: PropTypes.object,
