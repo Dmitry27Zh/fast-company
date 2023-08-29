@@ -25,6 +25,7 @@ const Users = () => {
             : USERS_PROPS
     heads = heads.slice(0, 6)
     const filteredUsers = selectedProfession ? users.filter((user) => user.profession === selectedProfession) : users
+    const filteredUsersCount = filteredUsers.length
     const usersToRender = paginate(filteredUsers, pageSize, currentPage)
     const handleCurrentPageChange = (page) => {
         setCurrentPage(page)
@@ -94,7 +95,7 @@ const Users = () => {
         <>
             <GroupList items={professions} selectedItem={selectedProfession} onSelect={handleProfessionSelect} />
             <button className='btn btn-secondary mt-2' type='button' onClick={handleFilterCancel}>Очистить</button>
-            <Status usersCount={usersCount} />
+            <Status usersCount={filteredUsersCount} />
             {renderTable()}
             <Pagination
                 pagesCount={pagesCount}
