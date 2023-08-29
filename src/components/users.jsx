@@ -9,7 +9,7 @@ import Pagination from './pagination'
 import GroupList from './groupList'
 
 const Users = () => {
-    const [users, setUsers] = useState(api.users.fetchAll())
+    const [users, setUsers] = useState()
     const [professions, setProfessions] = useState({})
     const [selectedProfession, setSelectedProfession] = useState()
     const [currentPage, setCurrentPage] = useState('1')
@@ -17,8 +17,16 @@ const Users = () => {
         api.professions.fetchAll().then((data) => setProfessions(data))
     }, [])
     useEffect(() => {
+        api.users.fetchAll().then((data) => setUsers(data))
+    }, [])
+    useEffect(() => {
         setCurrentPage('1')
     }, [selectedProfession])
+
+    if (!users) {
+        return
+    }
+
     const usersCount = users.length
     let heads =
         usersCount !== 0
@@ -40,6 +48,11 @@ const Users = () => {
         setSelectedProfession()
     }
 
+    const renderStatus = () => {
+        if (users) {
+            return <Status usersCount={filteredUsersCount} />
+        }
+    }
     const renderHeads = () => {
         return (
             <thead>
@@ -101,7 +114,7 @@ const Users = () => {
                 <button className='btn btn-secondary mt-2' type='button' onClick={handleFilterCancel}>Очистить</button>
             </div>
             <div className='d-flex flex-column'>
-                <Status usersCount={filteredUsersCount} />
+                {renderStatus()}
                 {renderTable()}
                 <div className='d-flex justify-content-center'>
                     <Pagination
