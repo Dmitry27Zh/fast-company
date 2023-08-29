@@ -92,17 +92,23 @@ const Users = () => {
     }
 
     return (
-        <>
-            <GroupList items={professions} selectedItem={selectedProfession} onSelect={handleProfessionSelect} />
-            <button className='btn btn-secondary mt-2' type='button' onClick={handleFilterCancel}>Очистить</button>
-            <Status usersCount={filteredUsersCount} />
-            {renderTable()}
-            <Pagination
-                pagesCount={pagesCount}
-                currentPage={currentPage}
-                onPageChange={handleCurrentPageChange}
-            />
-        </>
+        <div className='d-flex'>
+            <div className='d-flex flex-column flex-shrink-0 p-3'>
+                <GroupList items={professions} selectedItem={selectedProfession} onSelect={handleProfessionSelect} />
+                <button className='btn btn-secondary mt-2' type='button' onClick={handleFilterCancel}>Очистить</button>
+            </div>
+            <div className='d-flex flex-column'>
+                <Status usersCount={filteredUsersCount} />
+                {renderTable()}
+                <div className='d-flex justify-content-center'>
+                    <Pagination
+                        pagesCount={pagesCount}
+                        currentPage={currentPage}
+                        onPageChange={handleCurrentPageChange}
+                    />
+                </div>
+            </div>
+        </div>
     )
 }
 
