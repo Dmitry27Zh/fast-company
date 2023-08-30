@@ -5,9 +5,9 @@ import TableHeader from './tableHeader'
 
 const UsersTable = (props) => {
     const { heads, users, currentSort, onDelete, onBookmark, onSort } = props
-    const handleSort = (name) => {
-        const order = name === currentSort.iteratee && currentSort.order === 'asc' ? 'desc' : 'asc'
-        onSort({ iteratee: name, order })
+    const handleSort = (iter) => {
+        const order = iter === currentSort.iter && currentSort.order === 'asc' ? 'desc' : 'asc'
+        onSort({ iter, order })
     }
 
     const handleDelete = (id) => {

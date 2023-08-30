@@ -1,17 +1,50 @@
 import React from 'react'
-import { cancelCamelCase, capitalize } from '../utils'
+import { capitalize } from '../utils'
 import PropTypes from 'prop-types'
 
 const TableHeader = (props) => {
-    const { heads, onSort } = props
+    const { onSort } = props
+    const testHeads = {
+        name: {
+            iter: 'name',
+            value: 'Имя'
+        },
+        profession: {
+            iter: 'profession.name',
+            value: 'Профессия'
+        },
+        qualities: {
+            value: 'Качества'
+        },
+        completedMeetings: {
+            iter: 'completedMeetings',
+            value: 'Количество встреч'
+        },
+        rate: {
+            iter: 'rate',
+            value: 'Рейтинг'
+        },
+        bookmark: {
+            value: 'Избранное'
+        }
+    }
+    const keys = Object.keys(testHeads)
+    const handleSort = (iter) => {
+        if (iter) {
+            onSort(iter)
+        }
+    }
 
     return <thead>
         <tr>
-            {heads.map((head) => (
-                <th onClick={() => onSort(head)} key={head} scope="col" role='button'>
-                    {capitalize(cancelCamelCase(head))}
+            {keys.map((key) => {
+                const { iter, value } = testHeads[key]
+                const role = iter ? 'button' : null
+
+                return <th onClick={() => handleSort(iter)} key={key} scope="col" role={role}>
+                    {capitalize(value)}
                 </th>
-            ))}
+            })}
             <th></th>
         </tr>
     </thead>

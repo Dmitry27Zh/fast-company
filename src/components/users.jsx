@@ -15,7 +15,7 @@ const Users = () => {
     const [selectedProfession, setSelectedProfession] = useState()
     const [currentPage, setCurrentPage] = useState('1')
     const [sortBy, setSortBy] = useState({
-        iteratee: null,
+        iter: null,
         order: null
     })
     useEffect(() => {
@@ -44,7 +44,7 @@ const Users = () => {
     const filteredUsersCount = filteredUsers.length
     const pageSize = 4
     const pagesCount = Math.ceil(filteredUsersCount / pageSize)
-    const sortedUsers = _.orderBy(filteredUsers, [sortBy.iteratee], [sortBy.order])
+    const sortedUsers = _.orderBy(filteredUsers, [sortBy.iter], [sortBy.order])
     const usersToRender = paginate(sortedUsers, pageSize, currentPage)
     const usersToRenderCount = usersToRender.length
     const handleCurrentPageChange = (page) => {
