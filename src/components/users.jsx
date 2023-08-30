@@ -14,6 +14,10 @@ const Users = () => {
     const [professions, setProfessions] = useState({})
     const [selectedProfession, setSelectedProfession] = useState()
     const [currentPage, setCurrentPage] = useState('1')
+    const [sortBy, setSortBy] = useState({
+        iteratee: null,
+        order: null
+    })
     useEffect(() => {
         api.professions.fetchAll().then((data) => setProfessions(data))
     }, [])
@@ -40,7 +44,7 @@ const Users = () => {
     const filteredUsersCount = filteredUsers.length
     const pageSize = 4
     const pagesCount = Math.ceil(filteredUsersCount / pageSize)
-    const sortedUsers = _.orderBy(filteredUsers, ['name'], ['asc'])
+    const sortedUsers = _.orderBy(filteredUsers, [sortBy.iteratee], [sortBy.order])
     const usersToRender = paginate(sortedUsers, pageSize, currentPage)
     const handleCurrentPageChange = (page) => {
         setCurrentPage(page)
@@ -65,7 +69,10 @@ const Users = () => {
         setUsers(newUsers)
     }
     const handleSort = (name) => {
-        console.log(name)
+        const order = name === sortBy.iteratee && sortBy.order === 'asc' ? 'desc' : 'asc'
+        setSortBy((prevState) => {
+            return { ...prevState, iteratee: name, order }
+        })
     }
 
     return (
