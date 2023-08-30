@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import api from '../api'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import { USERS_PROPS } from '../constants'
-import { cancelCamelCase, capitalize, paginate } from '../utils'
-import User from './user'
+import { paginate } from '../utils'
+import UsersTable from './usersTable'
 import Status from './status'
 import Pagination from './pagination'
 import GroupList from './groupList'
+import { USERS_PROPS } from '../constants'
 
 const Users = () => {
     const [users, setUsers] = useState()
@@ -49,27 +49,6 @@ const Users = () => {
     const handleFilterCancel = () => {
         setSelectedProfession()
     }
-
-    const renderStatus = () => {
-        if (users) {
-            return <Status usersCount={filteredUsersCount} />
-        }
-    }
-    const renderHeads = () => {
-        return (
-            <thead>
-                <tr>
-                    {heads.map((head) => (
-                        <th scope="col" key={head}>
-                            {capitalize(cancelCamelCase(head))}
-                        </th>
-                    ))}
-                    <th></th>
-                </tr>
-            </thead>
-        )
-    }
-
     const handleDelete = (id) => {
         setUsers(users.filter((user) => user._id !== id))
     }
@@ -83,31 +62,6 @@ const Users = () => {
         })
         setUsers(newUsers)
     }
-    const renderUsers = () => {
-        return (
-            <tbody className="table-group-divider">
-                {usersToRender.map((user) => (
-                    <User
-                        key={user._id}
-                        heads={heads}
-                        onDelete={handleDelete}
-                        onBookmark={handleBookmark}
-                        {...user}
-                    ></User>
-                ))}
-            </tbody>
-        )
-    }
-    const renderTable = () => {
-        if (usersCount !== 0) {
-            return (
-                <table className="table">
-                    {renderHeads()}
-                    {renderUsers()}
-                </table>
-            )
-        }
-    }
 
     return (
         <div className='d-flex'>
@@ -116,8 +70,8 @@ const Users = () => {
                 <button className='btn btn-secondary mt-2' type='button' onClick={handleFilterCancel}>Очистить</button>
             </div>
             <div className='d-flex flex-column'>
-                {renderStatus()}
-                {renderTable()}
+                <Status usersCount={filteredUsersCount} />
+                <UsersTable heads={heads} users={usersToRender} onDelete={handleDelete} onBookmark={handleBookmark} />
                 <div className='d-flex justify-content-center'>
                     <Pagination
                         pagesCount={pagesCount}
