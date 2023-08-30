@@ -28,7 +28,7 @@ const Users = () => {
     }, [selectedProfession])
 
     if (!users) {
-        return
+        return 'Loading...'
     }
 
     const filteredUsers = selectedProfession
