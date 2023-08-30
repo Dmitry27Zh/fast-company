@@ -2,9 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import TableHeader from './tableHeader'
 import TableBody from './tableBody'
+import Bookmark from './bookmark'
 
 const UsersTable = (props) => {
-    const { users, currentSort, onSort, ...rest } = props
+    const { users, currentSort, onSort, onBookmark, onDelete, ...rest } = props
     const handleSort = (iter) => {
         const order = iter === currentSort.iter && currentSort.order === 'asc' ? 'desc' : 'asc'
         onSort({ iter, order })
@@ -21,7 +22,7 @@ const UsersTable = (props) => {
         },
         qualities: {
             value: 'Качества',
-            component: 'Qualities'
+            component: (user) => 'Qualities'
         },
         completedMeetings: {
             iter: 'completedMeetings',
@@ -33,7 +34,18 @@ const UsersTable = (props) => {
         },
         bookmark: {
             value: 'Избранное',
-            component: 'Bookmark'
+            component: ({ _id, bookmark }) => <Bookmark done={bookmark} onBookmark={() => onBookmark(_id)}/>
+        },
+        delete: {
+            component: ({ _id }) => {
+                return <button
+                    className="btn btn-danger"
+                    type="button"
+                    onClick={() => onDelete(_id)}
+                >
+                    Delete
+                </button>
+            }
         }
     }
 
@@ -46,9 +58,9 @@ const UsersTable = (props) => {
 UsersTable.propTypes = {
     users: PropTypes.array.isRequired,
     currentSort: PropTypes.object.isRequired,
-    onDelete: PropTypes.func.isRequired,
+    onSort: PropTypes.func.isRequired,
     onBookmark: PropTypes.func.isRequired,
-    onSort: PropTypes.func.isRequired
+    onDelete: PropTypes.func.isRequired
 }
 
 export default UsersTable

@@ -3,28 +3,27 @@ import PropTypes from 'prop-types'
 import _ from 'lodash'
 
 const TableBody = (props) => {
-    const { data, heads, onDelete } = props
+    const { data, heads } = props
+    const renderContent = (item, head) => {
+        const { component, iter } = head
+
+        if (!component) {
+            return _.get(item, iter)
+        }
+
+        if (typeof component === 'function') {
+            return component(item)
+        }
+
+        return component
+    }
 
     return <tbody className="table-group-divider">
         {data.map((item) => {
             const { _id } = item
 
             return <tr key={_id}>
-                {Object.keys(heads).map((key) => {
-                    const { component, iter } = heads[key]
-                    const content = component ?? _.get(item, iter)
-
-                    return <td key={key}>{content}</td>
-                })}
-                <td>
-                    <button
-                        className="btn btn-danger"
-                        type="button"
-                        onClick={() => onDelete(_id)}
-                    >
-                    Delete
-                    </button>
-                </td>
+                {Object.keys(heads).map((key) => <td key={key}>{renderContent(item, heads[key])}</td>)}
             </tr>
         })}
     </tbody>
