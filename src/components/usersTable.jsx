@@ -1,21 +1,15 @@
 import React from 'react'
-import User from './user'
 import PropTypes from 'prop-types'
 import TableHeader from './tableHeader'
+import TableBody from './tableBody'
 
 const UsersTable = (props) => {
-    const { users, currentSort, onDelete, onBookmark, onSort } = props
+    const { users, currentSort, onSort, ...rest } = props
     const handleSort = (iter) => {
         const order = iter === currentSort.iter && currentSort.order === 'asc' ? 'desc' : 'asc'
         onSort({ iter, order })
     }
 
-    const handleDelete = (id) => {
-        onDelete(id)
-    }
-    const handleBookmark = (id) => {
-        onBookmark(id)
-    }
     const heads = {
         name: {
             iter: 'name',
@@ -43,17 +37,7 @@ const UsersTable = (props) => {
 
     return <table className="table">
         <TableHeader heads={heads} onSort={handleSort} />
-        <tbody className="table-group-divider">
-            {users.map((user) => (
-                <User
-                    key={user._id}
-                    heads={Object.keys(heads)}
-                    onDelete={handleDelete}
-                    onBookmark={handleBookmark}
-                    {...user}
-                ></User>
-            ))}
-        </tbody>
+        <TableBody data={users} heads={heads} {...rest} />
     </table>
 }
 
