@@ -7,6 +7,7 @@ import Status from './status'
 import Pagination from './pagination'
 import GroupList from './groupList'
 import { USERS_PROPS } from '../constants'
+import _ from 'lodash'
 
 const Users = () => {
     const [users, setUsers] = useState()
@@ -39,7 +40,8 @@ const Users = () => {
     const filteredUsersCount = filteredUsers.length
     const pageSize = 4
     const pagesCount = Math.ceil(filteredUsersCount / pageSize)
-    const usersToRender = paginate(filteredUsers, pageSize, currentPage)
+    const sortedUsers = _.orderBy(filteredUsers, ['name'], ['asc'])
+    const usersToRender = paginate(sortedUsers, pageSize, currentPage)
     const handleCurrentPageChange = (page) => {
         setCurrentPage(page)
     }
