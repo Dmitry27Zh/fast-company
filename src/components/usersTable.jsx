@@ -51,7 +51,7 @@ const UsersTable = (props) => {
     }
 
     return <table className="table">
-        <TableHeader heads={heads} onSort={handleSort} />
+        <TableHeader heads={heads} currentSort={currentSort} onSort={handleSort} />
         <TableBody data={users} heads={heads} {...rest} />
     </table>
 }
