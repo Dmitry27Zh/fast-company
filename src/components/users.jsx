@@ -6,7 +6,6 @@ import UsersTable from './usersTable'
 import Status from './status'
 import Pagination from './pagination'
 import GroupList from './groupList'
-import { USERS_PROPS } from '../constants'
 import _ from 'lodash'
 
 const Users = () => {
@@ -32,12 +31,6 @@ const Users = () => {
         return
     }
 
-    const usersCount = users.length
-    let heads =
-        usersCount !== 0
-            ? Object.keys(users[0]).filter((key) => !key.startsWith('_'))
-            : USERS_PROPS
-    heads = heads.slice(0, 6)
     const filteredUsers = selectedProfession
         ? users.filter((user) => JSON.stringify(user.profession) === JSON.stringify(selectedProfession))
         : users
@@ -74,7 +67,7 @@ const Users = () => {
     }
     const renderTable = () => {
         if (usersToRenderCount !== 0) {
-            return <UsersTable heads={heads} users={usersToRender} currentSort={sortBy} onDelete={handleDelete} onBookmark={handleBookmark} onSort={handleSort}/>
+            return <UsersTable users={usersToRender} currentSort={sortBy} onDelete={handleDelete} onBookmark={handleBookmark} onSort={handleSort}/>
         }
     }
 

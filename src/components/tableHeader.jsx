@@ -3,32 +3,8 @@ import { capitalize } from '../utils'
 import PropTypes from 'prop-types'
 
 const TableHeader = (props) => {
-    const { onSort } = props
-    const testHeads = {
-        name: {
-            iter: 'name',
-            value: 'Имя'
-        },
-        profession: {
-            iter: 'profession.name',
-            value: 'Профессия'
-        },
-        qualities: {
-            value: 'Качества'
-        },
-        completedMeetings: {
-            iter: 'completedMeetings',
-            value: 'Количество встреч'
-        },
-        rate: {
-            iter: 'rate',
-            value: 'Рейтинг'
-        },
-        bookmark: {
-            value: 'Избранное'
-        }
-    }
-    const keys = Object.keys(testHeads)
+    const { heads, onSort } = props
+    const keys = Object.keys(heads)
     const handleSort = (iter) => {
         if (iter) {
             onSort(iter)
@@ -38,7 +14,7 @@ const TableHeader = (props) => {
     return <thead>
         <tr>
             {keys.map((key) => {
-                const { iter, value } = testHeads[key]
+                const { iter, value } = heads[key]
                 const role = iter ? 'button' : null
 
                 return <th onClick={() => handleSort(iter)} key={key} scope="col" role={role}>
@@ -51,7 +27,7 @@ const TableHeader = (props) => {
 }
 
 TableHeader.propTypes = {
-    heads: PropTypes.array.isRequired,
+    heads: PropTypes.object.isRequired,
     onSort: PropTypes.func.isRequired
 }
 

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import TableHeader from './tableHeader'
 
 const UsersTable = (props) => {
-    const { heads, users, currentSort, onDelete, onBookmark, onSort } = props
+    const { users, currentSort, onDelete, onBookmark, onSort } = props
     const handleSort = (iter) => {
         const order = iter === currentSort.iter && currentSort.order === 'asc' ? 'desc' : 'asc'
         onSort({ iter, order })
@@ -16,6 +16,30 @@ const UsersTable = (props) => {
     const handleBookmark = (id) => {
         onBookmark(id)
     }
+    const heads = {
+        name: {
+            iter: 'name',
+            value: 'Имя'
+        },
+        profession: {
+            iter: 'profession.name',
+            value: 'Профессия'
+        },
+        qualities: {
+            value: 'Качества'
+        },
+        completedMeetings: {
+            iter: 'completedMeetings',
+            value: 'Количество встреч'
+        },
+        rate: {
+            iter: 'rate',
+            value: 'Рейтинг'
+        },
+        bookmark: {
+            value: 'Избранное'
+        }
+    }
 
     return <table className="table">
         <TableHeader heads={heads} onSort={handleSort} />
@@ -23,7 +47,7 @@ const UsersTable = (props) => {
             {users.map((user) => (
                 <User
                     key={user._id}
-                    heads={heads}
+                    heads={Object.keys(heads)}
                     onDelete={handleDelete}
                     onBookmark={handleBookmark}
                     {...user}
@@ -34,7 +58,6 @@ const UsersTable = (props) => {
 }
 
 UsersTable.propTypes = {
-    heads: PropTypes.array.isRequired,
     users: PropTypes.array.isRequired,
     currentSort: PropTypes.object.isRequired,
     onDelete: PropTypes.func.isRequired,
