@@ -46,6 +46,7 @@ const Users = () => {
     const pagesCount = Math.ceil(filteredUsersCount / pageSize)
     const sortedUsers = _.orderBy(filteredUsers, [sortBy.iteratee], [sortBy.order])
     const usersToRender = paginate(sortedUsers, pageSize, currentPage)
+    const usersToRenderCount = usersToRender.length
     const handleCurrentPageChange = (page) => {
         setCurrentPage(page)
     }
@@ -71,6 +72,11 @@ const Users = () => {
     const handleSort = (newSortBy) => {
         setSortBy(newSortBy)
     }
+    const renderTable = () => {
+        if (usersToRenderCount !== 0) {
+            return <UsersTable heads={heads} users={usersToRender} currentSort={sortBy} onDelete={handleDelete} onBookmark={handleBookmark} onSort={handleSort}/>
+        }
+    }
 
     return (
         <div className='d-flex'>
@@ -80,7 +86,7 @@ const Users = () => {
             </div>
             <div className='d-flex flex-column'>
                 <Status usersCount={filteredUsersCount} />
-                <UsersTable heads={heads} users={usersToRender} currentSort={sortBy} onDelete={handleDelete} onBookmark={handleBookmark} onSort={handleSort}/>
+                {renderTable()}
                 <div className='d-flex justify-content-center'>
                     <Pagination
                         pagesCount={pagesCount}
