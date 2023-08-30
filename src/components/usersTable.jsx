@@ -20,7 +20,8 @@ const UsersTable = (props) => {
             value: 'Профессия'
         },
         qualities: {
-            value: 'Качества'
+            value: 'Качества',
+            component: 'Qualities'
         },
         completedMeetings: {
             iter: 'completedMeetings',
@@ -31,7 +32,8 @@ const UsersTable = (props) => {
             value: 'Рейтинг'
         },
         bookmark: {
-            value: 'Избранное'
+            value: 'Избранное',
+            component: 'Bookmark'
         }
     }
 

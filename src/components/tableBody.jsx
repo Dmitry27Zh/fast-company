@@ -11,9 +11,9 @@ const TableBody = (props) => {
 
             return <tr key={_id}>
                 {Object.keys(heads).map((key) => {
-                    const head = heads[key]
-                    const content = _.get(item, head.iter)
-                    console.log()
+                    const { component, iter } = heads[key]
+                    const content = component ?? _.get(item, iter)
+
                     return <td key={key}>{content}</td>
                 })}
                 <td>
