@@ -7,10 +7,6 @@ import Qualities from './qualities'
 
 const UsersTable = (props) => {
     const { users, currentSort, onSort, onBookmark, onDelete, ...rest } = props
-    const handleSort = (iter) => {
-        const order = iter === currentSort.iter && currentSort.order === 'asc' ? 'desc' : 'asc'
-        onSort({ iter, order })
-    }
 
     const heads = {
         name: {
@@ -51,7 +47,7 @@ const UsersTable = (props) => {
     }
 
     return <table className="table">
-        <TableHeader heads={heads} currentSort={currentSort} onSort={handleSort} />
+        <TableHeader heads={heads} currentSort={currentSort} onSort={onSort} />
         <TableBody data={users} heads={heads} {...rest} />
     </table>
 }

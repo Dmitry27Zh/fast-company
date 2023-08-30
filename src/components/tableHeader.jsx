@@ -7,7 +7,8 @@ const TableHeader = (props) => {
     const keys = Object.keys(heads)
     const handleSort = (iter) => {
         if (iter) {
-            onSort(iter)
+            const order = iter === currentSort.iter && currentSort.order === 'asc' ? 'desc' : 'asc'
+            onSort({ iter, order })
         }
     }
 
