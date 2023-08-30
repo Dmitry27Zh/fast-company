@@ -1,7 +1,7 @@
 import React from 'react'
-import { cancelCamelCase, capitalize } from '../utils'
 import User from './user'
 import PropTypes from 'prop-types'
+import TableHeader from './tableHeader'
 
 const UsersTable = (props) => {
     const { heads, users, currentSort, onDelete, onBookmark, onSort } = props
@@ -18,16 +18,7 @@ const UsersTable = (props) => {
     }
 
     return <table className="table">
-        <thead>
-            <tr>
-                {heads.map((head) => (
-                    <th onClick={() => handleSort(head)} key={head} scope="col" role='button'>
-                        {capitalize(cancelCamelCase(head))}
-                    </th>
-                ))}
-                <th></th>
-            </tr>
-        </thead>
+        <TableHeader heads={heads} onSort={handleSort} />
         <tbody className="table-group-divider">
             {users.map((user) => (
                 <User
