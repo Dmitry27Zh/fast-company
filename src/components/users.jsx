@@ -62,6 +62,9 @@ const Users = () => {
         })
         setUsers(newUsers)
     }
+    const handleSort = (name) => {
+        console.log(name)
+    }
 
     return (
         <div className='d-flex'>
@@ -71,7 +74,7 @@ const Users = () => {
             </div>
             <div className='d-flex flex-column'>
                 <Status usersCount={filteredUsersCount} />
-                <UsersTable heads={heads} users={usersToRender} onDelete={handleDelete} onBookmark={handleBookmark} />
+                <UsersTable heads={heads} users={usersToRender} onDelete={handleDelete} onBookmark={handleBookmark} onSort={handleSort}/>
                 <div className='d-flex justify-content-center'>
                     <Pagination
                         pagesCount={pagesCount}

@@ -4,7 +4,7 @@ import User from './user'
 import PropTypes from 'prop-types'
 
 const UsersTable = (props) => {
-    const { heads, users, onDelete, onBookmark } = props
+    const { heads, users, onDelete, onBookmark, onSort } = props
     const usersCount = users.length
 
     const renderHeads = () => {
@@ -12,7 +12,7 @@ const UsersTable = (props) => {
             <thead>
                 <tr>
                     {heads.map((head) => (
-                        <th scope="col" key={head}>
+                        <th onClick={() => onSort(head)} key={head} scope="col" role='button'>
                             {capitalize(cancelCamelCase(head))}
                         </th>
                     ))}
@@ -57,7 +57,10 @@ const UsersTable = (props) => {
 }
 
 UsersTable.propTypes = {
-    users: PropTypes.array
+    users: PropTypes.array.isRequired,
+    onDelete: PropTypes.func.isRequired,
+    onBookmark: PropTypes.func.isRequired,
+    onSort: PropTypes.func.isRequired
 }
 
 export default UsersTable
