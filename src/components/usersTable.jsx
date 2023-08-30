@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import TableHeader from './tableHeader'
 import TableBody from './tableBody'
 import Bookmark from './bookmark'
+import Qualities from './qualities'
 
 const UsersTable = (props) => {
     const { users, currentSort, onSort, onBookmark, onDelete, ...rest } = props
@@ -22,7 +23,7 @@ const UsersTable = (props) => {
         },
         qualities: {
             value: 'Качества',
-            component: (user) => 'Qualities'
+            component: ({ qualities }) => <Qualities data={qualities} />
         },
         completedMeetings: {
             iter: 'completedMeetings',
