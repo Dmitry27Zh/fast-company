@@ -4,15 +4,19 @@ import User from './user'
 import PropTypes from 'prop-types'
 
 const UsersTable = (props) => {
-    const { heads, users, onDelete, onBookmark, onSort } = props
+    const { heads, users, currentSort, onDelete, onBookmark, onSort } = props
     const usersCount = users.length
+    const handleSort = (name) => {
+        const order = name === currentSort.iteratee && currentSort.order === 'asc' ? 'desc' : 'asc'
+        onSort({ iteratee: name, order })
+    }
 
     const renderHeads = () => {
         return (
             <thead>
                 <tr>
                     {heads.map((head) => (
-                        <th onClick={() => onSort(head)} key={head} scope="col" role='button'>
+                        <th onClick={() => handleSort(head)} key={head} scope="col" role='button'>
                             {capitalize(cancelCamelCase(head))}
                         </th>
                     ))}
@@ -58,6 +62,7 @@ const UsersTable = (props) => {
 
 UsersTable.propTypes = {
     users: PropTypes.array.isRequired,
+    currentSort: PropTypes.object.isRequired,
     onDelete: PropTypes.func.isRequired,
     onBookmark: PropTypes.func.isRequired,
     onSort: PropTypes.func.isRequired

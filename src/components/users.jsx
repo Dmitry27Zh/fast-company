@@ -68,11 +68,8 @@ const Users = () => {
         })
         setUsers(newUsers)
     }
-    const handleSort = (name) => {
-        const order = name === sortBy.iteratee && sortBy.order === 'asc' ? 'desc' : 'asc'
-        setSortBy((prevState) => {
-            return { ...prevState, iteratee: name, order }
-        })
+    const handleSort = (newSortBy) => {
+        setSortBy(newSortBy)
     }
 
     return (
@@ -83,7 +80,7 @@ const Users = () => {
             </div>
             <div className='d-flex flex-column'>
                 <Status usersCount={filteredUsersCount} />
-                <UsersTable heads={heads} users={usersToRender} onDelete={handleDelete} onBookmark={handleBookmark} onSort={handleSort}/>
+                <UsersTable heads={heads} users={usersToRender} currentSort={sortBy} onDelete={handleDelete} onBookmark={handleBookmark} onSort={handleSort}/>
                 <div className='d-flex justify-content-center'>
                     <Pagination
                         pagesCount={pagesCount}
