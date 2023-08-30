@@ -4,6 +4,7 @@ import TableHeader from './tableHeader'
 import TableBody from './tableBody'
 import Bookmark from './bookmark'
 import Qualities from './qualities'
+import Table from './table'
 
 const UsersTable = (props) => {
     const { users, currentSort, onSort, onBookmark, onDelete, ...rest } = props
@@ -46,10 +47,10 @@ const UsersTable = (props) => {
         }
     }
 
-    return <table className="table">
+    return <Table>
         <TableHeader heads={heads} currentSort={currentSort} onSort={onSort} />
         <TableBody data={users} heads={heads} {...rest} />
-    </table>
+    </Table>
 }
 
 UsersTable.propTypes = {
