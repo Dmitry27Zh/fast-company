@@ -5,6 +5,7 @@ import TableBody from './tableBody'
 import Bookmark from './bookmark'
 import Qualities from './qualities'
 import Table from './table'
+import { Link } from 'react-router-dom'
 
 const UsersTable = (props) => {
     const { users, currentSort, onSort, onBookmark, onDelete, ...rest } = props
@@ -12,7 +13,10 @@ const UsersTable = (props) => {
     const heads = {
         name: {
             iter: 'name',
-            value: 'Имя'
+            value: 'Имя',
+            component: ({ _id, name }) => (
+                <Link to={`/users/${_id}`}>{name}</Link>
+            )
         },
         profession: {
             iter: 'profession.name',
@@ -32,25 +36,35 @@ const UsersTable = (props) => {
         },
         bookmark: {
             value: 'Избранное',
-            component: ({ _id, bookmark }) => <Bookmark done={bookmark} onBookmark={() => onBookmark(_id)}/>
+            component: ({ _id, bookmark }) => (
+                <Bookmark done={bookmark} onBookmark={() => onBookmark(_id)} />
+            )
         },
         delete: {
             component: ({ _id }) => {
-                return <button
-                    className="btn btn-danger"
-                    type="button"
-                    onClick={() => onDelete(_id)}
-                >
-                    Delete
-                </button>
+                return (
+                    <button
+                        className="btn btn-danger"
+                        type="button"
+                        onClick={() => onDelete(_id)}
+                    >
+                        Delete
+                    </button>
+                )
             }
         }
     }
 
-    return <Table>
-        <TableHeader heads={heads} currentSort={currentSort} onSort={onSort} />
-        <TableBody data={users} heads={heads} {...rest} />
-    </Table>
+    return (
+        <Table>
+            <TableHeader
+                heads={heads}
+                currentSort={currentSort}
+                onSort={onSort}
+            />
+            <TableBody data={users} heads={heads} {...rest} />
+        </Table>
+    )
 }
 
 UsersTable.propTypes = {
