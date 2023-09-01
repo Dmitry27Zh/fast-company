@@ -1,13 +1,19 @@
 import React from 'react'
 import Users from './components/users'
 import Navigation from './components/navigation'
-import { BrowserRouter } from 'react-router-dom'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import Main from './components/main'
+import Login from './components/login'
 
 const App = () => {
     return (
         <BrowserRouter>
             <Navigation />
-            <Users />
+            <Routes>
+                <Route path="/" element={<Main />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/users" element={<Users />} />
+            </Routes>
         </BrowserRouter>
     )
 }
