@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react'
 import api from '../api'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { paginate } from '../utils'
-import UsersTable from './usersTable'
-import Status from './status'
-import Pagination from './pagination'
-import GroupList from './groupList'
+import UsersTable from '../components/usersTable'
+import Status from '../components/status'
+import Pagination from '../components/pagination'
+import GroupList from '../components/groupList'
 import _ from 'lodash'
 
 const Users = () => {
@@ -32,7 +32,11 @@ const Users = () => {
     }
 
     const filteredUsers = selectedProfession
-        ? users.filter((user) => JSON.stringify(user.profession) === JSON.stringify(selectedProfession))
+        ? users.filter(
+            (user) =>
+                JSON.stringify(user.profession) ===
+                  JSON.stringify(selectedProfession)
+        )
         : users
     const filteredUsersCount = filteredUsers.length
     const pageSize = 4
@@ -67,20 +71,38 @@ const Users = () => {
     }
     const renderTable = () => {
         if (usersToRenderCount !== 0) {
-            return <UsersTable users={usersToRender} currentSort={sortBy} onDelete={handleDelete} onBookmark={handleBookmark} onSort={handleSort}/>
+            return (
+                <UsersTable
+                    users={usersToRender}
+                    currentSort={sortBy}
+                    onDelete={handleDelete}
+                    onBookmark={handleBookmark}
+                    onSort={handleSort}
+                />
+            )
         }
     }
 
     return (
-        <div className='d-flex'>
-            <div className='d-flex flex-column flex-shrink-0 p-3'>
-                <GroupList items={professions} selectedItem={selectedProfession} onSelect={handleProfessionSelect} />
-                <button className='btn btn-secondary mt-2' type='button' onClick={handleFilterCancel}>Очистить</button>
+        <div className="d-flex">
+            <div className="d-flex flex-column flex-shrink-0 p-3">
+                <GroupList
+                    items={professions}
+                    selectedItem={selectedProfession}
+                    onSelect={handleProfessionSelect}
+                />
+                <button
+                    className="btn btn-secondary mt-2"
+                    type="button"
+                    onClick={handleFilterCancel}
+                >
+                    Очистить
+                </button>
             </div>
-            <div className='d-flex flex-column'>
+            <div className="d-flex flex-column">
                 <Status usersCount={filteredUsersCount} />
                 {renderTable()}
-                <div className='d-flex justify-content-center'>
+                <div className="d-flex justify-content-center">
                     <Pagination
                         pagesCount={pagesCount}
                         currentPage={currentPage}

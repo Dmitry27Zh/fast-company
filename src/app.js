@@ -1,9 +1,9 @@
 import React from 'react'
-import Users from './components/users'
 import Navigation from './components/navigation'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import Main from './components/main'
-import Login from './components/login'
+import Main from './layout/main'
+import Login from './layout/login'
+import Users from './layout/users'
 import User from './components/user'
 
 const App = () => {
