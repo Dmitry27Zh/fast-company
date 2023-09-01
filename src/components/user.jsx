@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import PropTypes from 'prop-types'
 import api from '../api'
 import Qualities from './qualities'
 
-const User = () => {
-    const { id } = useParams()
+const User = (props) => {
+    const { id } = props
     const navigate = useNavigate()
     const [user, setUser] = useState()
 
@@ -35,6 +36,10 @@ const User = () => {
             </button>
         </div>
     )
+}
+
+User.propTypes = {
+    id: PropTypes.string.isRequired
 }
 
 export default User
