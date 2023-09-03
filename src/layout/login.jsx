@@ -11,9 +11,13 @@ const Login = () => {
         const { name, value } = event.target
         setData((previousState) => ({ ...previousState, [name]: value }))
     }
+    const handleSubmit = (event) => {
+        event.preventDefault()
+        console.log(data)
+    }
 
     return (
-        <form>
+        <form onSubmit={handleSubmit}>
             <TextField
                 label="Email"
                 name="email"
@@ -27,6 +31,7 @@ const Login = () => {
                 value={password}
                 onChange={handleChange}
             />
+            <button type="submit">Submit</button>
         </form>
     )
 }
