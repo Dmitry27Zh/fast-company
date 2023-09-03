@@ -1,9 +1,14 @@
 import React, { useState } from 'react'
 
 const Login = () => {
-    const [email, setEmail] = useState('')
+    const [data, setData] = useState({
+        email: '',
+        password: ''
+    })
+    const { email, password } = data
     const handleChange = (event) => {
-        setEmail(event.target.value)
+        const { name, value } = event.target
+        setData((previousState) => ({ ...previousState, [name]: value }))
     }
 
     return (
@@ -14,12 +19,19 @@ const Login = () => {
                     type="text"
                     id="email"
                     value={email}
+                    name="email"
                     onChange={handleChange}
                 />
             </div>
             <div>
                 <label htmlFor="password">Password</label>
-                <input type="text" id="password" />
+                <input
+                    type="text"
+                    id="password"
+                    name="password"
+                    value={password}
+                    onChange={handleChange}
+                />
             </div>
         </form>
     )
