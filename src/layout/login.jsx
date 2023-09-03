@@ -6,8 +6,11 @@ const Login = () => {
         email: '',
         password: ''
     })
-    const [, setErrors] = useState()
+    const [errors, setErrors] = useState({})
     const { email, password } = data
+    useEffect(() => {
+        validate()
+    }, [data])
     const validate = () => {
         const errors = {}
 
@@ -22,9 +25,6 @@ const Login = () => {
         setErrors(errors)
         return Object.keys(errors).length === 0
     }
-    useEffect(() => {
-        validate()
-    }, [data])
     const handleChange = (event) => {
         const { name, value } = event.target
         setData((previousState) => ({ ...previousState, [name]: value }))
@@ -45,6 +45,7 @@ const Login = () => {
                 name="email"
                 value={email}
                 onChange={handleChange}
+                error={errors.email}
             />
             <TextField
                 type="password"
@@ -52,6 +53,7 @@ const Login = () => {
                 name="password"
                 value={password}
                 onChange={handleChange}
+                error={errors.password}
             />
             <button type="submit">Submit</button>
         </form>
