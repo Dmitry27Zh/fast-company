@@ -47,12 +47,12 @@ const Login = () => {
             }
         }
     }
+    const isValid = (errors) => isObjEmpty(errors)
     const validate = () => {
         const errors = validator(data, validatorConfig)
         setErrors(errors)
-        const isValid = isObjEmpty(errors)
 
-        return isValid
+        return isValid(errors)
     }
     const handleChange = (event) => {
         const { name, value } = event.target
@@ -84,7 +84,7 @@ const Login = () => {
                 onChange={handleChange}
                 error={getErrorMessageAtLeast(errors.password)}
             />
-            <button type="submit">Submit</button>
+            <button type="submit" disabled={!isValid(errors)}>Submit</button>
         </form>
     )
 }
