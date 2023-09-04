@@ -34,17 +34,15 @@ export const validator = (data, config) => {
     for (const fieldName in data) {
         const fieldData = data[fieldName]
         const currentConfig = config[fieldName]
+        let currentErrors = {}
 
         for (const type in currentConfig) {
             const { message } = currentConfig[type]
             const error = validate(fieldData, type, message)
-
-            if (!(fieldName in errors)) {
-                errors[fieldName] = {}
-            }
-
-            Object.assign(errors[fieldName], error)
+            currentErrors = { ...currentErrors, ...error }
         }
+
+        errors[fieldName] = currentErrors
     }
 
     return errors
