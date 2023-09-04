@@ -2,8 +2,9 @@ import { isObjEmpty } from './object'
 
 export const validator = (data, config) => {
     const errors = {}
-    const validate = (value, type, message) => {
+    const validate = (value, type, config) => {
         const error = {}
+        const { message } = config
         let invalid = false
 
         switch (type) {
@@ -45,8 +46,8 @@ export const validator = (data, config) => {
         let currentErrors = {}
 
         for (const type in currentConfig) {
-            const { message } = currentConfig[type]
-            const error = validate(fieldData, type, message)
+            const currentTypeConfig = currentConfig[type]
+            const error = validate(fieldData, type, currentTypeConfig)
             currentErrors = { ...currentErrors, ...error }
         }
 
