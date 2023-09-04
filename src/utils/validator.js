@@ -9,8 +9,17 @@ export const validator = (data, config) => {
                 error[type] = message
             }
             break
-        }
 
+        case 'isEmail': {
+            const emailRegExp = /^\S+@\S+\.\S+$/
+
+            if (!emailRegExp.test(value)) {
+                error[type] = message
+            }
+
+            break
+        }
+        }
         return error
     }
 
@@ -21,7 +30,12 @@ export const validator = (data, config) => {
         for (const type in currentConfig) {
             const { message } = currentConfig[type]
             const error = validate(fieldData, type, message)
-            errors[fieldName] = error
+
+            if (!(fieldName in errors)) {
+                errors[fieldName] = {}
+            }
+
+            Object.assign(errors[fieldName], error)
         }
     }
 
