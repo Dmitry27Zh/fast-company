@@ -80,6 +80,7 @@ const UsersList = () => {
         setSortBy(newSortBy)
     }
     const handleSearch = (event) => {
+        setSelectedProfession()
         setSearch(event.target.value.trim())
     }
     const renderTable = () => {
