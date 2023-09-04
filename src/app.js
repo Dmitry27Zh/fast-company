@@ -8,13 +8,15 @@ import Users from './layout/users'
 const App = () => {
     return (
         <BrowserRouter>
-            <Navigation />
-            <Routes>
-                <Route path="/" element={<Main />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/users/:id?" element={<Users />} />
-                <Route path='*' element={<Navigate to="/"/>}/>
-            </Routes>
+            <div className='container'>
+                <Navigation />
+                <Routes>
+                    <Route path="/" element={<Main />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/users/:id?" element={<Users />} />
+                    <Route path='*' element={<Navigate to="/"/>}/>
+                </Routes>
+            </div>
         </BrowserRouter>
     )
 }
