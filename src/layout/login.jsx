@@ -1,6 +1,7 @@
 /* eslint-disable */
 import React, { useEffect, useState } from 'react'
 import TextField from '../components/textField'
+import { validator } from '../utils/validator'
 
 const Login = () => {
     const [data, setData] = useState({
@@ -25,17 +26,10 @@ const Login = () => {
         }
     }
     const validate = () => {
-        const errors = {}
-
-        for (const fieldName in data) {
-            const fieldData = data[fieldName]
-
-            if (fieldData.trim().length === 0) {
-                errors[fieldName] = `${fieldName} is required`
-            }
-        }
-
+        const errors = validator(data, validatorConfig)
+        console.log(errors)
         setErrors(errors)
+
         return Object.keys(errors).length === 0
     }
     const handleChange = (event) => {
@@ -58,7 +52,7 @@ const Login = () => {
                 name="email"
                 value={email}
                 onChange={handleChange}
-                error={errors.email}
+                error={errors.email?.isRequired}
             />
             <TextField
                 type="password"
@@ -66,7 +60,7 @@ const Login = () => {
                 name="password"
                 value={password}
                 onChange={handleChange}
-                error={errors.password}
+                error={errors.password?.isRequired}
             />
             <button type="submit">Submit</button>
         </form>
