@@ -27,7 +27,7 @@ const UsersList = () => {
     }, [])
     useEffect(() => {
         setCurrentPage('1')
-    }, [selectedProfession])
+    }, [selectedProfession, search])
 
     if (!users) {
         return 'Loading...'
