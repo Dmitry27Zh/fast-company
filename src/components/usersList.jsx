@@ -7,6 +7,7 @@ import Status from './status'
 import Pagination from './pagination'
 import GroupList from './groupList'
 import _ from 'lodash'
+import Search from './search'
 
 const UsersList = () => {
     const [users, setUsers] = useState()
@@ -17,6 +18,7 @@ const UsersList = () => {
         iter: null,
         order: null
     })
+    const [search, setSearch] = useState('')
     useEffect(() => {
         api.professions.fetchAll().then((data) => setProfessions(data))
     }, [])
@@ -31,18 +33,26 @@ const UsersList = () => {
         return 'Loading...'
     }
 
-    const filteredUsers = selectedProfession
-        ? users.filter(
-            (user) =>
-                JSON.stringify(user.profession) ===
+    const searchUsers = () => users.filter(({ name }) => new RegExp(search, 'i').test(name))
+    const filterUsers = () => {
+        return selectedProfession
+            ? searchedUsers.filter(
+                (user) => {
+                    return JSON.stringify(user.profession) ===
                   JSON.stringify(selectedProfession)
-        )
-        : users
+                }
+            )
+            : searchedUsers
+    }
+    const sortUsers = () => _.orderBy(filteredUsers, [sortBy.iter], [sortBy.order])
+    const paginateUsers = () => paginate(sortedUsers, pageSize, currentPage)
+    const searchedUsers = searchUsers()
+    const filteredUsers = filterUsers()
     const filteredUsersCount = filteredUsers.length
+    const sortedUsers = sortUsers()
     const pageSize = 4
     const pagesCount = Math.ceil(filteredUsersCount / pageSize)
-    const sortedUsers = _.orderBy(filteredUsers, [sortBy.iter], [sortBy.order])
-    const usersToRender = paginate(sortedUsers, pageSize, currentPage)
+    const usersToRender = paginateUsers()
     const usersToRenderCount = usersToRender.length
     const handleCurrentPageChange = (page) => {
         setCurrentPage(page)
@@ -69,6 +79,9 @@ const UsersList = () => {
     const handleSort = (newSortBy) => {
         setSortBy(newSortBy)
     }
+    const handleSearch = (event) => {
+        setSearch(event.target.value.trim())
+    }
     const renderTable = () => {
         if (usersToRenderCount !== 0) {
             return (
@@ -81,6 +94,9 @@ const UsersList = () => {
                 />
             )
         }
+    }
+    const renderSearch = () => {
+        return <Search onSearch={handleSearch}/>
     }
 
     return (
@@ -99,8 +115,9 @@ const UsersList = () => {
                     Очистить
                 </button>
             </div>
-            <div className="d-flex flex-column">
+            <div className="d-flex flex-column flex-grow-1">
                 <Status usersCount={filteredUsersCount} />
+                {renderSearch()}
                 {renderTable()}
                 <div className="d-flex justify-content-center">
                     <Pagination
