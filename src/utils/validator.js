@@ -11,9 +11,18 @@ export const validator = (data, config) => {
             break
 
         case 'isEmail': {
-            const emailRegExp = /^\S+@\S+\.\S+$/
+            const regExp = /^\S+@\S+\.\S+$/
 
-            if (!emailRegExp.test(value)) {
+            if (!regExp.test(value)) {
+                error[type] = message
+            }
+
+            break
+        }
+        case 'containUpperCaseLetter': {
+            const regExp = /[A-Z]/
+
+            if (!regExp.test(value)) {
                 error[type] = message
             }
 
