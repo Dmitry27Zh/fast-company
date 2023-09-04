@@ -24,6 +24,12 @@ export const validator = (data, config) => {
 
             break
         }
+        case 'containDigit': {
+            const regExp = /\d/
+            invalid = !regExp.test(value)
+
+            break
+        }
         }
 
         if (invalid) {
