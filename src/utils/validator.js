@@ -2,33 +2,32 @@ export const validator = (data, config) => {
     const errors = {}
     const validate = (value, type, message) => {
         const error = {}
+        let invalid = false
 
         switch (type) {
         case 'isRequired':
-            if (value.trim().length === 0) {
-                error[type] = message
-            }
+            invalid = value.trim().length === 0
+
             break
 
         case 'isEmail': {
             const regExp = /^\S+@\S+\.\S+$/
-
-            if (!regExp.test(value)) {
-                error[type] = message
-            }
+            invalid = !regExp.test(value)
 
             break
         }
         case 'containUpperCaseLetter': {
             const regExp = /[A-Z]/
-
-            if (!regExp.test(value)) {
-                error[type] = message
-            }
+            invalid = !regExp.test(value)
 
             break
         }
         }
+
+        if (invalid) {
+            error[type] = message
+        }
+
         return error
     }
 
