@@ -4,9 +4,8 @@ export const validator = (data, config) => {
     const errors = {}
     const validate = (value, type, config) => {
         const error = {}
-        const { message } = config
+        const { value: configValue, message } = config
         let invalid = false
-
         switch (type) {
         case 'isRequired':
             invalid = value.trim().length === 0
@@ -28,6 +27,16 @@ export const validator = (data, config) => {
         case 'containDigit': {
             const regExp = /\d/
             invalid = !regExp.test(value)
+
+            break
+        }
+        case 'minLength': {
+            invalid = value.length < configValue
+
+            break
+        }
+        case 'maxLength': {
+            invalid = value.length > configValue
 
             break
         }

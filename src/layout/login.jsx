@@ -3,6 +3,11 @@ import TextField from '../components/textField'
 import { validator, getErrorMessageAtLeast } from '../utils/validator'
 import { isObjEmpty } from '../utils/object'
 
+const ValidationValue = {
+    minLength: 6,
+    maxLength: 18
+}
+
 const Login = () => {
     const [data, setData] = useState({
         email: '',
@@ -31,6 +36,14 @@ const Login = () => {
             },
             containDigit: {
                 message: 'Password should contain one digit at least'
+            },
+            minLength: {
+                value: ValidationValue.minLength,
+                message: `Password should contain minimum ${ValidationValue.minLength} symbols`
+            },
+            maxLength: {
+                value: ValidationValue.maxLength,
+                message: `Password should contain maximum ${ValidationValue.maxLength} symbols`
             }
         }
     }
