@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useEffect, useState } from 'react'
 import TextField from '../components/textField'
 
@@ -11,6 +12,18 @@ const Login = () => {
     useEffect(() => {
         validate()
     }, [data])
+    const validatorConfig = {
+        email: {
+            isRequired: {
+                message: 'Email is required'
+            }
+        },
+        password: {
+            isRequired: {
+                message: 'Password is required'
+            }
+        }
+    }
     const validate = () => {
         const errors = {}
 
