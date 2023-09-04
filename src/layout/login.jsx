@@ -1,7 +1,7 @@
-/* eslint-disable */
 import React, { useEffect, useState } from 'react'
 import TextField from '../components/textField'
 import { validator, getErrorMessageAtLeast } from '../utils/validator'
+import { isObjEmpty } from '../utils/object'
 
 const Login = () => {
     const [data, setData] = useState({
@@ -33,10 +33,10 @@ const Login = () => {
     }
     const validate = () => {
         const errors = validator(data, validatorConfig)
-        console.log(errors)
         setErrors(errors)
+        const isValid = isObjEmpty(errors)
 
-        return Object.keys(errors).length === 0
+        return isValid
     }
     const handleChange = (event) => {
         const { name, value } = event.target
