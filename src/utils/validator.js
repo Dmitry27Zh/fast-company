@@ -41,3 +41,7 @@ export const validator = (data, config) => {
 
     return errors
 }
+
+export const getErrorMessageAtLeast = (errors = {}) => {
+    return Object.values(errors)[0]
+}

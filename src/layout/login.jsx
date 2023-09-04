@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React, { useEffect, useState } from 'react'
 import TextField from '../components/textField'
-import { validator } from '../utils/validator'
+import { validator, getErrorMessageAtLeast } from '../utils/validator'
 
 const Login = () => {
     const [data, setData] = useState({
@@ -17,6 +17,9 @@ const Login = () => {
         email: {
             isRequired: {
                 message: 'Email is required'
+            },
+            isEmail: {
+                message: 'Incorrect email'
             }
         },
         password: {
@@ -52,7 +55,7 @@ const Login = () => {
                 name="email"
                 value={email}
                 onChange={handleChange}
-                error={errors.email?.isRequired}
+                error={getErrorMessageAtLeast(errors.email)}
             />
             <TextField
                 type="password"
@@ -60,7 +63,7 @@ const Login = () => {
                 name="password"
                 value={password}
                 onChange={handleChange}
-                error={errors.password?.isRequired}
+                error={getErrorMessageAtLeast(errors.password)}
             />
             <button type="submit">Submit</button>
         </form>
