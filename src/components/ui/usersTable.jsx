@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import TableHeader from './tableHeader'
-import TableBody from './tableBody'
-import Bookmark from './bookmark'
-import Qualities from './qualities'
-import Table from './table'
+import TableHeader from '../common/table/tableHeader'
+import TableBody from '../common/table/tableBody'
+import Bookmark from '../common/bookmark'
+import Qualities from './qualities/qualities'
+import Table from '../common/table/table'
 import { Link } from 'react-router-dom'
 
 const UsersTable = (props) => {

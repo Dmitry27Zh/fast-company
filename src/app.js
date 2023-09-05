@@ -1,5 +1,5 @@
 import React from 'react'
-import Navigation from './components/navigation'
+import Navigation from './components/ui/navigation'
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
 import Main from './layout/main'
 import Login from './layout/login'

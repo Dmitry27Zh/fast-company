@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import TextField from '../components/textField'
-import { validator, getErrorMessageAtLeast } from '../utils/validator'
-import { isObjEmpty } from '../utils/object'
+import TextField from '../common/form/textField'
+import { validator, getErrorMessageAtLeast } from '../../utils/validator'
+import { isObjEmpty } from '../../utils/object'
 
 const ValidationValue = {
     minLength: 6,

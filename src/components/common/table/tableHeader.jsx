@@ -1,5 +1,5 @@
 import React from 'react'
-import { capitalize } from '../utils'
+import { capitalize } from '../../../utils'
 import PropTypes from 'prop-types'
 
 const TableHeader = (props) => {

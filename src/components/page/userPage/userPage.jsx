@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import api from '../api'
-import Qualities from './qualities'
+import api from '../../../api'
+import Qualities from '../../ui/qualities/qualities'
 
-const User = (props) => {
+const UserPage = (props) => {
     const { id } = props
     const navigate = useNavigate()
     const [user, setUser] = useState()
@@ -38,8 +38,8 @@ const User = (props) => {
     )
 }
 
-User.propTypes = {
+UserPage.propTypes = {
     id: PropTypes.string.isRequired
 }
 
-export default User
+export default UserPage
