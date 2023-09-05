@@ -59,6 +59,7 @@ const UsersList = () => {
     }
     const handleProfessionSelect = (profession) => {
         setSelectedProfession(profession)
+        setSearch('')
     }
     const handleFilterCancel = () => {
         setSelectedProfession()
@@ -79,9 +80,9 @@ const UsersList = () => {
     const handleSort = (newSortBy) => {
         setSortBy(newSortBy)
     }
-    const handleSearch = (event) => {
+    const handleSearch = (value) => {
         setSelectedProfession()
-        setSearch(event.target.value.trim())
+        setSearch(value)
     }
     const renderTable = () => {
         if (usersToRenderCount !== 0) {
@@ -95,9 +96,6 @@ const UsersList = () => {
                 />
             )
         }
-    }
-    const renderSearch = () => {
-        return <Search onSearch={handleSearch}/>
     }
 
     return (
@@ -118,7 +116,7 @@ const UsersList = () => {
             </div>
             <div className="d-flex flex-column flex-grow-1">
                 <Status usersCount={filteredUsersCount} />
-                {renderSearch()}
+                <Search search={search} onSearch={handleSearch}/>
                 {renderTable()}
                 <div className="d-flex justify-content-center">
                     <Pagination
