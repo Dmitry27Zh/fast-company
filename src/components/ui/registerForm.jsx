@@ -3,6 +3,7 @@ import TextField from '../common/form/textField'
 import { validator, getErrorMessageAtLeast } from '../../utils/validator'
 import { isObjEmpty } from '../../utils/object'
 import { ValidationValue } from '../../constants'
+import API from '../../api'
 
 const RegisterForm = () => {
     const [data, setData] = useState({
@@ -10,10 +11,14 @@ const RegisterForm = () => {
         password: ''
     })
     const [errors, setErrors] = useState({})
+    const [professions, setProfessions] = useState()
     const { email, password } = data
     useEffect(() => {
         validate()
     }, [data])
+    useEffect(() => {
+        API.professions.fetchAll().then((data) => setProfessions(data))
+    }, [])
     const validatorConfig = {
         email: {
             isRequired: {
@@ -62,7 +67,7 @@ const RegisterForm = () => {
             console.log(data)
         }
     }
-
+    console.log(professions)
     return (
         <form onSubmit={handleSubmit}>
             <TextField
