@@ -80,6 +80,24 @@ const RegisterForm = () => {
                 onChange={handleChange}
                 error={getErrorMessageAtLeast(errors.password)}
             />
+            <div className="col-md-3">
+                <label htmlFor="validationCustom04" className="form-label">
+                    State
+                </label>
+                <select
+                    className="form-select"
+                    id="validationCustom04"
+                    required
+                >
+                    <option defaultValue="" disabled value="">
+                        Choose...
+                    </option>
+                    <option>...</option>
+                </select>
+                <div className="invalid-feedback">
+                    Please select a valid state.
+                </div>
+            </div>
             <button
                 className="btn btn-primary w-100"
                 type="submit"
