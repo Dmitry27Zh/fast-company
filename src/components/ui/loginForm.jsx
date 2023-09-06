@@ -2,11 +2,7 @@ import React, { useState, useEffect } from 'react'
 import TextField from '../common/form/textField'
 import { validator, getErrorMessageAtLeast } from '../../utils/validator'
 import { isObjEmpty } from '../../utils/object'
-
-const ValidationValue = {
-    minLength: 6,
-    maxLength: 18
-}
+import { ValidationValue } from '../../constants'
 
 const LoginForm = () => {
     const [data, setData] = useState({
