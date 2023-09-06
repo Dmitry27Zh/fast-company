@@ -1,7 +1,14 @@
-import React from 'react'
+/* eslint-disable no-unused-vars */
+import React, { useState } from 'react'
 import LoginForm from '../components/ui/loginForm'
+import { useParams } from 'react-router-dom'
 
 const Login = () => {
+    let { type } = useParams()
+    type = type === 'register' ? type : 'login'
+    const [formType] = useState(type)
+    console.log(formType)
+
     return (
         <div className="container mt-5">
             <div className="row">
