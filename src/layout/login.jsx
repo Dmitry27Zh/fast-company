@@ -6,23 +6,36 @@ import RegisterForm from '../components/ui/registerForm'
 const Login = () => {
     let { type } = useParams()
     type = type === 'register' ? type : 'login'
-    const [formType] = useState(type)
+    const [formType, setFormType] = useState(type)
+    const toggleFormType = () => {
+        setFormType((previousState) =>
+            previousState === 'login' ? 'register' : 'login'
+        )
+    }
     const renderForm = () => {
         if (formType === 'login') {
             return (
                 <>
+                    <h3 className="mb-4">Login</h3>
                     <LoginForm />
                     <p>
-                        Don&apos;t have an account? <a>Sign up</a>
+                        Don&apos;t have an account?{' '}
+                        <a role="button" onClick={toggleFormType}>
+                            Sign up
+                        </a>
                     </p>
                 </>
             )
         } else {
             return (
                 <>
+                    <h3 className="mb-4">Register</h3>
                     <RegisterForm />
                     <p>
-                        Already have an account? <a>Sign in</a>
+                        Already have an account?{' '}
+                        <a role="button" onClick={toggleFormType}>
+                            Sign in
+                        </a>
                     </p>
                 </>
             )
@@ -33,7 +46,6 @@ const Login = () => {
         <div className="container mt-5">
             <div className="row">
                 <div className="col-md-6 offset-md-3 shadow p-4">
-                    <h3 className="mb-4">Login</h3>
                     {renderForm()}
                 </div>
             </div>
