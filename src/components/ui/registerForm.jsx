@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import TextField from '../common/form/textField'
 import CheckboxField from '../common/form/checkboxField'
-import { validator, getErrorMessageAtLeast } from '../../utils/validator'
 import { isObjEmpty } from '../../utils/object'
 import { ValidationValue } from '../../constants'
 import API from '../../api'
@@ -31,57 +30,19 @@ const RegisterForm = () => {
         API.qualities.fetchAll().then((data) => setQualities(data))
     }, [])
     const validateScheme = yup.object().shape({
-        email: yup.string().required('Email is required').email('Incorrect email'),
+        profession: yup.string().required('Choose your profession'),
+        license: yup.string().required('You should agree'),
         password: yup.string().required('Password is required')
             .matches(/[A-Z]/, 'Password should contain one uppercase letter at least')
             .matches(/\d/, 'Password should contain one digit at least')
             .matches(/[!@#$%^&*]/, 'Password should contain one special symbol !@#$%^&* at least')
             .matches(new RegExp(`.{${ValidationValue.minLength},}`), `Password should contain minimum ${ValidationValue.minLength} symbols`)
-            .matches(new RegExp(`.{,${ValidationValue.maxLength}}`), `Password should contain maximum ${ValidationValue.maxLength} symbols`)
+            .matches(new RegExp(`^.{0,${ValidationValue.maxLength}}$`), `Password should contain maximum ${ValidationValue.maxLength} symbols`),
+        email: yup.string().required('Email is required').email('Incorrect email')
     })
-    const validatorConfig = {
-        email: {
-            isRequired: {
-                message: 'Email is required'
-            },
-            isEmail: {
-                message: 'Incorrect email'
-            }
-        },
-        password: {
-            isRequired: {
-                message: 'Password is required'
-            },
-            containUpperCaseLetter: {
-                message: 'Password should contain one uppercase letter at least'
-            },
-            containDigit: {
-                message: 'Password should contain one digit at least'
-            },
-            minLength: {
-                value: ValidationValue.minLength,
-                message: `Password should contain minimum ${ValidationValue.minLength} symbols`
-            },
-            maxLength: {
-                value: ValidationValue.maxLength,
-                message: `Password should contain maximum ${ValidationValue.maxLength} symbols`
-            }
-        },
-        profession: {
-            isRequired: {
-                message: 'Choose your profession'
-            }
-        },
-        license: {
-            isRequired: {
-                message: 'You should agree'
-            }
-        }
-    }
     const isValid = (errors) => isObjEmpty(errors)
     const validate = () => {
-        const errors = validator(data, validatorConfig)
-        setErrors(errors)
+        validateScheme.validate(data).then(() => setErrors({})).catch(({ path, message }) => setErrors({ [path]: message }))
 
         return isValid(errors)
     }
@@ -109,7 +70,7 @@ const RegisterForm = () => {
                     value={profession}
                     onChange={handleChange}
                     options={professions}
-                    error={getErrorMessageAtLeast(errors.profession)}
+                    error={errors.profession}
                 />
             </div>
         )
@@ -127,7 +88,7 @@ const RegisterForm = () => {
                 name="email"
                 value={email}
                 onChange={handleChange}
-                error={getErrorMessageAtLeast(errors.email)}
+                error={errors.email}
             />
             <TextField
                 type="password"
@@ -135,7 +96,7 @@ const RegisterForm = () => {
                 name="password"
                 value={password}
                 onChange={handleChange}
-                error={getErrorMessageAtLeast(errors.password)}
+                error={errors.password}
             />
             {renderProfessionsSelect()}
             <div className='mb-4'>
@@ -145,7 +106,7 @@ const RegisterForm = () => {
                 {renderQualitiesSelect()}
             </div>
             <div className="mb-2">
-                <CheckboxField name="license" value={data.license} onChange={handleChange} error={getErrorMessageAtLeast(errors.license)}>License agreement?</CheckboxField>
+                <CheckboxField name="license" value={data.license} onChange={handleChange} error={errors.license}>License agreement?</CheckboxField>
             </div>
             <button
                 className="btn btn-primary w-100"
