@@ -6,7 +6,7 @@ import { ValidationValue } from '../../constants'
 import API from '../../api'
 import SelectField from '../common/form/selectField'
 import RadioField from '../common/form/radioField'
-import Select from 'react-select'
+import MultiSelectField from '../common/form/multiSelectField'
 
 const RegisterForm = () => {
     const [data, setData] = useState({
@@ -17,12 +17,14 @@ const RegisterForm = () => {
     })
     const [errors, setErrors] = useState({})
     const [professions, setProfessions] = useState()
+    const [qualities, setQualities] = useState()
     const { email, password, profession, sex } = data
     useEffect(() => {
         validate()
     }, [data])
     useEffect(() => {
         API.professions.fetchAll().then((data) => setProfessions(data))
+        API.qualities.fetchAll().then((data) => setQualities(data))
     }, [])
     const validatorConfig = {
         email: {
@@ -95,6 +97,11 @@ const RegisterForm = () => {
             </div>
         )
     }
+    const renderQualitiesSelect = () => {
+        if (qualities) {
+            return <MultiSelectField name="qualities" options={qualities} onChange={handleChange} />
+        }
+    }
 
     return (
         <form onSubmit={handleSubmit}>
@@ -118,7 +125,7 @@ const RegisterForm = () => {
                 <RadioField label="Sex" name="sex" value={sex} onChange={handleChange} options={[{ name: 'Male', value: 'male' }, { name: 'Female', value: 'female' }, { name: 'Other', value: 'other' }]}/>
             </div>
             <div className='mb-4'>
-                <Select options={{}}/>
+                {renderQualitiesSelect()}
             </div>
             <button
                 className="btn btn-primary w-100"
