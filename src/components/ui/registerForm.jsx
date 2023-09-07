@@ -5,16 +5,18 @@ import { isObjEmpty } from '../../utils/object'
 import { ValidationValue } from '../../constants'
 import API from '../../api'
 import SelectField from '../common/form/selectField'
+import RadioField from '../common/form/radioField'
 
 const RegisterForm = () => {
     const [data, setData] = useState({
         email: '',
         password: '',
-        profession: ''
+        profession: '',
+        sex: 'male'
     })
     const [errors, setErrors] = useState({})
     const [professions, setProfessions] = useState()
-    const { email, password, profession } = data
+    const { email, password, profession, sex } = data
     useEffect(() => {
         validate()
     }, [data])
@@ -111,6 +113,9 @@ const RegisterForm = () => {
                 error={getErrorMessageAtLeast(errors.password)}
             />
             {renderProfessionsSelect()}
+            <div className='mb-4'>
+                <RadioField label="Sex" name="sex" value={sex} onChange={handleChange} options={[{ name: 'Male', value: 'male' }, { name: 'Female', value: 'female' }, { name: 'Other', value: 'other' }]}/>
+            </div>
             <button
                 className="btn btn-primary w-100"
                 type="submit"
