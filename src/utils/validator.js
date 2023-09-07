@@ -6,6 +6,7 @@ export const validator = (data, config) => {
         const error = {}
         const { value: configValue, message } = config
         let invalid = false
+
         switch (type) {
         case 'isRequired':
             invalid = value.trim().length === 0

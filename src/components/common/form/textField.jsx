@@ -15,7 +15,7 @@ const TextField = (props) => {
     }
     const renderError = () => {
         if (error) {
-            return <div className='invalid-feedback'>{error}</div>
+            return <div className="invalid-feedback">{error}</div>
         }
     }
     const renderPasswordVisibilityBtn = () => {
@@ -27,14 +27,22 @@ const TextField = (props) => {
                 return result
             }
 
-            return <button className='btn btn-outline-secondary' type='button' onClick={togglePasswordShow}><i className={getIconClasses()}></i></button>
+            return (
+                <button
+                    className="btn btn-outline-secondary"
+                    type="button"
+                    onClick={togglePasswordShow}
+                >
+                    <i className={getIconClasses()}></i>
+                </button>
+            )
         }
     }
 
     const renderType = type === 'password' && passwordShow ? 'text' : type
 
     return (
-        <div className='mb-4'>
+        <div className="mb-4">
             <label htmlFor={name}>{label}</label>
             <div className="input-group has-validation">
                 <input

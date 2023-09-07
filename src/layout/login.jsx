@@ -18,7 +18,7 @@ const Login = () => {
                 <>
                     <h3 className="mb-4">Login</h3>
                     <LoginForm />
-                    <p>
+                    <p className="mt-4">
                         Don&apos;t have an account?{' '}
                         <a role="button" onClick={toggleFormType}>
                             Sign up
@@ -31,7 +31,7 @@ const Login = () => {
                 <>
                     <h3 className="mb-4">Register</h3>
                     <RegisterForm />
-                    <p>
+                    <p className="mt-4">
                         Already have an account?{' '}
                         <a role="button" onClick={toggleFormType}>
                             Sign in

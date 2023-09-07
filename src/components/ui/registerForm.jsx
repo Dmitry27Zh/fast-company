@@ -4,6 +4,7 @@ import { validator, getErrorMessageAtLeast } from '../../utils/validator'
 import { isObjEmpty } from '../../utils/object'
 import { ValidationValue } from '../../constants'
 import API from '../../api'
+import SelectField from '../common/form/selectField'
 
 const RegisterForm = () => {
     const [data, setData] = useState({
@@ -47,6 +48,11 @@ const RegisterForm = () => {
                 value: ValidationValue.maxLength,
                 message: `Password should contain maximum ${ValidationValue.maxLength} symbols`
             }
+        },
+        profession: {
+            isRequired: {
+                message: 'Choose your profession'
+            }
         }
     }
     const isValid = (errors) => isObjEmpty(errors)
@@ -73,43 +79,16 @@ const RegisterForm = () => {
             return
         }
 
-        const keys = Object.keys(professions)
-        const renderOptions = () => {
-            return (
-                <>
-                    <option disabled value="">
-                        Choose...
-                    </option>
-                    {keys.map((key) => {
-                        const { _id, name } = professions[key]
-
-                        return (
-                            <option value={_id} key={_id}>
-                                {name}
-                            </option>
-                        )
-                    })}
-                </>
-            )
-        }
-
         return (
             <div className="mb-4">
-                <label htmlFor="profession" className="form-label">
-                    Profession
-                </label>
-                <select
-                    className="form-select"
-                    id="profession"
+                <SelectField
+                    label="Profession"
                     name="profession"
                     value={profession}
                     onChange={handleChange}
-                >
-                    {renderOptions()}
-                </select>
-                <div className="invalid-feedback">
-                    Please select a valid state.
-                </div>
+                    options={professions}
+                    error={getErrorMessageAtLeast(errors.profession)}
+                />
             </div>
         )
     }
