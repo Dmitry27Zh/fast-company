@@ -8,11 +8,12 @@ import API from '../../api'
 const RegisterForm = () => {
     const [data, setData] = useState({
         email: '',
-        password: ''
+        password: '',
+        profession: ''
     })
     const [errors, setErrors] = useState({})
     const [professions, setProfessions] = useState()
-    const { email, password } = data
+    const { email, password, profession } = data
     useEffect(() => {
         validate()
     }, [data])
@@ -101,8 +102,8 @@ const RegisterForm = () => {
                     className="form-select"
                     id="profession"
                     name="profession"
-                    required
-                    defaultValue=""
+                    value={profession}
+                    onChange={handleChange}
                 >
                     {renderOptions()}
                 </select>
