@@ -6,6 +6,7 @@ import { ValidationValue } from '../../constants'
 import API from '../../api'
 import SelectField from '../common/form/selectField'
 import RadioField from '../common/form/radioField'
+import Select from 'react-select'
 
 const RegisterForm = () => {
     const [data, setData] = useState({
@@ -115,6 +116,9 @@ const RegisterForm = () => {
             {renderProfessionsSelect()}
             <div className='mb-4'>
                 <RadioField label="Sex" name="sex" value={sex} onChange={handleChange} options={[{ name: 'Male', value: 'male' }, { name: 'Female', value: 'female' }, { name: 'Other', value: 'other' }]}/>
+            </div>
+            <div className='mb-4'>
+                <Select options={{}}/>
             </div>
             <button
                 className="btn btn-primary w-100"
