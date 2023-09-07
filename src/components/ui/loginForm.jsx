@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import TextField from '../common/form/textField'
+import CheckboxField from '../common/form/checkboxField'
 import { validator, getErrorMessageAtLeast } from '../../utils/validator'
 import { isObjEmpty } from '../../utils/object'
 import { ValidationValue } from '../../constants'
@@ -7,7 +8,8 @@ import { ValidationValue } from '../../constants'
 const LoginForm = () => {
     const [data, setData] = useState({
         email: '',
-        password: ''
+        password: '',
+        stayOn: false
     })
     const [errors, setErrors] = useState({})
     const { email, password } = data
@@ -79,6 +81,9 @@ const LoginForm = () => {
                 onChange={handleChange}
                 error={getErrorMessageAtLeast(errors.password)}
             />
+            <div className="mb-2">
+                <CheckboxField name="stayOn" value={data.stayOn} onChange={handleChange}>Stay on?</CheckboxField>
+            </div>
             <button
                 className="btn btn-primary w-100"
                 type="submit"

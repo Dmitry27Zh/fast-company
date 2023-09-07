@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import TextField from '../common/form/textField'
+import CheckboxField from '../common/form/checkboxField'
 import { validator, getErrorMessageAtLeast } from '../../utils/validator'
 import { isObjEmpty } from '../../utils/object'
 import { ValidationValue } from '../../constants'
@@ -14,7 +15,8 @@ const RegisterForm = () => {
         password: '',
         profession: '',
         sex: 'male',
-        qualities: []
+        qualities: [],
+        license: false
     })
     const [errors, setErrors] = useState({})
     const [professions, setProfessions] = useState()
@@ -58,6 +60,11 @@ const RegisterForm = () => {
         profession: {
             isRequired: {
                 message: 'Choose your profession'
+            }
+        },
+        license: {
+            isRequired: {
+                message: 'You should agree'
             }
         }
     }
@@ -126,6 +133,9 @@ const RegisterForm = () => {
             </div>
             <div className='mb-4'>
                 {renderQualitiesSelect()}
+            </div>
+            <div className="mb-2">
+                <CheckboxField name="license" value={data.license} onChange={handleChange} error={getErrorMessageAtLeast(errors.license)}>License agreement?</CheckboxField>
             </div>
             <button
                 className="btn btn-primary w-100"

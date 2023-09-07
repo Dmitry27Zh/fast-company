@@ -9,7 +9,11 @@ export const validator = (data, config) => {
 
         switch (type) {
         case 'isRequired':
-            invalid = value.trim().length === 0
+            if (typeof value === 'boolean') {
+                invalid = !value
+            } else {
+                invalid = value.trim().length === 0
+            }
 
             break
 
