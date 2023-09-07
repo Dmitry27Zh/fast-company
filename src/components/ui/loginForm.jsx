@@ -50,9 +50,8 @@ const LoginForm = () => {
 
         return isValid(errors)
     }
-    const handleChange = (event) => {
-        const { name, value } = event.target
-        setData((previousState) => ({ ...previousState, [name]: value }))
+    const handleChange = (change) => {
+        setData((previousState) => ({ ...previousState, ...change }))
     }
     const handleSubmit = (event) => {
         event.preventDefault()

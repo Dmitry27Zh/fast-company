@@ -13,7 +13,8 @@ const RegisterForm = () => {
         email: '',
         password: '',
         profession: '',
-        sex: 'male'
+        sex: 'male',
+        qualities: []
     })
     const [errors, setErrors] = useState({})
     const [professions, setProfessions] = useState()
@@ -67,9 +68,8 @@ const RegisterForm = () => {
 
         return isValid(errors)
     }
-    const handleChange = (event) => {
-        const { name, value } = event.target
-        setData((previousState) => ({ ...previousState, [name]: value }))
+    const handleChange = (change) => {
+        setData((previousState) => ({ ...previousState, ...change }))
     }
     const handleSubmit = (event) => {
         event.preventDefault()
@@ -99,7 +99,7 @@ const RegisterForm = () => {
     }
     const renderQualitiesSelect = () => {
         if (qualities) {
-            return <MultiSelectField name="qualities" options={qualities} onChange={handleChange} />
+            return <MultiSelectField name="qualities" options={qualities} value={data.qualities} onChange={handleChange} />
         }
     }
 

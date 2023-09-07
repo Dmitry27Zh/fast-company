@@ -12,7 +12,11 @@ const SelectField = (props) => {
 
         return result
     }
-
+    const handleChange = (event) => {
+        const { name, value } = event.target
+        const change = { [name]: value }
+        onChange(change)
+    }
     const renderOptions = () => {
         return (
             <>
@@ -44,7 +48,7 @@ const SelectField = (props) => {
                     id={name}
                     name={name}
                     value={value}
-                    onChange={onChange}
+                    onChange={handleChange}
                 >
                     {renderOptions()}
                 </select>

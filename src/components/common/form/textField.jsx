@@ -13,6 +13,11 @@ const TextField = (props) => {
     const togglePasswordShow = () => {
         setPasswordShow((previousState) => !previousState)
     }
+    const handleChange = (event) => {
+        const { name, value } = event.target
+        const change = { [name]: value }
+        onChange(change)
+    }
     const renderError = () => {
         if (error) {
             return <div className="invalid-feedback">{error}</div>
@@ -51,7 +56,7 @@ const TextField = (props) => {
                     id={name}
                     value={value}
                     name={name}
-                    onChange={onChange}
+                    onChange={handleChange}
                 />
                 {renderPasswordVisibilityBtn()}
                 {renderError()}
