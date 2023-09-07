@@ -67,7 +67,52 @@ const RegisterForm = () => {
             console.log(data)
         }
     }
-    console.log(professions)
+    const renderProfessionsSelect = () => {
+        if (!professions) {
+            return
+        }
+
+        const keys = Object.keys(professions)
+        const renderOptions = () => {
+            return (
+                <>
+                    <option disabled value="">
+                        Choose...
+                    </option>
+                    {keys.map((key) => {
+                        const { _id, name } = professions[key]
+
+                        return (
+                            <option value={_id} key={_id}>
+                                {name}
+                            </option>
+                        )
+                    })}
+                </>
+            )
+        }
+
+        return (
+            <div className="mb-4">
+                <label htmlFor="profession" className="form-label">
+                    Profession
+                </label>
+                <select
+                    className="form-select"
+                    id="profession"
+                    name="profession"
+                    required
+                    defaultValue=""
+                >
+                    {renderOptions()}
+                </select>
+                <div className="invalid-feedback">
+                    Please select a valid state.
+                </div>
+            </div>
+        )
+    }
+
     return (
         <form onSubmit={handleSubmit}>
             <TextField
@@ -85,24 +130,7 @@ const RegisterForm = () => {
                 onChange={handleChange}
                 error={getErrorMessageAtLeast(errors.password)}
             />
-            <div className="col-md-3">
-                <label htmlFor="validationCustom04" className="form-label">
-                    State
-                </label>
-                <select
-                    className="form-select"
-                    id="validationCustom04"
-                    required
-                >
-                    <option defaultValue="" disabled value="">
-                        Choose...
-                    </option>
-                    <option>...</option>
-                </select>
-                <div className="invalid-feedback">
-                    Please select a valid state.
-                </div>
-            </div>
+            {renderProfessionsSelect()}
             <button
                 className="btn btn-primary w-100"
                 type="submit"
