@@ -8,6 +8,7 @@ import API from '../../api'
 import SelectField from '../common/form/selectField'
 import RadioField from '../common/form/radioField'
 import MultiSelectField from '../common/form/multiSelectField'
+import * as yup from 'yup'
 
 const RegisterForm = () => {
     const [data, setData] = useState({
@@ -29,6 +30,15 @@ const RegisterForm = () => {
         API.professions.fetchAll().then((data) => setProfessions(data))
         API.qualities.fetchAll().then((data) => setQualities(data))
     }, [])
+    const validateScheme = yup.object().shape({
+        email: yup.string().required('Email is required').email('Incorrect email'),
+        password: yup.string().required('Password is required')
+            .matches(/[A-Z]/, 'Password should contain one uppercase letter at least')
+            .matches(/\d/, 'Password should contain one digit at least')
+            .matches(/[!@#$%^&*]/, 'Password should contain one special symbol !@#$%^&* at least')
+            .matches(new RegExp(`.{${ValidationValue.minLength},}`), `Password should contain minimum ${ValidationValue.minLength} symbols`)
+            .matches(new RegExp(`.{,${ValidationValue.maxLength}}`), `Password should contain maximum ${ValidationValue.maxLength} symbols`)
+    })
     const validatorConfig = {
         email: {
             isRequired: {
