@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react'
 import TextField from '../common/form/textField'
 import { isObjEmpty } from '../../utils/object'
@@ -22,6 +21,12 @@ const EditForm = (props) => {
     const [errors, setErrors] = useState({})
     const [professions, setProfessions] = useState()
     const [allQualities, setAllQualities] = useState()
+    const getQualities = () => {
+        return Object.values(allQualities).filter(({ _id }) => data.qualities.some((quality) => _id === quality.value))
+    }
+    const getProfession = () => {
+        return Object.values(professions).find((profession) => profession._id === data.profession)
+    }
     const navigate = useNavigate()
     useEffect(() => {
         validate()
@@ -55,8 +60,8 @@ const EditForm = (props) => {
         const isValid = await validate()
 
         if (isValid) {
-            const qualities = data.qualities.map(({ value, label, ...rest }) => ({ ...rest, _id: value, name: label }))
-            const profession = Object.values(professions).find((profession) => profession._id === data.profession)
+            const qualities = getQualities()
+            const profession = getProfession()
             const newUser = {
                 ...data,
                 qualities,

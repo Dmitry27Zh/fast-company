@@ -16,7 +16,7 @@ const MultiSelectField = (props) => {
             return data
         }
 
-        return data.map(({ name, _id, ...rest }) => ({ ...rest, value: _id, label: name }))
+        return data.map(({ name, _id }) => ({ value: _id, label: name }))
     }
     options = Array.isArray(options) ? options : Object.values(options)
     options = transformData(options)
