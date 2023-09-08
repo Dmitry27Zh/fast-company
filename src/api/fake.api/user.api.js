@@ -119,7 +119,7 @@ if (!localStorage.getItem('users')) {
 export const fetchAll = () =>
     new Promise((resolve) => {
         setTimeout(() => {
-            resolve(users)
+            resolve(JSON.parse(localStorage.getItem('users')))
         }, 1000)
     })
 
