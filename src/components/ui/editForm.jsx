@@ -9,22 +9,23 @@ import * as yup from 'yup'
 import PropTypes from 'prop-types'
 
 const EditForm = (props) => {
+    const { name, email, profession, sex, qualities } = props
     const [data, setData] = useState({
-        name: '',
-        email: '',
-        profession: '',
-        sex: 'male',
-        qualities: []
+        name,
+        email,
+        profession: profession.name,
+        sex,
+        qualities
     })
     const [errors, setErrors] = useState({})
     const [professions, setProfessions] = useState()
-    const [qualities, setQualities] = useState()
+    const [allQualities, setAllQualities] = useState()
     useEffect(() => {
         validate()
     }, [data])
     useEffect(() => {
         API.professions.fetchAll().then((data) => setProfessions(data))
-        API.qualities.fetchAll().then((data) => setQualities(data))
+        API.qualities.fetchAll().then((data) => setAllQualities(data))
     }, [])
     const validateScheme = yup.object().shape({
         name: yup.string().required('Name is reuqired'),
@@ -73,8 +74,8 @@ const EditForm = (props) => {
         )
     }
     const renderQualitiesSelect = () => {
-        if (qualities) {
-            return <MultiSelectField name="qualities" options={qualities} value={data.qualities} onChange={handleChange} />
+        if (allQualities) {
+            return <MultiSelectField name="qualities" options={allQualities} value={data.qualities} onChange={handleChange} />
         }
     }
 
@@ -112,8 +113,17 @@ const EditForm = (props) => {
     )
 }
 
+EditForm.defaultProps = {
+    email: '',
+    sex: 'male'
+}
+
 EditForm.propTypes = {
-    name: PropTypes.string
+    name: PropTypes.string,
+    email: PropTypes.string,
+    profession: PropTypes.object,
+    sex: PropTypes.string,
+    qualities: PropTypes.array
 }
 
 export default EditForm
