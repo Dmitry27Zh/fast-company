@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import api from '../../../api'
 import Qualities from '../../ui/qualities/qualities'
@@ -31,9 +31,14 @@ const UserPage = (props) => {
             <Qualities data={qualities} />
             <p>{`completedMeetings: ${completedMeetings}`}</p>
             <strong className="fs-1">{`Rate: ${rate}`}</strong>
-            <button type="button" onClick={handleReturn}>
+            <div className='d-flex flex-wrap gap-3'>
+                <button className='btn btn-secondary' type="button" onClick={handleReturn}>
                 Все пользователи
-            </button>
+                </button>
+                <Link className='btn btn-primary' to={'edit'}>
+                Редактировать
+                </Link>
+            </div>
         </div>
     )
 }
