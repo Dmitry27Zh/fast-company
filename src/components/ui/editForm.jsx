@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react'
 import TextField from '../common/form/textField'
 import { isObjEmpty } from '../../utils/object'
@@ -7,19 +8,21 @@ import RadioField from '../common/form/radioField'
 import MultiSelectField from '../common/form/multiSelectField'
 import * as yup from 'yup'
 import PropTypes from 'prop-types'
+import { useNavigate } from 'react-router-dom'
 
 const EditForm = (props) => {
-    const { name, email, profession, sex, qualities } = props
+    const { _id, name, email, profession, sex, qualities } = props
     const [data, setData] = useState({
         name,
         email,
-        profession: profession.name,
+        profession: profession._id,
         sex,
         qualities
     })
     const [errors, setErrors] = useState({})
     const [professions, setProfessions] = useState()
     const [allQualities, setAllQualities] = useState()
+    const navigate = useNavigate()
     useEffect(() => {
         validate()
     }, [data])
@@ -52,7 +55,14 @@ const EditForm = (props) => {
         const isValid = await validate()
 
         if (isValid) {
-            console.log(data)
+            const qualities = data.qualities.map(({ value, label, ...rest }) => ({ ...rest, _id: value, name: label }))
+            const profession = Object.values(professions).find((profession) => profession._id === data.profession)
+            const newUser = {
+                ...data,
+                qualities,
+                profession
+            }
+            API.users.update(_id, newUser).then(() => navigate(`/users/${_id}`))
         }
     }
     const renderProfessionsSelect = () => {
@@ -119,6 +129,7 @@ EditForm.defaultProps = {
 }
 
 EditForm.propTypes = {
+    _id: PropTypes.string,
     name: PropTypes.string,
     email: PropTypes.string,
     profession: PropTypes.object,

@@ -124,13 +124,15 @@ const fetchAll = () =>
     })
 
 const update = (id, data) => new Promise((resolve) => {
-    const users = JSON.parse(localStorage.getItem('users'))
-    const index = users.findIndex((user) => user._id === id)
-    const currentUser = users[index]
-    const newUser = { ...currentUser, data }
-    users[index] = newUser
-    localStorage.setItem('users', JSON.stringify(users))
-    resolve(newUser)
+    setTimeout(() => {
+        const users = JSON.parse(localStorage.getItem('users'))
+        const index = users.findIndex((user) => user._id === id)
+        const currentUser = users[index]
+        const newUser = { ...currentUser, ...data }
+        users[index] = newUser
+        localStorage.setItem('users', JSON.stringify(users))
+        resolve(newUser)
+    }, 1000)
 })
 
 const getUserById = (id) =>
