@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import EditForm from '../components/ui/editForm'
-import { useParams } from 'react-router-dom'
 import API from '../api'
+import PropTypes from 'prop-types'
 
-const Edit = () => {
-    const { id } = useParams()
+const Edit = (props) => {
+    const { id } = props
     const [user, setUser] = useState()
     useEffect(() => {
         API.users.getUserById(id).then((data) => setUser(data))
@@ -25,6 +25,10 @@ const Edit = () => {
             </div>
         </div>
     </div>
+}
+
+Edit.propTypes = {
+    id: PropTypes.string
 }
 
 export default Edit
