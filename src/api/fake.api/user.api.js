@@ -112,6 +112,10 @@ const users = [
     }
 ]
 
+if (!localStorage.getItem('users')) {
+    localStorage.setItem('users', JSON.stringify(users))
+}
+
 export const fetchAll = () =>
     new Promise((resolve) => {
         setTimeout(() => {
