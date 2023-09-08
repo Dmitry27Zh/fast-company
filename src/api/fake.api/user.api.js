@@ -116,17 +116,34 @@ if (!localStorage.getItem('users')) {
     localStorage.setItem('users', JSON.stringify(users))
 }
 
-export const fetchAll = () =>
+const fetchAll = () =>
     new Promise((resolve) => {
         setTimeout(() => {
             resolve(JSON.parse(localStorage.getItem('users')))
         }, 1000)
     })
 
-export const getUserById = (id) =>
+const update = (id, data) => new Promise((resolve) => {
+    const users = JSON.parse(localStorage.getItem('users'))
+    const index = users.findIndex((user) => user._id === id)
+    const currentUser = users[index]
+    const newUser = { ...currentUser, data }
+    users[index] = newUser
+    localStorage.setItem('users', JSON.stringify(users))
+    resolve(newUser)
+})
+
+const getUserById = (id) =>
     new Promise((resolve) => {
         setTimeout(() => {
+            const users = JSON.parse(localStorage.getItem('users'))
             const user = users.find((user) => String(user._id) === String(id))
             resolve(user)
         }, 1000)
     })
+
+export default {
+    fetchAll,
+    update,
+    getUserById
+}
