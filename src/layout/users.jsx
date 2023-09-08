@@ -2,13 +2,13 @@ import React from 'react'
 import { useParams } from 'react-router-dom'
 import UserPage from '../components/page/userPage/userPage'
 import UsersListPage from '../components/page/usersListPage'
-import Edit from './edit'
+import EditPage from '../components/page/editPage/editPage'
 
 const Users = () => {
     const { id, edit } = useParams()
 
     if (edit) {
-        return <Edit id={id}/>
+        return <EditPage id={id}/>
     }
 
     if (id) {

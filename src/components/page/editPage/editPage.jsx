@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import EditForm from '../components/ui/editForm'
-import API from '../api'
+import EditForm from '../../ui/editForm'
+import API from '../../../api'
 import PropTypes from 'prop-types'
 
-const Edit = (props) => {
+const EditPage = (props) => {
     const { id } = props
     const [user, setUser] = useState()
     useEffect(() => {
@@ -27,8 +27,8 @@ const Edit = (props) => {
     </div>
 }
 
-Edit.propTypes = {
+EditPage.propTypes = {
     id: PropTypes.string
 }
 
-export default Edit
+export default EditPage
