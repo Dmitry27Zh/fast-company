@@ -19,7 +19,6 @@ const EditForm = (props) => {
     const [errors, setErrors] = useState({})
     const [professions, setProfessions] = useState()
     const [qualities, setQualities] = useState()
-    const { name, email, profession, sex } = data
     useEffect(() => {
         validate()
     }, [data])
@@ -65,7 +64,7 @@ const EditForm = (props) => {
                 <SelectField
                     label="Profession"
                     name="profession"
-                    value={profession}
+                    value={data.profession}
                     onChange={handleChange}
                     options={professions}
                     error={errors.profession}
@@ -84,20 +83,20 @@ const EditForm = (props) => {
             <TextField
                 label="Name"
                 name="name"
-                value={name}
+                value={data.name}
                 onChange={handleChange}
                 error={errors.name}
             />
             <TextField
                 label="Email"
                 name="email"
-                value={email}
+                value={data.email}
                 onChange={handleChange}
                 error={errors.email}
             />
             {renderProfessionsSelect()}
             <div className='mb-4'>
-                <RadioField label="Sex" name="sex" value={sex} onChange={handleChange} options={[{ name: 'Male', value: 'male' }, { name: 'Female', value: 'female' }, { name: 'Other', value: 'other' }]}/>
+                <RadioField label="Sex" name="sex" value={data.sex} onChange={handleChange} options={[{ name: 'Male', value: 'male' }, { name: 'Female', value: 'female' }, { name: 'Other', value: 'other' }]}/>
             </div>
             <div className='mb-4'>
                 {renderQualitiesSelect()}
