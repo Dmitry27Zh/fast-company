@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import EditForm from '../../ui/editForm'
 import API from '../../../api'
 import PropTypes from 'prop-types'
+import BackButton from '../../common/backButton'
 
 const EditPage = (props) => {
     const { id } = props
@@ -18,13 +19,16 @@ const EditPage = (props) => {
         }
     }
 
-    return <div className="container mt-5">
-        <div className="row">
-            <div className="col-md-6 offset-md-3 shadow p-4">
-                {renderContent()}
+    return (
+        <div className="container mt-5">
+            <BackButton />
+            <div className="row">
+                <div className="col-md-6 offset-md-3 shadow p-4">
+                    {renderContent()}
+                </div>
             </div>
         </div>
-    </div>
+    )
 }
 
 EditPage.propTypes = {
