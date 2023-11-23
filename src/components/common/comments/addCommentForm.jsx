@@ -14,10 +14,10 @@ export const AddCommentForm = ({ onSubmit }) => {
     useEffect(() => {
         api.users.fetchAll().then(setUsers)
     }, [])
-    const handleChange = (target) => {
+    const handleChange = (change) => {
         setData((prevState) => ({
             ...prevState,
-            [target.name]: target.value
+            ...change
         }))
     }
     const validatorConfig = {
