@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import api from '../../../api'
-import Qualities from '../../ui/qualities/qualities'
+import UserCard from '../../ui/userCard'
+import QualitiesCard from '../../ui/qualitiesCard'
+import MeetingsCard from '../../ui/meetingsCard'
+import Comments from '../../ui/comments'
 
 const UserPage = (props) => {
     const { id } = props
-    const navigate = useNavigate()
     const [user, setUser] = useState()
 
     useEffect(() => {
@@ -19,25 +20,17 @@ const UserPage = (props) => {
         return 'Loading...'
     }
 
-    const { name, profession, qualities, completedMeetings, rate } = user
-    const handleReturn = () => {
-        navigate('/users')
-    }
-
     return (
-        <div className="d-inline-flex flex-column">
-            <h1>{name}</h1>
-            <h2>{`Профессия: ${profession.name}`}</h2>
-            <Qualities data={qualities} />
-            <p>{`completedMeetings: ${completedMeetings}`}</p>
-            <strong className="fs-1">{`Rate: ${rate}`}</strong>
-            <div className='d-flex flex-wrap gap-3'>
-                <button className='btn btn-secondary' type="button" onClick={handleReturn}>
-                Все пользователи
-                </button>
-                <Link className='btn btn-primary' to={'edit'}>
-                Редактировать
-                </Link>
+        <div className="container">
+            <div className="row gutters-sm">
+                <div className="col-md-4 mb-3">
+                    <UserCard user={user} />
+                    <QualitiesCard data={user.qualities} />
+                    <MeetingsCard value={user.completedMeetings}></MeetingsCard>
+                </div>
+                <div className="col-md-8">
+                    <Comments />
+                </div>
             </div>
         </div>
     )
