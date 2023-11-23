@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { validator } from '../../../utils/validator'
 import api from '../../../api'
 import SelectField from '../../common/form/selectField'
-import TextField from '../../common/form/textField'
+import TextAreaField from '../../common/form/textAreaField'
 
 const initialData = { userId: '', content: '' }
 
@@ -73,7 +73,7 @@ export const AddCommentForm = ({ onSubmit }) => {
                     defaultOption={{ name: 'Выберите пользователя', value: '' }}
                     errors={errors.userId}
                 />
-                <TextField
+                <TextAreaField
                     value={data.content}
                     onChange={handleChange}
                     name="content"
