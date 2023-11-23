@@ -65,14 +65,19 @@ export const AddCommentForm = ({ onSubmit }) => {
         <div>
             <h2>New comment</h2>
             <form onSubmit={handleSubmit}>
-                <SelectField
-                    onChange={handleChange}
-                    options={usersSelectOptions}
-                    name="userId"
-                    value={data.userId}
-                    defaultOption={{ name: 'Выберите пользователя', value: '' }}
-                    errors={errors.userId}
-                />
+                <div className="mb-4">
+                    <SelectField
+                        onChange={handleChange}
+                        options={usersSelectOptions}
+                        name="userId"
+                        value={data.userId}
+                        defaultOption={{
+                            name: 'Выберите пользователя',
+                            value: ''
+                        }}
+                        errors={errors.userId}
+                    />
+                </div>
                 <TextAreaField
                     value={data.content}
                     onChange={handleChange}
