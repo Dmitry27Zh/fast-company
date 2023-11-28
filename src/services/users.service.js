@@ -3,7 +3,7 @@ import config from '../config.json'
 
 const usersService = {
     get: async () => {
-        const { data } = httpService.get(config.usersEndpoint)
+        const { data } = await httpService.get(config.usersEndpoint)
 
         return data
     }
