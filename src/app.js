@@ -1,6 +1,8 @@
 import React from 'react'
-import Navigation from './components/ui/navigation'
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import Navigation from './components/ui/navigation'
 import Main from './layout/main'
 import Login from './layout/login'
 import Users from './layout/users'
@@ -17,6 +19,7 @@ const App = () => {
                     <Route path="*" element={<Navigate to="/" />} />
                 </Routes>
             </div>
+            <ToastContainer/>
         </BrowserRouter>
     )
 }
