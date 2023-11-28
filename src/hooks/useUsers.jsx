@@ -1,9 +1,11 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import PropTypes from 'prop-types'
 
 const UsersContext = React.createContext()
 
 export const useUsers = () => {
+    const [users, setUsers] = useState([])
+
     return useContext(UsersContext)
 }
 
