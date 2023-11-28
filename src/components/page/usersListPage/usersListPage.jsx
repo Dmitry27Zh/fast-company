@@ -8,9 +8,10 @@ import Pagination from '../../common/pagination'
 import GroupList from '../../common/groupList'
 import _ from 'lodash'
 import Search from '../../search'
+import { useUsers } from '../../../hooks/useUsers'
 
 const UsersListPage = () => {
-    const [users, setUsers] = useState()
+    const users = useUsers()
     const [professions, setProfessions] = useState({})
     const [selectedProfession, setSelectedProfession] = useState()
     const [currentPage, setCurrentPage] = useState('1')
@@ -23,9 +24,6 @@ const UsersListPage = () => {
         api.professions.fetchAll().then((data) => setProfessions(data))
     }, [])
     useEffect(() => {
-        api.users.fetchAll().then((data) => setUsers(data))
-    }, [])
-    useEffect(() => {
         setCurrentPage('1')
     }, [selectedProfession, search])
 
@@ -33,18 +31,20 @@ const UsersListPage = () => {
         return 'Loading...'
     }
 
-    const searchUsers = () => users.filter(({ name }) => new RegExp(search, 'i').test(name))
+    const searchUsers = () =>
+        users.filter(({ name }) => new RegExp(search, 'i').test(name))
     const filterUsers = () => {
         return selectedProfession
-            ? searchedUsers.filter(
-                (user) => {
-                    return JSON.stringify(user.profession) ===
-                  JSON.stringify(selectedProfession)
-                }
-            )
+            ? searchedUsers.filter((user) => {
+                return (
+                    JSON.stringify(user.profession) ===
+                      JSON.stringify(selectedProfession)
+                )
+            })
             : searchedUsers
     }
-    const sortUsers = () => _.orderBy(filteredUsers, [sortBy.iter], [sortBy.order])
+    const sortUsers = () =>
+        _.orderBy(filteredUsers, [sortBy.iter], [sortBy.order])
     const paginateUsers = () => paginate(sortedUsers, pageSize, currentPage)
     const searchedUsers = searchUsers()
     const filteredUsers = filterUsers()
@@ -65,7 +65,7 @@ const UsersListPage = () => {
         setSelectedProfession()
     }
     const handleDelete = (id) => {
-        setUsers(users.filter((user) => user._id !== id))
+        console.log('Delete', id)
     }
     const handleBookmark = (id) => {
         const newUsers = users.map((user) => {
@@ -75,7 +75,8 @@ const UsersListPage = () => {
 
             return user
         })
-        setUsers(newUsers)
+
+        console.log(newUsers)
     }
     const handleSort = (newSortBy) => {
         setSortBy(newSortBy)
@@ -116,7 +117,7 @@ const UsersListPage = () => {
             </div>
             <div className="d-flex flex-column flex-grow-1">
                 <Status usersCount={filteredUsersCount} />
-                <Search search={search} onSearch={handleSearch}/>
+                <Search search={search} onSearch={handleSearch} />
                 {renderTable()}
                 <div className="d-flex justify-content-center">
                     <Pagination
