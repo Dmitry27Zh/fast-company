@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import usersService from '../services/users.service'
 import { toast } from 'react-toastify'
+import { useQualities } from './useQualities'
 
 const UsersContext = React.createContext()
 
@@ -10,13 +11,23 @@ export const useUsers = () => {
 }
 
 const UsersProvider = ({ children }) => {
+    const qualities = useQualities()
     const [users, setUsers] = useState([])
     const [error, setError] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
     async function getUsers() {
         try {
             const { content } = await usersService.get()
-            setUsers(content)
+            const transformedContent = content.map((item) => {
+                if ('qualities' in item) {
+                    item.qualities = item.qualities.map((qualityId) => {
+                        return qualities.find((quality) => quality._id === qualityId)
+                    })
+                }
+
+                return item
+            })
+            setUsers(transformedContent)
         } catch (e) {
             setError(e)
         } finally {

@@ -19,7 +19,7 @@ const Users = () => {
         }
     }
 
-    return <UsersProvider><ProfessionsProvider><QualitiesProvider>{render()}</QualitiesProvider></ProfessionsProvider></UsersProvider>
+    return <QualitiesProvider><ProfessionsProvider><UsersProvider>{render()}</UsersProvider></ProfessionsProvider></QualitiesProvider>
 }
 
 export default Users

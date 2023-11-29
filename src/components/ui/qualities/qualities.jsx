@@ -1,12 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Badge from '../../badge'
-import { useQualities } from '../../../hooks/useQualities'
 
-const Qualities = ({ qualitiesId }) => {
-    const qualities = useQualities()
-    const data = qualities.filter((quality) => qualitiesId.includes(quality._id))
-
+const Qualities = ({ data }) => {
     return (
         <div>
             {data.map((item, index) => (
@@ -17,7 +13,7 @@ const Qualities = ({ qualitiesId }) => {
 }
 
 Qualities.propTypes = {
-    qualitiesId: PropTypes.array
+    data: PropTypes.array
 }
 
 export default Qualities
