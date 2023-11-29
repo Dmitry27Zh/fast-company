@@ -1,5 +1,6 @@
 {
     "apiEndpoint": "http://localhost:4000/api/v1/",
     "usersEndpoint": "user/",
-    "professionsEndpoint": "profession/"
+    "professionsEndpoint": "profession/",
+    "qualitiesEndpoint": "qualities/"
 }
