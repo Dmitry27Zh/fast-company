@@ -2,5 +2,5 @@
     "apiEndpoint": "http://localhost:4000/api/v1/",
     "usersEndpoint": "user/",
     "professionsEndpoint": "profession/",
-    "qualitiesEndpoint": "qualities/"
+    "qualitiesEndpoint": "quality/"
 }
