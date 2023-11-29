@@ -24,7 +24,7 @@ const UsersTable = (props) => {
         },
         qualities: {
             value: 'Качества',
-            component: ({ qualities }) => <Qualities data={qualities} />
+            component: ({ qualities }) => <Qualities qualitiesId={qualities} />
         },
         completedMeetings: {
             iter: 'completedMeetings',
