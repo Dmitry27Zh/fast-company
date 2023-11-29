@@ -3,4 +3,11 @@ const ValidationValue = {
     maxLength: 18
 }
 
-export { ValidationValue }
+const Status = {
+    IDLE: 'Not started',
+    PENDING: 'In proccess',
+    SUCCESS: 'Ready',
+    ERROR: 'Error occured'
+}
+
+export { ValidationValue, Status }
