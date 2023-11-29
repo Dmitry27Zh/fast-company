@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import usersService from '../services/users.service'
 import { toast } from 'react-toastify'
 import { useQualities } from './useQualities'
+import { useProfessions } from './useProfessions'
 
 const UsersContext = React.createContext()
 
@@ -12,6 +13,7 @@ export const useUsers = () => {
 
 const UsersProvider = ({ children }) => {
     const qualities = useQualities()
+    const professions = useProfessions()
     const [users, setUsers] = useState([])
     const [error, setError] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
@@ -23,6 +25,9 @@ const UsersProvider = ({ children }) => {
                     item.qualities = item.qualities.map((qualityId) => {
                         return qualities.find((quality) => quality._id === qualityId)
                     })
+                }
+                if ('profession' in item) {
+                    item.profession = professions.find((professions) => professions._id === item.profession)
                 }
 
                 return item
