@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import api from '../../../api'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { paginate } from '../../../utils'
 import UsersTable from '../../ui/usersTable'
@@ -9,10 +8,11 @@ import GroupList from '../../common/groupList'
 import _ from 'lodash'
 import Search from '../../search'
 import { useUsers } from '../../../hooks/useUsers'
+import { useProfessions } from '../../../hooks/useProfessions'
 
 const UsersListPage = () => {
     const users = useUsers()
-    const [professions, setProfessions] = useState({})
+    const professions = useProfessions()
     const [selectedProfession, setSelectedProfession] = useState()
     const [currentPage, setCurrentPage] = useState('1')
     const [sortBy, setSortBy] = useState({
@@ -20,9 +20,6 @@ const UsersListPage = () => {
         order: null
     })
     const [search, setSearch] = useState('')
-    useEffect(() => {
-        api.professions.fetchAll().then((data) => setProfessions(data))
-    }, [])
     useEffect(() => {
         setCurrentPage('1')
     }, [selectedProfession, search])

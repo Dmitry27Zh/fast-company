@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import LoginForm from '../components/ui/loginForm'
 import { useParams } from 'react-router-dom'
 import RegisterForm from '../components/ui/registerForm'
+import ProfessionsProvider from '../hooks/useProfessions'
 
 const Login = () => {
     let { type } = useParams()
@@ -43,13 +44,15 @@ const Login = () => {
     }
 
     return (
-        <div className="container mt-5">
-            <div className="row">
-                <div className="col-md-6 offset-md-3 shadow p-4">
-                    {renderForm()}
+        <ProfessionsProvider>
+            <div className="container mt-5">
+                <div className="row">
+                    <div className="col-md-6 offset-md-3 shadow p-4">
+                        {renderForm()}
+                    </div>
                 </div>
             </div>
-        </div>
+        </ProfessionsProvider>
     )
 }
 

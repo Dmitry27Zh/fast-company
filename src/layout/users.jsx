@@ -4,6 +4,7 @@ import UserPage from '../components/page/userPage/userPage'
 import UsersListPage from '../components/page/usersListPage'
 import EditPage from '../components/page/editPage/editPage'
 import UsersProvider from '../hooks/useUsers'
+import ProfessionsProvider from '../hooks/useProfessions'
 
 const Users = () => {
     const { id, edit } = useParams()
@@ -17,7 +18,7 @@ const Users = () => {
         }
     }
 
-    return <UsersProvider>{render()}</UsersProvider>
+    return <UsersProvider><ProfessionsProvider>{render()}</ProfessionsProvider></UsersProvider>
 }
 
 export default Users

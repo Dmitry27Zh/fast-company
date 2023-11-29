@@ -8,6 +8,7 @@ import SelectField from '../common/form/selectField'
 import RadioField from '../common/form/radioField'
 import MultiSelectField from '../common/form/multiSelectField'
 import * as yup from 'yup'
+import { useProfessions } from '../../hooks/useProfessions'
 
 const RegisterForm = () => {
     const [data, setData] = useState({
@@ -19,14 +20,13 @@ const RegisterForm = () => {
         license: false
     })
     const [errors, setErrors] = useState({})
-    const [professions, setProfessions] = useState()
+    const professions = useProfessions()
     const [qualities, setQualities] = useState()
     const { email, password, profession, sex } = data
     useEffect(() => {
         validate()
     }, [data])
     useEffect(() => {
-        API.professions.fetchAll().then((data) => setProfessions(data))
         API.qualities.fetchAll().then((data) => setQualities(data))
     }, [])
     const validateScheme = yup.object().shape({
