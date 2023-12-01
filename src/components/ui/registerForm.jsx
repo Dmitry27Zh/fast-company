@@ -57,7 +57,8 @@ const RegisterForm = () => {
         const isValid = await validate()
 
         if (isValid) {
-            console.log(data)
+            const newData = { ...data, qualities: data.qualities.map((quality) => quality.value) }
+            console.log(newData)
         }
     }
     const renderProfessionsSelect = () => {
