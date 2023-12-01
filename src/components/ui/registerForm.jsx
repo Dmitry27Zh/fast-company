@@ -9,6 +9,7 @@ import MultiSelectField from '../common/form/multiSelectField'
 import * as yup from 'yup'
 import { useProfessions } from '../../hooks/useProfessions'
 import { useQualities } from '../../hooks/useQualities'
+import { useAuth } from '../../hooks/useAuth'
 
 const RegisterForm = () => {
     const [data, setData] = useState({
@@ -22,6 +23,7 @@ const RegisterForm = () => {
     const [errors, setErrors] = useState({})
     const professions = useProfessions()
     const qualities = useQualities()
+    const { signUp } = useAuth()
     const { email, password, profession, sex } = data
     useEffect(() => {
         validate()
@@ -58,7 +60,7 @@ const RegisterForm = () => {
 
         if (isValid) {
             const newData = { ...data, qualities: data.qualities.map((quality) => quality.value) }
-            console.log(newData)
+            signUp(newData)
         }
     }
     const renderProfessionsSelect = () => {
