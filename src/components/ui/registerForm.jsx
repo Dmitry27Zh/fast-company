@@ -3,12 +3,12 @@ import TextField from '../common/form/textField'
 import CheckboxField from '../common/form/checkboxField'
 import { isObjEmpty } from '../../utils/object'
 import { ValidationValue } from '../../constants'
-import API from '../../api'
 import SelectField from '../common/form/selectField'
 import RadioField from '../common/form/radioField'
 import MultiSelectField from '../common/form/multiSelectField'
 import * as yup from 'yup'
 import { useProfessions } from '../../hooks/useProfessions'
+import { useQualities } from '../../hooks/useQualities'
 
 const RegisterForm = () => {
     const [data, setData] = useState({
@@ -21,14 +21,11 @@ const RegisterForm = () => {
     })
     const [errors, setErrors] = useState({})
     const professions = useProfessions()
-    const [qualities, setQualities] = useState()
+    const qualities = useQualities()
     const { email, password, profession, sex } = data
     useEffect(() => {
         validate()
     }, [data])
-    useEffect(() => {
-        API.qualities.fetchAll().then((data) => setQualities(data))
-    }, [])
     const validateScheme = yup.object().shape({
         email: yup.string().required('Email is required').email('Incorrect email'),
         password: yup.string().required('Password is required')
