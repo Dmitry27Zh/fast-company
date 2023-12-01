@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import axios from 'axios'
 
 const AuthContext = React.createContext()
+const httpAuth = axios.create()
 
 export const useAuth = () => {
     return useContext(AuthContext)
@@ -12,7 +13,7 @@ const AuthProvider = ({ children }) => {
     async function signUp({ email, password }) {
         const key = 'AIzaSyC5UlJfJXLHeeyYZRAL3fKf7GF4Efhf_PU'
         const url = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${key}`
-        const { data } = await axios.post(url, { email, password, returnSecureToken: true })
+        const { data } = await httpAuth.post(url, { email, password, returnSecureToken: true })
         console.log(data)
     }
 
@@ -20,7 +21,7 @@ const AuthProvider = ({ children }) => {
 }
 
 AuthProvider.propTypes = {
-    children: PropTypes.oneOfType(PropTypes.node, PropTypes.arrayOf(PropTypes.node))
+    children: PropTypes.oneOfType([PropTypes.node, PropTypes.arrayOf(PropTypes.node)])
 }
 
 export default AuthProvider
