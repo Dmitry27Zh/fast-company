@@ -10,6 +10,7 @@ import * as yup from 'yup'
 import { useProfessions } from '../../hooks/useProfessions'
 import { useQualities } from '../../hooks/useQualities'
 import { useAuth } from '../../hooks/useAuth'
+import { useNavigate } from 'react-router-dom'
 
 const RegisterForm = () => {
     const [data, setData] = useState({
@@ -24,6 +25,7 @@ const RegisterForm = () => {
     const professions = useProfessions()
     const qualities = useQualities()
     const { signUp } = useAuth()
+    const navigate = useNavigate()
     const { email, password, profession, sex } = data
     useEffect(() => {
         validate()
@@ -63,6 +65,7 @@ const RegisterForm = () => {
 
             try {
                 await signUp(newData)
+                navigate('/')
             } catch (e) {
                 setErrors((prevState) => ({ ...prevState, ...e }))
             }
