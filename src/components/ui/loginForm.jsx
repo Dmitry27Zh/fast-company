@@ -4,6 +4,8 @@ import CheckboxField from '../common/form/checkboxField'
 import { validator, getErrorMessageAtLeast } from '../../utils/validator'
 import { isObjEmpty } from '../../utils/object'
 import { ValidationValue } from '../../constants'
+import { useAuth } from '../../hooks/useAuth'
+import { useNavigate } from 'react-router-dom'
 
 const LoginForm = () => {
     const [data, setData] = useState({
@@ -12,6 +14,9 @@ const LoginForm = () => {
         stayOn: false
     })
     const [errors, setErrors] = useState({})
+    const [enterError, setEnterError] = useState(null)
+    const { signIn } = useAuth()
+    const navigate = useNavigate()
     const { email, password } = data
     useEffect(() => {
         validate()
@@ -54,13 +59,19 @@ const LoginForm = () => {
     }
     const handleChange = (change) => {
         setData((previousState) => ({ ...previousState, ...change }))
+        setEnterError(null)
     }
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault()
         const isValid = validate()
 
         if (isValid) {
-            console.log(data)
+            try {
+                await signIn(data)
+                navigate('/')
+            } catch (e) {
+                setEnterError(e.message)
+            }
         }
     }
 
@@ -84,10 +95,11 @@ const LoginForm = () => {
             <div className="mb-2">
                 <CheckboxField name="stayOn" value={data.stayOn} onChange={handleChange}>Stay on?</CheckboxField>
             </div>
+            {enterError && <p className='text-danger'>{enterError}</p>}
             <button
                 className="btn btn-primary w-100"
                 type="submit"
-                disabled={!isValid(errors)}
+                disabled={!isValid(errors) || enterError}
             >
                 Submit
             </button>

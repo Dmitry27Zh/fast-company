@@ -6,7 +6,12 @@ import usersService from '../services/users.service'
 import localStorageService from '../services/localStorage.service'
 
 const AuthContext = React.createContext()
-const httpAuth = axios.create()
+const httpAuth = axios.create({
+    baseURL: 'https://identitytoolkit.googleapis.com/v1/',
+    params: {
+        key: process.env.REACT_APP_FIREBASE_KEY
+    }
+})
 
 export const useAuth = () => {
     return useContext(AuthContext)
@@ -17,7 +22,7 @@ const AuthProvider = ({ children }) => {
     const [error, setError] = useState(null)
 
     async function signUp({ email, password, ...rest }) {
-        const url = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.REACT_APP_FIREBASE_KEY}`
+        const url = 'accounts:signUp'
 
         try {
             const { data } = await httpAuth.post(url, { email, password, returnSecureToken: true })
@@ -37,9 +42,39 @@ const AuthProvider = ({ children }) => {
             }
         }
     }
+    async function signIn({ email, password }) {
+        const url = 'accounts:signInWithPassword'
+
+        try {
+            const { data } = await httpAuth.post(url, { email, password, returnSecureToken: true })
+            localStorageService.setTokens(data)
+            await loadUser(data.localId)
+        } catch (e) {
+            const { code, message } = e.response.data.error
+
+            if (code === 400) {
+                if (message === 'INVALID_LOGIN_CREDENTIALS') {
+                    throw new Error('Incorrect login or password')
+                }
+                if (message.includes('TOO_MANY_ATTEMPTS_TRY_LATER')) {
+                    throw new Error('Too many attempts. Try later')
+                }
+            } else {
+                setError(e)
+            }
+        }
+    }
     async function createUser(data) {
         try {
             const { content } = await usersService.create(data)
+            setCurrentUser(content)
+        } catch (e) {
+            setError(e)
+        }
+    }
+    async function loadUser(id) {
+        try {
+            const { content } = await usersService.getById(id)
             setCurrentUser(content)
         } catch (e) {
             setError(e)
@@ -52,7 +87,7 @@ const AuthProvider = ({ children }) => {
         }
     }, [error])
 
-    return <AuthContext.Provider value={{ signUp, currentUser }}>{children}</AuthContext.Provider>
+    return <AuthContext.Provider value={{ signUp, signIn, currentUser }}>{children}</AuthContext.Provider>
 }
 
 AuthProvider.propTypes = {
