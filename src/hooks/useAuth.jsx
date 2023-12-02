@@ -25,7 +25,16 @@ const AuthProvider = ({ children }) => {
             const user = { _id: data.localId, email, ...rest }
             await createUser(user)
         } catch (e) {
-            setError(e)
+            const { code, message } = e.response.data.error
+
+            if (code === 400) {
+                if (message === 'EMAIL_EXISTS') {
+                    const error = { email: 'User with this email already exists' }
+                    throw error
+                }
+            } else {
+                setError(e)
+            }
         }
     }
     async function createUser(data) {

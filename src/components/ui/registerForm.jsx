@@ -60,7 +60,12 @@ const RegisterForm = () => {
 
         if (isValid) {
             const newData = { ...data, qualities: data.qualities.map((quality) => quality.value) }
-            signUp(newData)
+
+            try {
+                await signUp(newData)
+            } catch (e) {
+                setErrors((prevState) => ({ ...prevState, ...e }))
+            }
         }
     }
     const renderProfessionsSelect = () => {
