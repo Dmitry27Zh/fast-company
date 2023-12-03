@@ -10,6 +10,7 @@ import AuthProvider from './hooks/useAuth'
 import UsersProvider from './hooks/useUsers'
 import ProfessionsProvider from './hooks/useProfessions'
 import QualitiesProvider from './hooks/useQualities'
+import ProtectedRoute from './components/common/protectedRoute'
 
 const App = () => {
     return (
@@ -23,7 +24,7 @@ const App = () => {
                                 <Routes>
                                     <Route path="/" element={<Main />} />
                                     <Route path="/login/:type?" element={<Login />} />
-                                    <Route path="/users/:id?/:edit?" element={<Users />} />
+                                    <Route path="/users/:id?/:edit?" element={<ProtectedRoute><Users /></ProtectedRoute>} />
                                     <Route path="*" element={<Navigate to="/" />} />
                                 </Routes>
                             </div>
