@@ -18,6 +18,7 @@ const RegisterForm = () => {
         password: '',
         profession: '',
         sex: 'male',
+        name: '',
         qualities: [],
         license: false
     })
@@ -26,12 +27,14 @@ const RegisterForm = () => {
     const qualities = useQualities()
     const { signUp } = useAuth()
     const navigate = useNavigate()
-    const { email, password, profession, sex } = data
+    const { email, password, profession, sex, name } = data
     useEffect(() => {
         validate()
     }, [data])
     const validateScheme = yup.object().shape({
         email: yup.string().required('Email is required').email('Incorrect email'),
+        name: yup.string().required('Name is required')
+            .matches(/.{3,}/, 'Name should contain minimum 3 symbols'),
         password: yup.string().required('Password is required')
             .matches(/[A-Z]/, 'Password should contain one uppercase letter at least')
             .matches(/\d/, 'Password should contain one digit at least')
@@ -103,6 +106,13 @@ const RegisterForm = () => {
                 value={email}
                 onChange={handleChange}
                 error={errors.email}
+            />
+            <TextField
+                label="Name"
+                name="name"
+                value={name}
+                onChange={handleChange}
+                error={errors.name}
             />
             <TextField
                 type="password"
