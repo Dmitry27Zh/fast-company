@@ -1,15 +1,32 @@
 import axios from 'axios'
 import { toast } from 'react-toastify'
 import configFile from '../config.json'
+import localStorageService from './localStorage.service'
+import { httpAuth } from '../hooks/useAuth'
 
 const http = axios.create({
     baseURL: configFile.apiEndpoint
 })
 
 http.interceptors.request.use(
-    function (config) {
+    async function (config) {
         if (configFile.isFireBase) {
             config.url = `${config.url.replace(/\/$/, '')}.json`
+            const isExpired = localStorageService.getExpiresToken() < Date.now()
+            const refreshToken = localStorageService.getRefreshToken()
+
+            if (refreshToken && isExpired) {
+                const { data } = await httpAuth.post('token', {
+                    grant_type: 'refresh_token',
+                    refresh_token: refreshToken
+                })
+                localStorageService.setTokens({
+                    refreshToken: data.refresh_token,
+                    idToken: data.id_token,
+                    localId: data.local_id,
+                    expiresIn: data.expires_in
+                })
+            }
         }
 
         return config
@@ -20,10 +37,13 @@ http.interceptors.request.use(
 )
 
 const transformData = (data) => {
+    if (!data) {
+        return []
+    }
     if ('_id' in data) {
         return data
     } else {
-        return data ? Object.values(data) : []
+        return Object.values(data)
     }
 }
 
