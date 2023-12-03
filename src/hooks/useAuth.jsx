@@ -90,7 +90,7 @@ const AuthProvider = ({ children }) => {
     }, [error])
     useEffect(() => {
         if (localStorageService.getAccessToken()) {
-            loadUser()
+            loadUser(localStorageService.getUserId())
         }
     }, [])
 
