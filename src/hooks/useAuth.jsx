@@ -4,6 +4,7 @@ import axios from 'axios'
 import { toast } from 'react-toastify'
 import usersService from '../services/users.service'
 import localStorageService from '../services/localStorage.service'
+import { getRandomInteger } from '../utils'
 
 const AuthContext = React.createContext()
 const httpAuth = axios.create({
@@ -27,7 +28,8 @@ const AuthProvider = ({ children }) => {
         try {
             const { data } = await httpAuth.post(url, { email, password, returnSecureToken: true })
             localStorageService.setTokens(data)
-            const user = { _id: data.localId, email, ...rest }
+
+            const user = { _id: data.localId, email, rate: getRandomInteger(1, 5), completedMeetings: getRandomInteger(0, 200), ...rest }
             await createUser(user)
         } catch (e) {
             const { code, message } = e.response.data.error
