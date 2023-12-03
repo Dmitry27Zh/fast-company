@@ -88,6 +88,11 @@ const AuthProvider = ({ children }) => {
             setError(null)
         }
     }, [error])
+    useEffect(() => {
+        if (localStorageService.getAccessToken()) {
+            loadUser()
+        }
+    }, [])
 
     return <AuthContext.Provider value={{ signUp, signIn, currentUser }}>{children}</AuthContext.Provider>
 }
