@@ -20,7 +20,11 @@ http.interceptors.request.use(
 )
 
 const transformData = (data) => {
-    return data ? Object.values(data) : []
+    if ('_id' in data) {
+        return data
+    } else {
+        return data ? Object.values(data) : []
+    }
 }
 
 http.interceptors.response.use(
