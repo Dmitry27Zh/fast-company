@@ -5,7 +5,7 @@ import { validator, getErrorMessageAtLeast } from '../../utils/validator'
 import { isObjEmpty } from '../../utils/object'
 import { ValidationValue } from '../../constants'
 import { useAuth } from '../../hooks/useAuth'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 const LoginForm = () => {
     const [data, setData] = useState({
@@ -16,6 +16,7 @@ const LoginForm = () => {
     const [errors, setErrors] = useState({})
     const [enterError, setEnterError] = useState(null)
     const { signIn } = useAuth()
+    const location = useLocation()
     const navigate = useNavigate()
     const { email, password } = data
     useEffect(() => {
@@ -68,7 +69,7 @@ const LoginForm = () => {
         if (isValid) {
             try {
                 await signIn(data)
-                navigate('/')
+                navigate(location.state?.from ?? '/')
             } catch (e) {
                 setEnterError(e.message)
             }
