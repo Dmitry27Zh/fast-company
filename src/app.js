@@ -10,27 +10,30 @@ import AuthProvider from './hooks/useAuth'
 import ProfessionsProvider from './hooks/useProfessions'
 import QualitiesProvider from './hooks/useQualities'
 import ProtectedRoute from './components/common/protectedRoute'
+import Logout from './layout/logout'
 
 const App = () => {
     return (
-        <AuthProvider>
-            <QualitiesProvider>
-                <ProfessionsProvider>
-                    <BrowserRouter>
+        <BrowserRouter>
+            <AuthProvider>
+                <QualitiesProvider>
+                    <ProfessionsProvider>
+
                         <div className="container">
                             <Navigation />
                             <Routes>
                                 <Route path="/" element={<Main />} />
                                 <Route path="/login/:type?" element={<Login />} />
+                                <Route path="/logout" element={<Logout />} />
                                 <Route path="/users/:id?/:edit?" element={<ProtectedRoute><Users /></ProtectedRoute>} />
                                 <Route path="*" element={<Navigate to="/" />} />
                             </Routes>
                         </div>
                         <ToastContainer/>
-                    </BrowserRouter>
-                </ProfessionsProvider>
-            </QualitiesProvider>
-        </AuthProvider>
+                    </ProfessionsProvider>
+                </QualitiesProvider>
+            </AuthProvider>
+        </BrowserRouter>
     )
 }
 

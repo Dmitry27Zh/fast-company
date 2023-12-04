@@ -5,6 +5,7 @@ import { toast } from 'react-toastify'
 import usersService from '../services/users.service'
 import localStorageService from '../services/localStorage.service'
 import { getRandomInteger } from '../utils'
+import { useNavigate } from 'react-router-dom'
 
 const AuthContext = React.createContext()
 export const httpAuth = axios.create({
@@ -22,6 +23,7 @@ const AuthProvider = ({ children }) => {
     const [currentUser, setCurrentUser] = useState()
     const [isLoading, setIsLoading] = useState(true)
     const [error, setError] = useState(null)
+    const navigate = useNavigate()
 
     async function signUp({ email, password, ...rest }) {
         const url = 'accounts:signUp'
@@ -67,6 +69,11 @@ const AuthProvider = ({ children }) => {
             }
         }
     }
+    function logOut() {
+        localStorageService.removeAuthData()
+        setCurrentUser(null)
+        navigate('/')
+    }
     async function createUser(data) {
         try {
             const { content } = await usersService.create(data)
@@ -99,7 +106,7 @@ const AuthProvider = ({ children }) => {
         }
     }, [])
 
-    return <AuthContext.Provider value={{ signUp, signIn, currentUser }}>{isLoading ? 'loading...' : children}</AuthContext.Provider>
+    return <AuthContext.Provider value={{ signUp, signIn, logOut, currentUser }}>{isLoading ? 'loading...' : children}</AuthContext.Provider>
 }
 
 AuthProvider.propTypes = {
