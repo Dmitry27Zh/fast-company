@@ -41,6 +41,9 @@ const UsersProvider = ({ children }) => {
             setIsLoading(false)
         }
     }
+    function getUserById(id) {
+        return users.find((user) => user._id === id)
+    }
     useEffect(() => {
         if (currentUser) {
             getUsers()
@@ -54,7 +57,7 @@ const UsersProvider = ({ children }) => {
     }, [error])
 
     return (
-        <UsersContext.Provider value={users}>{isLoading ? 'loading...' : children}</UsersContext.Provider>
+        <UsersContext.Provider value={{ users, getUserById }}>{isLoading ? 'loading...' : children}</UsersContext.Provider>
     )
 }
 
