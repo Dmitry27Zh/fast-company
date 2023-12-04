@@ -32,7 +32,18 @@ const AuthProvider = ({ children }) => {
             const { data } = await httpAuth.post(url, { email, password, returnSecureToken: true })
             localStorageService.setTokens(data)
 
-            const user = { _id: data.localId, email, rate: getRandomInteger(1, 5), completedMeetings: getRandomInteger(0, 200), ...rest }
+            const user = {
+                _id: data.localId,
+                email,
+                rate: getRandomInteger(1, 5),
+                completedMeetings: getRandomInteger(0, 200),
+                image: `https://api.dicebear.com/7.x/avataaars/svg?seed=${(
+                    Math.random() + 1
+                )
+                    .toString(36)
+                    .substring(7)}.svg`,
+                ...rest
+            }
             await createUser(user)
         } catch (e) {
             const { code, message } = e.response.data.error
