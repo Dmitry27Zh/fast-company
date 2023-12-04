@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import UserPage from '../components/page/userPage/userPage'
 import UsersListPage from '../components/page/usersListPage'
 import EditPage from '../components/page/editPage/editPage'
+import UsersProvider from '../hooks/useUsers'
 
 const Users = () => {
     const { id, edit } = useParams()
@@ -16,7 +17,7 @@ const Users = () => {
         }
     }
 
-    return render()
+    return <UsersProvider>{render()}</UsersProvider>
 }
 
 export default Users

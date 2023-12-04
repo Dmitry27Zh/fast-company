@@ -7,7 +7,6 @@ import Main from './layout/main'
 import Login from './layout/login'
 import Users from './layout/users'
 import AuthProvider from './hooks/useAuth'
-import UsersProvider from './hooks/useUsers'
 import ProfessionsProvider from './hooks/useProfessions'
 import QualitiesProvider from './hooks/useQualities'
 import ProtectedRoute from './components/common/protectedRoute'
@@ -17,20 +16,18 @@ const App = () => {
         <AuthProvider>
             <QualitiesProvider>
                 <ProfessionsProvider>
-                    <UsersProvider>
-                        <BrowserRouter>
-                            <div className="container">
-                                <Navigation />
-                                <Routes>
-                                    <Route path="/" element={<Main />} />
-                                    <Route path="/login/:type?" element={<Login />} />
-                                    <Route path="/users/:id?/:edit?" element={<ProtectedRoute><Users /></ProtectedRoute>} />
-                                    <Route path="*" element={<Navigate to="/" />} />
-                                </Routes>
-                            </div>
-                            <ToastContainer/>
-                        </BrowserRouter>
-                    </UsersProvider>
+                    <BrowserRouter>
+                        <div className="container">
+                            <Navigation />
+                            <Routes>
+                                <Route path="/" element={<Main />} />
+                                <Route path="/login/:type?" element={<Login />} />
+                                <Route path="/users/:id?/:edit?" element={<ProtectedRoute><Users /></ProtectedRoute>} />
+                                <Route path="*" element={<Navigate to="/" />} />
+                            </Routes>
+                        </div>
+                        <ToastContainer/>
+                    </BrowserRouter>
                 </ProfessionsProvider>
             </QualitiesProvider>
         </AuthProvider>
