@@ -1,24 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import api from '../../../api'
 import UserCard from '../../ui/userCard'
 import QualitiesCard from '../../ui/qualitiesCard'
 import MeetingsCard from '../../ui/meetingsCard'
 import Comments from '../../ui/comments'
+import { useUsers } from '../../../hooks/useUsers'
 
 const UserPage = (props) => {
     const { id } = props
-    const [user, setUser] = useState()
-
-    useEffect(() => {
-        api.users.getUserById(id).then((data) => {
-            setUser(data)
-        })
-    }, [])
-
-    if (!user) {
-        return 'Loading...'
-    }
+    const { getUserById } = useUsers()
+    const user = getUserById(id)
 
     return (
         <div className="container">
