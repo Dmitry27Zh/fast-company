@@ -8,7 +8,7 @@ import Table from '../common/table/table'
 import { Link } from 'react-router-dom'
 
 const UsersTable = (props) => {
-    const { users, currentSort, onSort, onBookmark, onDelete, ...rest } = props
+    const { users, currentSort, onSort, onBookmark, ...rest } = props
 
     const heads = {
         name: {
@@ -46,7 +46,7 @@ const UsersTable = (props) => {
                     <button
                         className="btn btn-danger"
                         type="button"
-                        onClick={() => onDelete(_id)}
+                        onClick={() => console.log('delete', _id)}
                     >
                         Delete
                     </button>
@@ -71,8 +71,7 @@ UsersTable.propTypes = {
     users: PropTypes.array.isRequired,
     currentSort: PropTypes.object.isRequired,
     onSort: PropTypes.func.isRequired,
-    onBookmark: PropTypes.func.isRequired,
-    onDelete: PropTypes.func.isRequired
+    onBookmark: PropTypes.func.isRequired
 }
 
 export default UsersTable

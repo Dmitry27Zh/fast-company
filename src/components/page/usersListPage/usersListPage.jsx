@@ -11,7 +11,7 @@ import { useUsers } from '../../../hooks/useUsers'
 import { useProfessions } from '../../../hooks/useProfessions'
 
 const UsersListPage = () => {
-    const users = useUsers()
+    const { users } = useUsers()
     const professions = useProfessions()
     const [selectedProfession, setSelectedProfession] = useState()
     const [currentPage, setCurrentPage] = useState('1')
@@ -61,9 +61,6 @@ const UsersListPage = () => {
     const handleFilterCancel = () => {
         setSelectedProfession()
     }
-    const handleDelete = (id) => {
-        console.log('Delete', id)
-    }
     const handleBookmark = (id) => {
         const newUsers = users.map((user) => {
             if (user._id === id) {
@@ -88,7 +85,6 @@ const UsersListPage = () => {
                 <UsersTable
                     users={usersToRender}
                     currentSort={sortBy}
-                    onDelete={handleDelete}
                     onBookmark={handleBookmark}
                     onSort={handleSort}
                 />
