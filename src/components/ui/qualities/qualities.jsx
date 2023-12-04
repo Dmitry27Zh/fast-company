@@ -5,7 +5,7 @@ import Badge from '../../badge'
 const Qualities = ({ data }) => {
     return (
         <div>
-            {data.map((item, index) => (
+            {data?.map((item, index) => (
                 <Badge key={index} {...item}></Badge>
             ))}
         </div>
