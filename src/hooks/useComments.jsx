@@ -18,6 +18,16 @@ const CommentsProvider = ({ children }) => {
     const [error, setError] = useState(null)
     const { userId } = useParams()
     const { currentUser } = useAuth()
+    async function getComments() {
+        try {
+            const { content } = await commentService.getComments(userId)
+            setComments(content)
+        } catch (e) {
+            setError(e)
+        } finally {
+            setIsLoading(false)
+        }
+    }
     async function createComment(data) {
         const comment = {
             ...data,
@@ -32,6 +42,9 @@ const CommentsProvider = ({ children }) => {
             setError(e)
         }
     }
+    useEffect(() => {
+        getComments()
+    }, [])
     useEffect(() => {
         if (error !== null) {
             toast(error.message)
