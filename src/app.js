@@ -25,7 +25,7 @@ const App = () => {
                                 <Route path="/" element={<Main />} />
                                 <Route path="/login/:type?" element={<Login />} />
                                 <Route path="/logout" element={<Logout />} />
-                                <Route path="/users/:id?/:edit?" element={<ProtectedRoute><Users /></ProtectedRoute>} />
+                                <Route path="/users/:userId?/:edit?" element={<ProtectedRoute><Users /></ProtectedRoute>} />
                                 <Route path="*" element={<Navigate to="/" />} />
                             </Routes>
                         </div>

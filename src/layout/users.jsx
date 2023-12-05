@@ -6,12 +6,12 @@ import EditPage from '../components/page/editPage/editPage'
 import UsersProvider from '../hooks/useUsers'
 
 const Users = () => {
-    const { id, edit } = useParams()
+    const { userId, edit } = useParams()
     const render = () => {
         if (edit) {
-            return <EditPage id={id} />
-        } else if (id) {
-            return <UserPage id={id} />
+            return <EditPage id={userId} />
+        } else if (userId) {
+            return <UserPage id={userId} />
         } else {
             return <UsersListPage />
         }
