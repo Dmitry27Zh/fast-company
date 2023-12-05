@@ -1,8 +1,10 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { useParams } from 'react-router-dom'
-import { useAuth } from '../hooks/useAuth'
+import { toast } from 'react-toastify'
 import { nanoid } from 'nanoid'
+import { useAuth } from '../hooks/useAuth'
+import commentService from '../services/comment.service'
 
 const CommentsContext = React.createContext()
 
@@ -24,7 +26,18 @@ const CommentsProvider = ({ children }) => {
             userId: currentUser._id,
             created_at: Date.now()
         }
+        try {
+            const { content } = await commentService.createComment(comment)
+        } catch (e) {
+            setError(e)
+        }
     }
+    useEffect(() => {
+        if (error !== null) {
+            toast(error.message)
+            setError(null)
+        }
+    }, [error])
 
     return <CommentsContext.Provider value={{ comments, createComment }}>{children}</CommentsContext.Provider>
 }
