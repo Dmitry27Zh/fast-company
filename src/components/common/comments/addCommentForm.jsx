@@ -1,19 +1,14 @@
-import React, { useEffect, useState } from 'react'
-import PropTypes from 'prop-types'
+import React, { useState } from 'react'
 import { validator } from '../../../utils/validator'
-import api from '../../../api'
-import SelectField from '../../common/form/selectField'
 import TextAreaField from '../../common/form/textAreaField'
+import { useComments } from '../../../hooks/useComments'
 
-const initialData = { userId: '', content: '' }
+const initialData = { content: '' }
 
-export const AddCommentForm = ({ onSubmit }) => {
+export const AddCommentForm = () => {
     const [data, setData] = useState(initialData)
-    const [users, setUsers] = useState({})
     const [errors, setErrors] = useState({})
-    useEffect(() => {
-        api.users.fetchAll().then(setUsers)
-    }, [])
+    const { createComment } = useComments()
     const handleChange = (change) => {
         setData((prevState) => ({
             ...prevState,
@@ -21,11 +16,6 @@ export const AddCommentForm = ({ onSubmit }) => {
         }))
     }
     const validatorConfig = {
-        userId: {
-            isRequired: {
-                message: 'Выберите от чьего имени вы хотите отправить сообщение'
-            }
-        },
         content: {
             isRequired: {
                 message: 'Сообщение не может быть пустым'
@@ -47,37 +37,15 @@ export const AddCommentForm = ({ onSubmit }) => {
         const isValid = validate()
 
         if (isValid) {
-            onSubmit(data)
+            createComment(data)
             clearForm()
         }
     }
-    const usersSelectOptions = Object.keys(users)?.map((userId) => {
-        const user = users[userId]
-
-        return {
-            name: user.name,
-            value: user._id,
-            _id: user._id
-        }
-    })
 
     return (
         <div>
             <h2>New comment</h2>
             <form onSubmit={handleSubmit}>
-                <div className="mb-4">
-                    <SelectField
-                        onChange={handleChange}
-                        options={usersSelectOptions}
-                        name="userId"
-                        value={data.userId}
-                        defaultOption={{
-                            name: 'Выберите пользователя',
-                            value: ''
-                        }}
-                        errors={errors.userId}
-                    />
-                </div>
                 <TextAreaField
                     value={data.content}
                     onChange={handleChange}
@@ -91,8 +59,4 @@ export const AddCommentForm = ({ onSubmit }) => {
             </form>
         </div>
     )
-}
-
-AddCommentForm.propTypes = {
-    onSubmit: PropTypes.func
 }

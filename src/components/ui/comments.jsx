@@ -12,11 +12,6 @@ const Comments = () => {
             .fetchCommentsForUser(userId)
             .then((data) => setComments(data))
     }, [])
-    const handleSubmit = (data) => {
-        api.comments
-            .add({ ...data, pageId: userId })
-            .then((data) => setComments(data))
-    }
     const handleRemove = (id) => {
         api.comments.remove(id).then((id) => {
             setComments(comments.filter((comment) => comment.id !== id))
@@ -44,7 +39,7 @@ const Comments = () => {
         <>
             <div className="card mb-2">
                 <div className="card-body">
-                    <AddCommentForm onSubmit={handleSubmit} />
+                    <AddCommentForm />
                 </div>
             </div>
             {renderCommentsList()}
