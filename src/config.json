@@ -3,5 +3,6 @@
     "usersEndpoint": "user/",
     "professionsEndpoint": "profession/",
     "qualitiesEndpoint": "quality/",
+    "commentEndpoint": "comment/",
     "isFireBase": true
 }
