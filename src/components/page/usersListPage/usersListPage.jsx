@@ -9,8 +9,10 @@ import _ from 'lodash'
 import Search from '../../search'
 import { useUsers } from '../../../hooks/useUsers'
 import { useProfessions } from '../../../hooks/useProfessions'
+import { useAuth } from '../../../hooks/useAuth'
 
 const UsersListPage = () => {
+    const { currentUser } = useAuth()
     const { users } = useUsers()
     const professions = useProfessions()
     const [selectedProfession, setSelectedProfession] = useState()
@@ -31,7 +33,7 @@ const UsersListPage = () => {
     const searchUsers = () =>
         users.filter(({ name }) => new RegExp(search, 'i').test(name))
     const filterUsers = () => {
-        return selectedProfession
+        const result = selectedProfession
             ? searchedUsers.filter((user) => {
                 return (
                     JSON.stringify(user.profession) ===
@@ -39,6 +41,8 @@ const UsersListPage = () => {
                 )
             })
             : searchedUsers
+
+        return result.filter((user) => user._id !== currentUser._id)
     }
     const sortUsers = () =>
         _.orderBy(filteredUsers, [sortBy.iter], [sortBy.order])
