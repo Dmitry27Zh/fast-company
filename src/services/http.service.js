@@ -23,7 +23,7 @@ http.interceptors.request.use(
                 localStorageService.setTokens({
                     refreshToken: data.refresh_token,
                     idToken: data.id_token,
-                    localId: data.local_id,
+                    localId: data.user_id,
                     expiresIn: data.expires_in
                 })
             }
