@@ -1,14 +1,13 @@
 import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 import { validator } from '../../../utils/validator'
 import TextAreaField from '../../common/form/textAreaField'
-import { useComments } from '../../../hooks/useComments'
 
 const initialData = { content: '' }
 
-export const AddCommentForm = () => {
+export const AddCommentForm = ({ onSubmit }) => {
     const [data, setData] = useState(initialData)
     const [errors, setErrors] = useState({})
-    const { createComment } = useComments()
     const handleChange = (change) => {
         setData((prevState) => ({
             ...prevState,
@@ -37,7 +36,7 @@ export const AddCommentForm = () => {
         const isValid = validate()
 
         if (isValid) {
-            createComment(data)
+            onSubmit(data)
             clearForm()
         }
     }
@@ -59,4 +58,8 @@ export const AddCommentForm = () => {
             </form>
         </div>
     )
+}
+
+AddCommentForm.propTypes = {
+    onSubmit: PropTypes.func
 }

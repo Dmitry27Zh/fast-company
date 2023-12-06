@@ -3,15 +3,20 @@ import { useParams } from 'react-router-dom'
 import { orderBy } from 'lodash'
 import api from '../../api'
 import CommentsList, { AddCommentForm } from '../common/comments'
+import { useComments } from '../../hooks/useComments'
 
 const Comments = () => {
     const { userId } = useParams()
     const [comments, setComments] = useState([])
+    const { createComment } = useComments()
     useEffect(() => {
         api.comments
             .fetchCommentsForUser(userId)
             .then((data) => setComments(data))
     }, [])
+    const handleAdd = (data) => {
+        createComment(data)
+    }
     const handleRemove = (id) => {
         api.comments.remove(id).then((id) => {
             setComments(comments.filter((comment) => comment.id !== id))
@@ -39,7 +44,7 @@ const Comments = () => {
         <>
             <div className="card mb-2">
                 <div className="card-body">
-                    <AddCommentForm />
+                    <AddCommentForm onSubmit={handleAdd} />
                 </div>
             </div>
             {renderCommentsList()}
