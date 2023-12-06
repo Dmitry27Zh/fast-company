@@ -43,6 +43,14 @@ const CommentsProvider = ({ children }) => {
             setError(e)
         }
     }
+    async function removeComment(id) {
+        try {
+            await commentService.removeComment(id)
+            setComments((prevState) => prevState.filter((comment) => comment._id !== id))
+        } catch (e) {
+            setError(e)
+        }
+    }
     useEffect(() => {
         getComments()
     }, [userId])
@@ -53,7 +61,7 @@ const CommentsProvider = ({ children }) => {
         }
     }, [error])
 
-    return <CommentsContext.Provider value={{ comments, isLoading, createComment }}>{children}</CommentsContext.Provider>
+    return <CommentsContext.Provider value={{ comments, isLoading, createComment, removeComment }}>{children}</CommentsContext.Provider>
 }
 
 CommentsProvider.propTypes = {
