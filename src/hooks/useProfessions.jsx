@@ -33,7 +33,7 @@ const ProfessionsProvider = ({ children }) => {
         }
     }, [error])
 
-    return <ProfessionsContext.Provider value={professions}>{isLoading ? 'loading...' : children}</ProfessionsContext.Provider>
+    return <ProfessionsContext.Provider value={{ professions }}>{isLoading ? 'loading...' : children}</ProfessionsContext.Provider>
 }
 
 ProfessionsProvider.propTypes = {

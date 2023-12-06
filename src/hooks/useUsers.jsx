@@ -13,8 +13,8 @@ export const useUsers = () => {
 }
 
 const UsersProvider = ({ children }) => {
-    const qualities = useQualities()
-    const professions = useProfessions()
+    const { qualities } = useQualities()
+    const { professions } = useProfessions()
     const [users, setUsers] = useState([])
     const [error, setError] = useState(null)
     const [isLoading, setIsLoading] = useState(true)

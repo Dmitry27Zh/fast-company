@@ -33,7 +33,7 @@ const QualitiesProvider = ({ children }) => {
         }
     }, [error])
 
-    return <QualitiesContext.Provider value={qualities}>{isLoading ? 'loading...' : children}</QualitiesContext.Provider>
+    return <QualitiesContext.Provider value={{ qualities }}>{isLoading ? 'loading...' : children}</QualitiesContext.Provider>
 }
 
 QualitiesProvider.propTypes = {

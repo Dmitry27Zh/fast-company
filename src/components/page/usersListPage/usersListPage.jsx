@@ -14,7 +14,7 @@ import { useAuth } from '../../../hooks/useAuth'
 const UsersListPage = () => {
     const { currentUser } = useAuth()
     const { users } = useUsers()
-    const professions = useProfessions()
+    const { professions } = useProfessions()
     const [selectedProfession, setSelectedProfession] = useState()
     const [currentPage, setCurrentPage] = useState('1')
     const [sortBy, setSortBy] = useState({

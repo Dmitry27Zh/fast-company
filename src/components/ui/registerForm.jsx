@@ -23,8 +23,8 @@ const RegisterForm = () => {
         license: false
     })
     const [errors, setErrors] = useState({})
-    const professions = useProfessions()
-    const qualities = useQualities()
+    const { professions } = useProfessions()
+    const { qualities } = useQualities()
     const { signUp } = useAuth()
     const navigate = useNavigate()
     const { email, password, profession, sex, name } = data
