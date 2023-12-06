@@ -16,6 +16,11 @@ const commentService = {
         const { data } = await httpService.put(`${configFile.commentEndpoint}${comment._id}`, comment)
 
         return data
+    },
+    removeComment: async (id) => {
+        const { data } = await httpService.delete(`${configFile.commentEndpoint}${id}`)
+
+        return data
     }
 }
 
