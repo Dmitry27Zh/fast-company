@@ -16,7 +16,7 @@ const EditForm = ({ user }) => {
         email: user.email,
         profession: user.profession._id,
         sex: user.sex,
-        qualities: user.qualities
+        qualities: user.qualities ?? []
     })
     const [errors, setErrors] = useState({})
     const { professions } = useProfessions()
@@ -68,22 +68,20 @@ const EditForm = ({ user }) => {
         }
     }
     const renderProfessionsSelect = () => {
-        if (!professions) {
-            return
+        if (professions) {
+            return (
+                <div className="mb-4">
+                    <SelectField
+                        label="Profession"
+                        name="profession"
+                        value={data.profession}
+                        onChange={handleChange}
+                        options={professions}
+                        error={errors.profession}
+                    />
+                </div>
+            )
         }
-
-        return (
-            <div className="mb-4">
-                <SelectField
-                    label="Profession"
-                    name="profession"
-                    value={data.profession}
-                    onChange={handleChange}
-                    options={professions}
-                    error={errors.profession}
-                />
-            </div>
-        )
     }
     const renderQualitiesSelect = () => {
         if (qualities) {
