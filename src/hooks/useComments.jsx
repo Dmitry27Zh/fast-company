@@ -52,7 +52,7 @@ const CommentsProvider = ({ children }) => {
         }
     }, [error])
 
-    return <CommentsContext.Provider value={{ comments, createComment }}>{children}</CommentsContext.Provider>
+    return <CommentsContext.Provider value={{ comments, isLoading, createComment }}>{children}</CommentsContext.Provider>
 }
 
 CommentsProvider.propTypes = {
