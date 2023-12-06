@@ -4,12 +4,12 @@ import CommentsList, { AddCommentForm } from '../common/comments'
 import { useComments } from '../../hooks/useComments'
 
 const Comments = () => {
-    const { comments, createComment } = useComments()
+    const { comments, createComment, removeComment } = useComments()
     const handleAdd = (data) => {
         createComment(data)
     }
     const handleRemove = (id) => {
-        console.log('remove', id)
+        removeComment(id)
     }
     const sortedComments = orderBy(comments, ['created_at'], ['desc'])
     const renderCommentsList = () => {
