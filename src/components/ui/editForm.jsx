@@ -1,28 +1,28 @@
 import React, { useState, useEffect } from 'react'
 import TextField from '../common/form/textField'
 import { isObjEmpty } from '../../utils/object'
-import API from '../../api'
 import SelectField from '../common/form/selectField'
 import RadioField from '../common/form/radioField'
 import MultiSelectField from '../common/form/multiSelectField'
 import * as yup from 'yup'
 import PropTypes from 'prop-types'
 import { useNavigate } from 'react-router-dom'
+import { useProfessions } from '../../hooks/useProfessions'
+import { useQualities } from '../../hooks/useQualities'
 
-const EditForm = (props) => {
-    const { _id, name, email, profession, sex, qualities } = props
+const EditForm = ({ user }) => {
     const [data, setData] = useState({
-        name,
-        email,
-        profession: profession._id,
-        sex,
-        qualities
+        name: user.name,
+        email: user.email,
+        profession: user.profession._id,
+        sex: user.sex,
+        qualities: user.qualities
     })
     const [errors, setErrors] = useState({})
-    const [professions, setProfessions] = useState()
-    const [allQualities, setAllQualities] = useState()
+    const { professions } = useProfessions()
+    const { qualities } = useQualities()
     const getQualities = () => {
-        return Object.values(allQualities).filter(({ _id }) => data.qualities.some((quality) => _id === quality.value))
+        return Object.values(professions).filter(({ _id }) => data.qualities.some((quality) => _id === quality.value))
     }
     const getProfession = () => {
         return Object.values(professions).find((profession) => profession._id === data.profession)
@@ -31,10 +31,6 @@ const EditForm = (props) => {
     useEffect(() => {
         validate()
     }, [data])
-    useEffect(() => {
-        API.professions.fetchAll().then((data) => setProfessions(data))
-        API.qualities.fetchAll().then((data) => setAllQualities(data))
-    }, [])
     const validateScheme = yup.object().shape({
         name: yup.string().required('Name is reuqired'),
         email: yup.string().required('Email is required').email('Incorrect email'),
@@ -67,7 +63,8 @@ const EditForm = (props) => {
                 qualities,
                 profession
             }
-            API.users.update(_id, newUser).then(() => navigate(`/users/${_id}`))
+            console.log('update user', user._id, newUser)
+            navigate(`/users/${user._id}`)
         }
     }
     const renderProfessionsSelect = () => {
@@ -89,8 +86,8 @@ const EditForm = (props) => {
         )
     }
     const renderQualitiesSelect = () => {
-        if (allQualities) {
-            return <MultiSelectField name="qualities" options={allQualities} value={data.qualities} onChange={handleChange} />
+        if (qualities) {
+            return <MultiSelectField name="qualities" options={qualities} value={data.qualities} onChange={handleChange} />
         }
     }
 
@@ -134,12 +131,7 @@ EditForm.defaultProps = {
 }
 
 EditForm.propTypes = {
-    _id: PropTypes.string,
-    name: PropTypes.string,
-    email: PropTypes.string,
-    profession: PropTypes.object,
-    sex: PropTypes.string,
-    qualities: PropTypes.array
+    user: PropTypes.object
 }
 
 export default EditForm
