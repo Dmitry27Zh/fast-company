@@ -45,7 +45,7 @@ const CommentsProvider = ({ children }) => {
     }
     useEffect(() => {
         getComments()
-    }, [])
+    }, [userId])
     useEffect(() => {
         if (error !== null) {
             toast(error.message)
