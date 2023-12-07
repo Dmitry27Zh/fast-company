@@ -64,7 +64,7 @@ const AuthProvider = ({ children }) => {
         try {
             const { data } = await httpAuth.post(url, { email, password, returnSecureToken: true })
             localStorageService.setTokens(data)
-            await loadUser(data.localId)
+            await loadUser()
         } catch (e) {
             const { code, message } = e.response.data.error
 
@@ -93,9 +93,9 @@ const AuthProvider = ({ children }) => {
             setError(e)
         }
     }
-    async function loadUser(id) {
+    async function loadUser() {
         try {
-            const { content } = await usersService.getById(id)
+            const { content } = await usersService.getById(localStorageService.getUserId())
             setCurrentUser(content)
         } catch (e) {
             setError(e)
@@ -103,9 +103,9 @@ const AuthProvider = ({ children }) => {
             setIsLoading(false)
         }
     }
-    async function updateUser(id) {
+    async function updateUser(payload) {
         try {
-            const { content } = await usersService.update(id)
+            const { content } = await usersService.update(currentUser._id, payload)
             setCurrentUser((prevState) => ({ ...prevState, ...content }))
         } catch (e) {
             setError(e)
@@ -119,7 +119,7 @@ const AuthProvider = ({ children }) => {
     }, [error])
     useEffect(() => {
         if (localStorageService.getAccessToken()) {
-            loadUser(localStorageService.getUserId())
+            loadUser()
         } else {
             setIsLoading(false)
         }
