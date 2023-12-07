@@ -9,6 +9,7 @@ import PropTypes from 'prop-types'
 import { useNavigate } from 'react-router-dom'
 import { useProfessions } from '../../hooks/useProfessions'
 import { useQualities } from '../../hooks/useQualities'
+import { useAuth } from '../../hooks/useAuth'
 
 const EditForm = ({ user }) => {
     const [data, setData] = useState({
@@ -21,12 +22,7 @@ const EditForm = ({ user }) => {
     const [errors, setErrors] = useState({})
     const { professions } = useProfessions()
     const { qualities } = useQualities()
-    const getQualities = () => {
-        return Object.values(professions).filter(({ _id }) => data.qualities.some((quality) => _id === quality.value))
-    }
-    const getProfession = () => {
-        return Object.values(professions).find((profession) => profession._id === data.profession)
-    }
+    const { updateUser } = useAuth()
     const navigate = useNavigate()
     useEffect(() => {
         validate()
@@ -56,14 +52,12 @@ const EditForm = ({ user }) => {
         const isValid = await validate()
 
         if (isValid) {
-            const qualities = getQualities()
-            const profession = getProfession()
             const newUser = {
+                ...user,
                 ...data,
-                qualities,
-                profession
+                qualities: data.qualities.map(({ value }) => value)
             }
-            console.log('update user', user._id, newUser)
+            await updateUser(newUser)
             navigate(`/users/${user._id}`)
         }
     }

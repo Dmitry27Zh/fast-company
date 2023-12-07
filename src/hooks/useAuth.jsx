@@ -103,6 +103,14 @@ const AuthProvider = ({ children }) => {
             setIsLoading(false)
         }
     }
+    async function updateUser(id) {
+        try {
+            const { content } = await usersService.update(id)
+            setCurrentUser((prevState) => ({ ...prevState, ...content }))
+        } catch (e) {
+            setError(e)
+        }
+    }
     useEffect(() => {
         if (error !== null) {
             toast(error.message)
@@ -117,7 +125,7 @@ const AuthProvider = ({ children }) => {
         }
     }, [])
 
-    return <AuthContext.Provider value={{ signUp, signIn, logOut, currentUser }}>{isLoading ? 'loading...' : children}</AuthContext.Provider>
+    return <AuthContext.Provider value={{ signUp, signIn, logOut, currentUser, updateUser }}>{isLoading ? 'loading...' : children}</AuthContext.Provider>
 }
 
 AuthProvider.propTypes = {

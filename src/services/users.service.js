@@ -16,6 +16,11 @@ const usersService = {
         const { data } = await httpService.put(`${config.usersEndpoint}${payload._id}`, payload)
 
         return data
+    },
+    update: async (payload) => {
+        const { data } = await httpService.patch(`${config.usersEndpoint}${payload._id}`, payload)
+
+        return data
     }
 }
 
