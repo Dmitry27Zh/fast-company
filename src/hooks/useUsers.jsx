@@ -45,8 +45,17 @@ const UsersProvider = ({ children }) => {
         return users.find((user) => user._id === id)
     }
     useEffect(() => {
-        if (currentUser) {
-            getUsers()
+        getUsers()
+    }, [])
+    useEffect(() => {
+        if (!isLoading && currentUser) {
+            setUsers((prevState) => prevState.map((user) => {
+                if (user._id === currentUser._id) {
+                    return currentUser
+                } else {
+                    return user
+                }
+            }))
         }
     }, [currentUser])
     useEffect(() => {
