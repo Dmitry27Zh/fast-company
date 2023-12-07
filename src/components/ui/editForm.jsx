@@ -53,6 +53,7 @@ const EditForm = ({ user }) => {
 
         if (isValid) {
             const newUser = {
+                ...user,
                 ...data,
                 qualities: data.qualities.map(({ value }) => value)
             }
