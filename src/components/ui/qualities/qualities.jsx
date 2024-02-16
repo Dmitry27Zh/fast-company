@@ -7,15 +7,15 @@ import LoaderMini from '../../common/loaders/LoaderMini'
 
 const Qualities = ({ data = [] }) => {
     const isQualitiesLoading = useSelector(getQualitiesLoadingStatus())
+    const qualities = useSelector(getQualities())
     if (isQualitiesLoading) {
         return <LoaderMini />
     }
-    const qualities = useSelector(getQualities())
     const qualitiesToRender = qualities.filter((quality) => data.includes(quality._id))
 
     return (
         <div>
-            {qualitiesToRender?.map((item, index) => (
+            {qualitiesToRender.map((item, index) => (
                 <Badge key={index} {...item}></Badge>
             ))}
         </div>
