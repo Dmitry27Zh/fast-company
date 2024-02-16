@@ -4,7 +4,8 @@ import qualitiesService from '../services/qualities.service'
 const initialState = {
     entities: null,
     isLoading: true,
-    error: null
+    error: null,
+    lastFetch: null
 }
 
 const slice = createSlice({
@@ -13,6 +14,7 @@ const slice = createSlice({
     reducers: {
         qualitiesRequested: (state) => {
             state.isLoading = true
+            state.lastFetch = Date.now()
         },
         qualitiesRecieved: (state, action) => {
             state.entities = action.payload
@@ -28,13 +30,23 @@ const slice = createSlice({
 const { qualitiesRequested, qualitiesRecieved, qualitiesRequestFailed } =
     slice.actions
 
-export const loadQualitiesList = () => async (dispatch) => {
-    dispatch(qualitiesRequested())
-    try {
-        const { content } = await qualitiesService.get()
-        dispatch(qualitiesRecieved(content))
-    } catch (e) {
-        qualitiesRequestFailed(e.message)
+export const loadQualitiesList = () => async (dispatch, getState) => {
+    if (isNeed()) {
+        dispatch(qualitiesRequested())
+        try {
+            const { content } = await qualitiesService.get()
+            dispatch(qualitiesRecieved(content))
+        } catch (e) {
+            qualitiesRequestFailed(e.message)
+        }
+    }
+    function isNeed() {
+        const isOutdated = (date) => {
+            return (Date.now() - date) > 10000
+        }
+        const { lastFetch } = getState().qualities
+
+        return !lastFetch || isOutdated(lastFetch)
     }
 }
 

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import TableHeader from '../common/table/tableHeader'
 import TableBody from '../common/table/tableBody'
@@ -7,9 +7,15 @@ import Qualities from './qualities/qualities'
 import Table from '../common/table/table'
 import { Link } from 'react-router-dom'
 import Profession from './profession'
+import { useDispatch } from 'react-redux'
+import { loadQualitiesList } from '../../store/qualities'
 
 const UsersTable = (props) => {
     const { users, currentSort, onSort, onBookmark, ...rest } = props
+    const dispatch = useDispatch()
+    useEffect(() => {
+        dispatch(loadQualitiesList())
+    }, [])
 
     const heads = {
         name: {
