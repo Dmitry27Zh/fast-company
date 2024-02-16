@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -11,25 +11,41 @@ import ProfessionsProvider from './hooks/useProfessions'
 import QualitiesProvider from './hooks/useQualities'
 import ProtectedRoute from './components/common/protectedRoute'
 import Logout from './layout/logout'
+import { useDispatch } from 'react-redux'
+import { loadQualitiesList } from './store/qualities'
 
 const App = () => {
+    const dispatch = useDispatch()
+    useEffect(() => {
+        dispatch(loadQualitiesList())
+    }, [])
+
     return (
         <BrowserRouter>
             <AuthProvider>
                 <QualitiesProvider>
                     <ProfessionsProvider>
-
                         <div className="container">
                             <Navigation />
                             <Routes>
                                 <Route path="/" element={<Main />} />
-                                <Route path="/login/:type?" element={<Login />} />
+                                <Route
+                                    path="/login/:type?"
+                                    element={<Login />}
+                                />
                                 <Route path="/logout" element={<Logout />} />
-                                <Route path="/users/:userId?/:edit?" element={<ProtectedRoute><Users /></ProtectedRoute>} />
+                                <Route
+                                    path="/users/:userId?/:edit?"
+                                    element={
+                                        <ProtectedRoute>
+                                            <Users />
+                                        </ProtectedRoute>
+                                    }
+                                />
                                 <Route path="*" element={<Navigate to="/" />} />
                             </Routes>
                         </div>
-                        <ToastContainer/>
+                        <ToastContainer />
                     </ProfessionsProvider>
                 </QualitiesProvider>
             </AuthProvider>
