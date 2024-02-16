@@ -6,6 +6,7 @@ import Bookmark from '../common/bookmark'
 import Qualities from './qualities/qualities'
 import Table from '../common/table/table'
 import { Link } from 'react-router-dom'
+import Profession from './profession'
 
 const UsersTable = (props) => {
     const { users, currentSort, onSort, onBookmark, ...rest } = props
@@ -19,8 +20,8 @@ const UsersTable = (props) => {
             )
         },
         profession: {
-            iter: 'profession.name',
-            value: 'Профессия'
+            value: 'Профессия',
+            component: ({ profession }) => <Profession data={profession} />
         },
         qualities: {
             value: 'Качества',
