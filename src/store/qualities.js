@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import qualitiesService from '../services/qualities.service'
+import { isLoadingNeed } from './utils'
 
 const initialState = {
     entities: null,
@@ -31,7 +32,7 @@ const { qualitiesRequested, qualitiesRecieved, qualitiesRequestFailed } =
     slice.actions
 
 export const loadQualitiesList = () => async (dispatch, getState) => {
-    if (isNeed()) {
+    if (isLoadingNeed(getState().qualities.lastFetch)) {
         dispatch(qualitiesRequested())
         try {
             const { content } = await qualitiesService.get()
@@ -39,14 +40,6 @@ export const loadQualitiesList = () => async (dispatch, getState) => {
         } catch (e) {
             qualitiesRequestFailed(e.message)
         }
-    }
-    function isNeed() {
-        const isOutdated = (date) => {
-            return (Date.now() - date) > 10000
-        }
-        const { lastFetch } = getState().qualities
-
-        return !lastFetch || isOutdated(lastFetch)
     }
 }
 
