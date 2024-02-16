@@ -2,10 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import usersService from '../services/users.service'
 import { toast } from 'react-toastify'
-import { useProfessions } from './useProfessions'
 import { useAuth } from './useAuth'
-import { useSelector } from 'react-redux'
-import { getQualities, getQualitiesLoadingStatus } from '../store/qualities'
 
 const UsersContext = React.createContext()
 
@@ -14,9 +11,6 @@ export const useUsers = () => {
 }
 
 const UsersProvider = ({ children }) => {
-    const qualities = useSelector(getQualities())
-    const isQualitiesLoading = useSelector(getQualitiesLoadingStatus())
-    const { professions } = useProfessions()
     const [users, setUsers] = useState([])
     const [error, setError] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
@@ -24,23 +18,7 @@ const UsersProvider = ({ children }) => {
     async function getUsers() {
         try {
             const { content } = await usersService.get()
-            const transformedContent = content.map((item) => {
-                if ('qualities' in item) {
-                    item.qualities = item.qualities.map((qualityId) => {
-                        return qualities.find(
-                            (quality) => quality._id === qualityId
-                        )
-                    }).filter(Boolean)
-                }
-                if ('profession' in item) {
-                    item.profession = professions.find(
-                        (professions) => professions._id === item.profession
-                    )
-                }
-
-                return item
-            })
-            setUsers(transformedContent)
+            setUsers(content)
         } catch (e) {
             setError(e)
         } finally {
@@ -51,10 +29,8 @@ const UsersProvider = ({ children }) => {
         return users.find((user) => user._id === id)
     }
     useEffect(() => {
-        if (!isQualitiesLoading) {
-            getUsers()
-        }
-    }, [isQualitiesLoading])
+        getUsers()
+    }, [])
     useEffect(() => {
         if (!isLoading && currentUser) {
             setUsers((prevState) =>
