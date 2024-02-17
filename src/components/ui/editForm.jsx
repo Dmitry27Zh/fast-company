@@ -31,7 +31,7 @@ const EditForm = ({ user }) => {
             .string()
             .required('Email is required')
             .email('Incorrect email'),
-        profession: yup.string().required('Choose your profession')
+        'profession.name': yup.string().required('Choose your profession')
     })
     const isValid = (errors) => isObjEmpty(errors)
     const validate = async () => {
@@ -72,7 +72,7 @@ const EditForm = ({ user }) => {
                     <SelectField
                         label="Profession"
                         name="profession"
-                        value={data.profession.value}
+                        value={data.profession.name}
                         onChange={handleChange}
                         options={professions}
                         error={errors.profession}
