@@ -2,9 +2,13 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { useAuth } from '../../hooks/useAuth'
+import { useSelector } from 'react-redux'
+import { getProfessions } from '../../store/professions'
 
 const UserCard = ({ user }) => {
     const { currentUser } = useAuth()
+    const professions = useSelector(getProfessions())
+    const profession = professions.find((current) => current._id === user.profession)
 
     return (
         <div className="card mb-3">
@@ -27,7 +31,7 @@ const UserCard = ({ user }) => {
                     <div className="mt-3">
                         <h4>{user.name}</h4>
                         <p className="text-secondary mb-1">
-                            {user.profession.name}
+                            {profession.name}
                         </p>
                         <div className="text-muted">
                             <i
