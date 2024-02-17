@@ -2,12 +2,12 @@ import React from 'react'
 import EditForm from '../../ui/editForm'
 import PropTypes from 'prop-types'
 import BackButton from '../../common/backButton'
-import { useUsers } from '../../../hooks/useUsers'
+import { useSelector } from 'react-redux'
+import { getUserById } from '../../../store/users'
 
 const EditPage = (props) => {
     const { id } = props
-    const { getUserById } = useUsers()
-    const user = getUserById(id)
+    const user = useSelector(getUserById(id))
     const renderContent = () => {
         if (user) {
             return <EditForm user={user} />

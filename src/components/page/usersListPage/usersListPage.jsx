@@ -7,15 +7,15 @@ import Pagination from '../../common/pagination'
 import GroupList from '../../common/groupList'
 import _ from 'lodash'
 import Search from '../../search'
-import { useUsers } from '../../../hooks/useUsers'
 import { useAuth } from '../../../hooks/useAuth'
 import { useDispatch, useSelector } from 'react-redux'
 import { getProfessions, getProfessionsLoadingStatus, loadProfessionsList } from '../../../store/professions'
 import { loadQualitiesList } from '../../../store/qualities'
+import { getUsersList } from '../../../store/users'
 
 const UsersListPage = () => {
     const { currentUser } = useAuth()
-    const { users } = useUsers()
+    const users = useSelector(getUsersList())
     const professions = useSelector(getProfessions())
     const isProfessionsLoading = useSelector(getProfessionsLoadingStatus())
     const [selectedProfession, setSelectedProfession] = useState()
