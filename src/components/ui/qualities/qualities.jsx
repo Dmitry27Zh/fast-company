@@ -11,7 +11,7 @@ const Qualities = ({ data = [] }) => {
     if (isQualitiesLoading) {
         return <LoaderMini />
     }
-    const qualitiesToRender = qualities.filter((quality) => data.includes(quality._id))
+    const qualitiesToRender = qualities.filter((quality) => data?.includes(quality._id))
 
     return (
         <div>

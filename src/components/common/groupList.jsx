@@ -1,12 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import LoaderMini from './loaders/LoaderMini'
 
 const GroupList = (props) => {
-    const { items, valueProperty, contentProperty, selectedItem, onSelect } = props
-    const itemsToRender = Array.isArray(items) ? items : Object.values(items)
+    const { isLoading, items, valueProperty, contentProperty, selectedItem, onSelect } = props
 
-    return (
-        <>
+    if (isLoading) {
+        return <LoaderMini />
+    } else {
+        const itemsToRender = Array.isArray(items) ? items : Object.values(items)
+
+        return (
             <ul className="list-group">
                 {itemsToRender.map((item) => {
                     const value = item[valueProperty]
@@ -17,8 +21,8 @@ const GroupList = (props) => {
                     return <li className={className} key={value} onClick={() => onSelect(item)} role='button'>{content}</li>
                 })}
             </ul>
-        </>
-    )
+        )
+    }
 }
 
 GroupList.defaultProps = {
@@ -27,7 +31,8 @@ GroupList.defaultProps = {
 }
 
 GroupList.propTypes = {
-    items: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
+    isLoading: PropTypes.bool.isRequired,
+    items: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
     valueProperty: PropTypes.string.isRequired,
     contentProperty: PropTypes.string.isRequired,
     selectedItem: PropTypes.object,

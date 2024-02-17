@@ -8,13 +8,16 @@ import GroupList from '../../common/groupList'
 import _ from 'lodash'
 import Search from '../../search'
 import { useUsers } from '../../../hooks/useUsers'
-import { useProfessions } from '../../../hooks/useProfessions'
 import { useAuth } from '../../../hooks/useAuth'
+import { useDispatch, useSelector } from 'react-redux'
+import { getProfessions, getProfessionsLoadingStatus, loadProfessionsList } from '../../../store/professions'
+import { loadQualitiesList } from '../../../store/qualities'
 
 const UsersListPage = () => {
     const { currentUser } = useAuth()
     const { users } = useUsers()
-    const { professions } = useProfessions()
+    const professions = useSelector(getProfessions())
+    const isProfessionsLoading = useSelector(getProfessionsLoadingStatus())
     const [selectedProfession, setSelectedProfession] = useState()
     const [currentPage, setCurrentPage] = useState('1')
     const [sortBy, setSortBy] = useState({
@@ -22,9 +25,14 @@ const UsersListPage = () => {
         order: null
     })
     const [search, setSearch] = useState('')
+    const dispatch = useDispatch()
     useEffect(() => {
         setCurrentPage('1')
     }, [selectedProfession, search])
+    useEffect(() => {
+        dispatch(loadProfessionsList())
+        dispatch(loadQualitiesList())
+    }, [])
 
     if (!users) {
         return 'Loading...'
@@ -100,6 +108,7 @@ const UsersListPage = () => {
         <div className="d-flex">
             <div className="d-flex flex-column flex-shrink-0 p-3">
                 <GroupList
+                    isLoading={isProfessionsLoading}
                     items={professions}
                     selectedItem={selectedProfession}
                     onSelect={handleProfessionSelect}

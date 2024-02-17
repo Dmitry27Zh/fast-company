@@ -8,22 +8,18 @@ import MultiSelectField from '../common/form/multiSelectField'
 import * as yup from 'yup'
 import PropTypes from 'prop-types'
 import { useNavigate } from 'react-router-dom'
-import { useProfessions } from '../../hooks/useProfessions'
 import { useAuth } from '../../hooks/useAuth'
-import { getQualities, getQualitiesLoadingStatus } from '../../store/qualities'
+import useTransformedUser from '../../hooks/useTransformedUser'
+import { getQualities } from '../../store/qualities'
+import { getProfessions } from '../../store/professions'
 
 const EditForm = ({ user }) => {
-    const [data, setData] = useState({
-        name: user.name,
-        email: user.email,
-        profession: user.profession._id,
-        sex: user.sex,
-        qualities: user.qualities ?? []
-    })
+    const [data, setData] = useTransformedUser(user)
     const [errors, setErrors] = useState({})
-    const { professions } = useProfessions()
     const qualities = useSelector(getQualities())
-    const isQualitiesLoading = useSelector(getQualitiesLoadingStatus())
+    const isQualitiesLoading = !('qualities' in data)
+    const professions = useSelector(getProfessions())
+    const isProfessionsLoading = !('profession' in data)
     const { updateUser } = useAuth()
     const navigate = useNavigate()
     useEffect(() => {
@@ -70,13 +66,13 @@ const EditForm = ({ user }) => {
         }
     }
     const renderProfessionsSelect = () => {
-        if (professions) {
+        if (!isProfessionsLoading) {
             return (
                 <div className="mb-4">
                     <SelectField
                         label="Profession"
                         name="profession"
-                        value={data.profession}
+                        value={data.profession.value}
                         onChange={handleChange}
                         options={professions}
                         error={errors.profession}

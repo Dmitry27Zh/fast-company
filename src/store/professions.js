@@ -31,8 +31,8 @@ const slice = createSlice({
 const { professionsRequested, professionsReceived, professionsRequestFailed } = slice.actions
 
 export const loadProfessionsList = () => async (dispatch, getState) => {
-    if (isLoadingNeed(getState().professions)) {
-        dispatch(professionsRequested)
+    if (isLoadingNeed(getState().professions.lastFetch)) {
+        dispatch(professionsRequested())
         try {
             const { content } = await professionsService.get()
             dispatch(professionsReceived(content))
