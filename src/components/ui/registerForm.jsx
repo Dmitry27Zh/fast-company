@@ -7,13 +7,13 @@ import SelectField from '../common/form/selectField'
 import RadioField from '../common/form/radioField'
 import MultiSelectField from '../common/form/multiSelectField'
 import * as yup from 'yup'
-import { useAuth } from '../../hooks/useAuth'
-import { useNavigate } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { getQualities, getQualitiesLoadingStatus } from '../../store/qualities'
 import { getProfessions } from '../../store/professions'
+import { signUp } from '../../store/users'
 
 const RegisterForm = () => {
+    const dispatch = useDispatch()
     const [data, setData] = useState({
         email: '',
         password: '',
@@ -27,8 +27,6 @@ const RegisterForm = () => {
     const professions = useSelector(getProfessions())
     const qualities = useSelector(getQualities())
     const isQualitiesLoading = useSelector(getQualitiesLoadingStatus())
-    const { signUp } = useAuth()
-    const navigate = useNavigate()
     const { email, password, profession, sex, name } = data
     useEffect(() => {
         validate()
@@ -93,12 +91,7 @@ const RegisterForm = () => {
                 qualities: data.qualities.map((quality) => quality.value)
             }
 
-            try {
-                await signUp(newData)
-                navigate('/')
-            } catch (e) {
-                setErrors((prevState) => ({ ...prevState, ...e }))
-            }
+            dispatch(signUp(newData))
         }
     }
     const renderProfessionsSelect = () => {
