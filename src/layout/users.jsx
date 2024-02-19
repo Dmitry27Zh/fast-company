@@ -3,7 +3,6 @@ import { useParams, Navigate } from 'react-router-dom'
 import UserPage from '../components/page/userPage/userPage'
 import UsersListPage from '../components/page/usersListPage'
 import EditPage from '../components/page/editPage/editPage'
-import UsersProvider from '../hooks/useUsers'
 import UsersLoader from '../components/ui/hoc/usersLoader'
 import { useSelector } from 'react-redux'
 import { getCurrentUserId } from '../store/users'
@@ -22,7 +21,7 @@ const Users = () => {
     }
 
     return <UsersLoader>
-        <UsersProvider>{render()}</UsersProvider>
+        {render()}
     </UsersLoader>
 }
 
