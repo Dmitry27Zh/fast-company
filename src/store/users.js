@@ -5,12 +5,14 @@ import localStorageService from '../services/localStorage.service'
 import { getRandomInteger } from '../utils'
 import { customHistory } from '../router/CustomBrowserRouter'
 
+const localUserId = localStorageService.getAccessToken()
+
 const initialState = {
     entities: [],
-    isLoading: true,
+    isLoading: !!localUserId,
     error: null,
-    auth: null,
-    isLoggedIn: false,
+    auth: localUserId ? { userId: localUserId } : null,
+    isLoggedIn: !!localUserId,
     dataLoaded: false
 }
 
@@ -112,6 +114,7 @@ export const signIn = ({ payload, redirect }) => async (dispatch) => {
 
 export const getUserById = (id) => (state) => state.users.entities.find((user) => user._id === id)
 export const getUsersList = () => (state) => state.users.entities
+export const getUsersLoadingStatus = () => (state) => state.users.isLoading
 export const getIsLoggedIn = () => (state) => state.users.isLoggedIn
 export const getDataStatus = () => (state) => state.users.dataLoaded
 export const getCurrentUserId = () => (state) => state.users.auth.userId

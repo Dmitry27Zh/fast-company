@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Route, Routes, Navigate } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -11,47 +11,39 @@ import ProfessionsProvider from './hooks/useProfessions'
 import QualitiesProvider from './hooks/useQualities'
 import ProtectedRoute from './components/common/protectedRoute'
 import Logout from './layout/logout'
-import { useDispatch } from 'react-redux'
-import { loadQualitiesList } from './store/qualities'
-import { loadProfessionsList } from './store/professions'
-import { loadUsersList } from './store/users'
+import AppLoader from './components/ui/hoc/appLoader'
 
 const App = () => {
-    const dispatch = useDispatch()
-    useEffect(() => {
-        dispatch(loadQualitiesList())
-        dispatch(loadProfessionsList())
-        dispatch(loadUsersList())
-    }, [])
-
     return (
-        <AuthProvider>
-            <QualitiesProvider>
-                <ProfessionsProvider>
-                    <div className="container">
-                        <Navigation />
-                        <Routes>
-                            <Route path="/" element={<Main />} />
-                            <Route
-                                path="/login/:type?"
-                                element={<Login />}
-                            />
-                            <Route path="/logout" element={<Logout />} />
-                            <Route
-                                path="/users/:userId?/:edit?"
-                                element={
-                                    <ProtectedRoute>
-                                        <Users />
-                                    </ProtectedRoute>
-                                }
-                            />
-                            <Route path="*" element={<Navigate to="/" />} />
-                        </Routes>
-                    </div>
-                    <ToastContainer />
-                </ProfessionsProvider>
-            </QualitiesProvider>
-        </AuthProvider>
+        <AppLoader>
+            <AuthProvider>
+                <QualitiesProvider>
+                    <ProfessionsProvider>
+                        <div className="container">
+                            <Navigation />
+                            <Routes>
+                                <Route path="/" element={<Main />} />
+                                <Route
+                                    path="/login/:type?"
+                                    element={<Login />}
+                                />
+                                <Route path="/logout" element={<Logout />} />
+                                <Route
+                                    path="/users/:userId?/:edit?"
+                                    element={
+                                        <ProtectedRoute>
+                                            <Users />
+                                        </ProtectedRoute>
+                                    }
+                                />
+                                <Route path="*" element={<Navigate to="/" />} />
+                            </Routes>
+                        </div>
+                        <ToastContainer />
+                    </ProfessionsProvider>
+                </QualitiesProvider>
+            </AuthProvider>
+        </AppLoader>
     )
 }
 
