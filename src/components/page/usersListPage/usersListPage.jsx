@@ -10,7 +10,7 @@ import Search from '../../search'
 import { useDispatch, useSelector } from 'react-redux'
 import { getProfessions, getProfessionsLoadingStatus, loadProfessionsList } from '../../../store/professions'
 import { loadQualitiesList } from '../../../store/qualities'
-import { getCurrentUserId, getDataStatus, getUsersList, loadUsersList } from '../../../store/users'
+import { getCurrentUserId, getUsersList } from '../../../store/users'
 
 const UsersListPage = () => {
     const currentUserId = useSelector(getCurrentUserId())
@@ -25,22 +25,13 @@ const UsersListPage = () => {
     })
     const [search, setSearch] = useState('')
     const dispatch = useDispatch()
-    const dataStatus = useSelector(getDataStatus())
     useEffect(() => {
         setCurrentPage('1')
     }, [selectedProfession, search])
     useEffect(() => {
         dispatch(loadProfessionsList())
         dispatch(loadQualitiesList())
-
-        if (!dataStatus) {
-            dispatch(loadUsersList())
-        }
     }, [])
-
-    if (!dataStatus) {
-        return 'Loading...'
-    }
 
     const searchUsers = () =>
         users.filter(({ name }) => new RegExp(search, 'i').test(name))
