@@ -10,7 +10,8 @@ const initialState = {
     isLoading: true,
     error: null,
     auth: null,
-    isLoggedIn: false
+    isLoggedIn: false,
+    dataLoaded: false
 }
 
 const slice = createSlice({
@@ -22,6 +23,7 @@ const slice = createSlice({
         },
         usersRecieved: (state, action) => {
             state.entities = action.payload
+            state.dataLoaded = true
             state.isLoading = false
         },
         usersRequestFailed: (state, action) => {
@@ -111,5 +113,7 @@ export const signIn = ({ payload, redirect }) => async (dispatch) => {
 export const getUserById = (id) => (state) => state.users.entities.find((user) => user._id === id)
 export const getUsersList = () => (state) => state.users.entities
 export const getIsLoggedIn = () => (state) => state.users.isLoggedIn
+export const getDataStatus = () => (state) => state.users.dataLoaded
+export const getCurrentUserId = () => (state) => state.users.auth.userId
 
 export default slice.reducer

@@ -7,14 +7,13 @@ import Pagination from '../../common/pagination'
 import GroupList from '../../common/groupList'
 import _ from 'lodash'
 import Search from '../../search'
-import { useAuth } from '../../../hooks/useAuth'
 import { useDispatch, useSelector } from 'react-redux'
 import { getProfessions, getProfessionsLoadingStatus, loadProfessionsList } from '../../../store/professions'
 import { loadQualitiesList } from '../../../store/qualities'
-import { getUsersList } from '../../../store/users'
+import { getCurrentUserId, getDataStatus, getUsersList, loadUsersList } from '../../../store/users'
 
 const UsersListPage = () => {
-    const { currentUser } = useAuth()
+    const currentUserId = useSelector(getCurrentUserId())
     const users = useSelector(getUsersList())
     const professions = useSelector(getProfessions())
     const isProfessionsLoading = useSelector(getProfessionsLoadingStatus())
@@ -26,15 +25,20 @@ const UsersListPage = () => {
     })
     const [search, setSearch] = useState('')
     const dispatch = useDispatch()
+    const dataStatus = useSelector(getDataStatus())
     useEffect(() => {
         setCurrentPage('1')
     }, [selectedProfession, search])
     useEffect(() => {
         dispatch(loadProfessionsList())
         dispatch(loadQualitiesList())
+
+        if (!dataStatus) {
+            dispatch(loadUsersList())
+        }
     }, [])
 
-    if (!users) {
+    if (!dataStatus) {
         return 'Loading...'
     }
 
@@ -50,7 +54,7 @@ const UsersListPage = () => {
             })
             : searchedUsers
 
-        return result.filter((user) => user._id !== currentUser._id)
+        return result.filter((user) => user._id !== currentUserId)
     }
     const sortUsers = () =>
         _.orderBy(filteredUsers, [sortBy.iter], [sortBy.order])
