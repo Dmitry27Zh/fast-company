@@ -2,16 +2,15 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import MiniLoader from '../common/loaders/LoaderMini'
 import { useSelector } from 'react-redux'
-import { getProfessions } from '../../store/professions'
+import { getProfessionById, getProfessionsLoadingStatus } from '../../store/professions'
 
 const Profession = ({ data }) => {
-    const professions = useSelector(getProfessions())
-    const isLoading = !professions
+    const profession = useSelector(getProfessionById(data))
+    const isLoading = useSelector(getProfessionsLoadingStatus())
 
     if (isLoading) {
         return <MiniLoader />
     } else {
-        const profession = professions.find((p) => p._id === data)
         return profession.name
     }
 }

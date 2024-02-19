@@ -90,7 +90,7 @@ const EditForm = ({ user }) => {
             )
         }
     }
-    console.log(data, errors)
+
     return (
         <form onSubmit={handleSubmit}>
             <TextField
