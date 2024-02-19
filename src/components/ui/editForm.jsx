@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import TextField from '../common/form/textField'
 import { isObjEmpty } from '../../utils/object'
 import SelectField from '../common/form/selectField'
@@ -7,11 +7,10 @@ import RadioField from '../common/form/radioField'
 import MultiSelectField from '../common/form/multiSelectField'
 import * as yup from 'yup'
 import PropTypes from 'prop-types'
-import { useNavigate } from 'react-router-dom'
-import { useAuth } from '../../hooks/useAuth'
 import useTransformedUser from '../../hooks/useTransformedUser'
 import { getQualities } from '../../store/qualities'
 import { getProfessions } from '../../store/professions'
+import { updateUser } from '../../store/users'
 
 const EditForm = ({ user }) => {
     const [data, setData] = useTransformedUser(user)
@@ -20,8 +19,7 @@ const EditForm = ({ user }) => {
     const isQualitiesLoading = !('qualities' in data)
     const professions = useSelector(getProfessions())
     const isProfessionsLoading = !('profession' in data)
-    const { updateUser } = useAuth()
-    const navigate = useNavigate()
+    const dispatch = useDispatch()
     useEffect(() => {
         validate()
     }, [data])
@@ -61,8 +59,7 @@ const EditForm = ({ user }) => {
                 ...data,
                 qualities: data.qualities.map(({ value }) => value)
             }
-            await updateUser(newUser)
-            navigate(`/users/${user._id}`)
+            dispatch(updateUser(newUser))
         }
     }
     const renderProfessionsSelect = () => {
@@ -93,7 +90,7 @@ const EditForm = ({ user }) => {
             )
         }
     }
-
+    console.log(errors)
     return (
         <form onSubmit={handleSubmit}>
             <TextField

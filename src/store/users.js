@@ -46,6 +46,15 @@ const slice = createSlice({
 
             state.entities.push(action.payload)
         },
+        userUpdated: (state, action) => {
+            state.entities = state.entities.map((user) => {
+                if (user._id === action.payload._id) {
+                    return action.payload
+                } else {
+                    return user
+                }
+            })
+        },
         userLoggedOut: (state) => {
             state.entities = null
             state.isLoggedIn = false
@@ -55,7 +64,7 @@ const slice = createSlice({
     }
 })
 
-export const { usersRequested, usersRecieved, usersRequestFailed, authRequestSuccess, authRequestFailed, userCreated, userLoggedOut } = slice.actions
+export const { usersRequested, usersRecieved, usersRequestFailed, authRequestSuccess, authRequestFailed, userCreated, userUpdated, userLoggedOut } = slice.actions
 
 export const loadUsersList = () => async (dispatch) => {
     dispatch(usersRequested())
@@ -70,6 +79,8 @@ export const loadUsersList = () => async (dispatch) => {
 const authRequested = createAction('users/authRequested')
 const userCreateRequested = createAction('users/userCreateRequested')
 const userCreateFailed = createAction('users/userCreateFailed')
+const userUpdateRequested = createAction('users/userUpdateRequested')
+const userUpdateFailed = createAction('users/userUpdateFailed')
 
 const createUser = (payload) => async (dispatch) => {
     dispatch(userCreateRequested())
@@ -79,6 +90,17 @@ const createUser = (payload) => async (dispatch) => {
         customHistory.push('/users')
     } catch (e) {
         dispatch(userCreateFailed(e.message))
+    }
+}
+
+export const updateUser = (payload) => async (dispatch, getState) => {
+    dispatch(userUpdateRequested())
+    try {
+        const { content } = await usersService.update(getState().users.auth.userId, payload)
+        dispatch(userUpdated(content))
+        customHistory.push(`/users/${content._id}`)
+    } catch (e) {
+        dispatch(userUpdateFailed(e.message))
     }
 }
 
