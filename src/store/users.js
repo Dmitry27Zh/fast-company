@@ -45,11 +45,17 @@ const slice = createSlice({
             }
 
             state.entities.push(action.payload)
+        },
+        userLoggedOut: (state) => {
+            state.entities = null
+            state.isLoggedIn = false
+            state.auth = null
+            state.dataLoaded = false
         }
     }
 })
 
-export const { usersRequested, usersRecieved, usersRequestFailed, authRequestSuccess, authRequestFailed, userCreated } = slice.actions
+export const { usersRequested, usersRecieved, usersRequestFailed, authRequestSuccess, authRequestFailed, userCreated, userLoggedOut } = slice.actions
 
 export const loadUsersList = () => async (dispatch) => {
     dispatch(usersRequested())
@@ -110,6 +116,12 @@ export const signIn = ({ payload, redirect }) => async (dispatch) => {
     } catch (e) {
         dispatch(authRequestFailed(e.message))
     }
+}
+
+export const logOut = () => (dispatch) => {
+    localStorageService.removeAuthData()
+    dispatch(userLoggedOut())
+    customHistory.push('/')
 }
 
 export const getUserById = (id) => (state) => state.users.entities.find((user) => user._id === id)
