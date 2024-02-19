@@ -3,6 +3,7 @@ import usersService from '../services/users.service'
 import authService from '../services/auth.service'
 import localStorageService from '../services/localStorage.service'
 import { getRandomInteger } from '../utils'
+import { customHistory } from '../router/CustomBrowserRouter'
 
 const initialState = {
     entities: [],
@@ -65,6 +66,7 @@ const createUser = (payload) => async (dispatch) => {
     try {
         const { content } = await usersService.create(payload)
         dispatch(userCreated(content))
+        customHistory.push('/users')
     } catch (e) {
         dispatch(userCreateFailed(e.message))
     }
