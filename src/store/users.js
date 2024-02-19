@@ -110,5 +110,6 @@ export const signIn = ({ payload, redirect }) => async (dispatch) => {
 
 export const getUserById = (id) => (state) => state.users.entities.find((user) => user._id === id)
 export const getUsersList = () => (state) => state.users.entities
+export const getIsLoggedIn = () => (state) => state.users.auth.isLoggedIn
 
 export default slice.reducer
