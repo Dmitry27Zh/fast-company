@@ -5,7 +5,7 @@ import localStorageService from '../services/localStorage.service'
 import { getRandomInteger } from '../utils'
 import { customHistory } from '../router/CustomBrowserRouter'
 
-const localUserId = localStorageService.getAccessToken()
+const localUserId = localStorageService.getUserId()
 
 const initialState = {
     entities: [],
