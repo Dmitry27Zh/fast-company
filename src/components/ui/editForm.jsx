@@ -69,7 +69,7 @@ const EditForm = ({ user }) => {
                     <SelectField
                         label="Profession"
                         name="profession"
-                        value={data.profession.name}
+                        value={data.profession._id}
                         onChange={handleChange}
                         options={professions}
                         error={errors.profession}
@@ -90,7 +90,7 @@ const EditForm = ({ user }) => {
             )
         }
     }
-    console.log(errors)
+    console.log(data, errors)
     return (
         <form onSubmit={handleSubmit}>
             <TextField
