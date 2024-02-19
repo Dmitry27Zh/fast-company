@@ -4,10 +4,12 @@ import CheckboxField from '../common/form/checkboxField'
 import { validator, getErrorMessageAtLeast } from '../../utils/validator'
 import { isObjEmpty } from '../../utils/object'
 import { ValidationValue } from '../../constants'
-import { useAuth } from '../../hooks/useAuth'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { signIn } from '../../store/users'
 
 const LoginForm = () => {
+    const dispatch = useDispatch()
     const [data, setData] = useState({
         email: '',
         password: '',
@@ -15,9 +17,7 @@ const LoginForm = () => {
     })
     const [errors, setErrors] = useState({})
     const [enterError, setEnterError] = useState(null)
-    const { signIn } = useAuth()
     const location = useLocation()
-    const navigate = useNavigate()
     const { email, password } = data
     useEffect(() => {
         validate()
@@ -65,14 +65,9 @@ const LoginForm = () => {
     const handleSubmit = async (event) => {
         event.preventDefault()
         const isValid = validate()
-
         if (isValid) {
-            try {
-                await signIn(data)
-                navigate(location.state?.from ?? '/')
-            } catch (e) {
-                setEnterError(e.message)
-            }
+            const redirect = location.state?.from ?? '/'
+            dispatch(signIn({ payload: data, redirect }))
         }
     }
 

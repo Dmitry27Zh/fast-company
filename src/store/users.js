@@ -95,6 +95,19 @@ export const signUp = ({ email, password, ...rest }) => async (dispatch) => {
     }
 }
 
+export const signIn = ({ payload, redirect }) => async (dispatch) => {
+    const { email, password } = payload
+    dispatch(authRequested())
+    try {
+        const data = await authService.login({ email, password })
+        dispatch(authRequestSuccess({ userId: data.localId }))
+        localStorageService.setTokens(data)
+        customHistory.push(redirect)
+    } catch (e) {
+        dispatch(authRequestFailed(e.message))
+    }
+}
+
 export const getUserById = (id) => (state) => state.users.entities.find((user) => user._id === id)
 export const getUsersList = () => (state) => state.users.entities
 
