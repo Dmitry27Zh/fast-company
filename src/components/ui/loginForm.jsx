@@ -5,8 +5,8 @@ import { validator, getErrorMessageAtLeast } from '../../utils/validator'
 import { isObjEmpty } from '../../utils/object'
 import { ValidationValue } from '../../constants'
 import { useLocation } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import { signIn } from '../../store/users'
+import { useDispatch, useSelector } from 'react-redux'
+import { getAuthErrors, signIn } from '../../store/users'
 
 const LoginForm = () => {
     const dispatch = useDispatch()
@@ -15,8 +15,8 @@ const LoginForm = () => {
         password: '',
         stayOn: false
     })
+    const enterError = useSelector(getAuthErrors())
     const [errors, setErrors] = useState({})
-    const [enterError, setEnterError] = useState(null)
     const location = useLocation()
     const { email, password } = data
     useEffect(() => {
@@ -60,7 +60,6 @@ const LoginForm = () => {
     }
     const handleChange = (change) => {
         setData((previousState) => ({ ...previousState, ...change }))
-        setEnterError(null)
     }
     const handleSubmit = async (event) => {
         event.preventDefault()

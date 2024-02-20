@@ -4,6 +4,7 @@ import authService from '../services/auth.service'
 import localStorageService from '../services/localStorage.service'
 import { getRandomInteger } from '../utils'
 import { customHistory } from '../router/CustomBrowserRouter'
+import { generateAuthError } from '../utils/generateAuthError'
 
 const localUserId = localStorageService.getUserId()
 
@@ -60,6 +61,9 @@ const slice = createSlice({
             state.isLoggedIn = false
             state.auth = null
             state.dataLoaded = false
+        },
+        authRequested: (state) => {
+            state.error = null
         }
     }
 })
@@ -136,7 +140,13 @@ export const signIn = ({ payload, redirect }) => async (dispatch) => {
         localStorageService.setTokens(data)
         customHistory.push(redirect)
     } catch (e) {
-        dispatch(authRequestFailed(e.message))
+        const { code, message } = e.response.data.error
+        if (code === 400) {
+            const errorMessage = generateAuthError(message)
+            dispatch(authRequestFailed(errorMessage))
+        } else {
+            dispatch(authRequestFailed(e.message))
+        }
     }
 }
 
@@ -159,5 +169,6 @@ export const getCurrentUser = () => (state) => {
         return null
     }
 }
+export const getAuthErrors = () => (state) => state.users.error
 
 export default slice.reducer
