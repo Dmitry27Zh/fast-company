@@ -28,8 +28,7 @@ const EditForm = ({ user }) => {
         email: yup
             .string()
             .required('Email is required')
-            .email('Incorrect email'),
-        'profession.name': yup.string().required('Choose your profession')
+            .email('Incorrect email')
     })
     const isValid = (errors) => isObjEmpty(errors)
     const validate = async () => {
