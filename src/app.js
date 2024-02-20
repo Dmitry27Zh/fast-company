@@ -6,7 +6,6 @@ import Navigation from './components/ui/navigation'
 import Main from './layout/main'
 import Login from './layout/login'
 import Users from './layout/users'
-import AuthProvider from './hooks/useAuth'
 import ProfessionsProvider from './hooks/useProfessions'
 import QualitiesProvider from './hooks/useQualities'
 import ProtectedRoute from './components/common/protectedRoute'
@@ -16,33 +15,31 @@ import AppLoader from './components/ui/hoc/appLoader'
 const App = () => {
     return (
         <AppLoader>
-            <AuthProvider>
-                <QualitiesProvider>
-                    <ProfessionsProvider>
-                        <div className="container">
-                            <Navigation />
-                            <Routes>
-                                <Route path="/" element={<Main />} />
-                                <Route
-                                    path="/login/:type?"
-                                    element={<Login />}
-                                />
-                                <Route path="/logout" element={<Logout />} />
-                                <Route
-                                    path="/users/:userId?/:edit?"
-                                    element={
-                                        <ProtectedRoute>
-                                            <Users />
-                                        </ProtectedRoute>
-                                    }
-                                />
-                                <Route path="*" element={<Navigate to="/" />} />
-                            </Routes>
-                        </div>
-                        <ToastContainer />
-                    </ProfessionsProvider>
-                </QualitiesProvider>
-            </AuthProvider>
+            <QualitiesProvider>
+                <ProfessionsProvider>
+                    <div className="container">
+                        <Navigation />
+                        <Routes>
+                            <Route path="/" element={<Main />} />
+                            <Route
+                                path="/login/:type?"
+                                element={<Login />}
+                            />
+                            <Route path="/logout" element={<Logout />} />
+                            <Route
+                                path="/users/:userId?/:edit?"
+                                element={
+                                    <ProtectedRoute>
+                                        <Users />
+                                    </ProtectedRoute>
+                                }
+                            />
+                            <Route path="*" element={<Navigate to="/" />} />
+                        </Routes>
+                    </div>
+                    <ToastContainer />
+                </ProfessionsProvider>
+            </QualitiesProvider>
         </AppLoader>
     )
 }
