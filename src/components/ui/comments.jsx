@@ -1,19 +1,31 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useParams } from 'react-router-dom'
 import { orderBy } from 'lodash'
 import CommentsList, { AddCommentForm } from '../common/comments'
 import { useComments } from '../../hooks/useComments'
+import { useDispatch, useSelector } from 'react-redux'
+import { createComment, getComments, getCommentsLoadingStatus, loadCommentsList } from '../../store/comments'
 
 const Comments = () => {
-    const { comments, createComment, removeComment } = useComments()
+    const dispatch = useDispatch()
+    const { userId } = useParams()
+    useEffect(() => {
+        dispatch(loadCommentsList(userId))
+    }, [userId])
+    const isLoading = useSelector(getCommentsLoadingStatus())
+    const { removeComment } = useComments()
+    const comments = useSelector(getComments())
     const handleAdd = (data) => {
-        createComment(data)
+        dispatch(createComment({ data, pageId: userId }))
     }
     const handleRemove = (id) => {
         removeComment(id)
     }
     const sortedComments = orderBy(comments, ['created_at'], ['desc'])
     const renderCommentsList = () => {
-        if (comments.length > 0) {
+        if (isLoading) {
+            return 'Loading...'
+        } else {
             return (
                 <div className="card mb-3">
                     <div className="card-body">

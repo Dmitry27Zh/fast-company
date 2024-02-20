@@ -68,7 +68,7 @@ const slice = createSlice({
     }
 })
 
-export const { usersRequested, usersRecieved, usersRequestFailed, authRequestSuccess, authRequestFailed, userCreated, userUpdated, userLoggedOut } = slice.actions
+export const { usersRequested, usersRecieved, usersRequestFailed, authRequestSuccess, authRequestFailed, userCreated, userUpdated, userLoggedOut, authRequested } = slice.actions
 
 export const loadUsersList = () => async (dispatch) => {
     dispatch(usersRequested())
@@ -80,7 +80,6 @@ export const loadUsersList = () => async (dispatch) => {
     }
 }
 
-const authRequested = createAction('users/authRequested')
 const userCreateRequested = createAction('users/userCreateRequested')
 const userCreateFailed = createAction('users/userCreateFailed')
 const userUpdateRequested = createAction('users/userUpdateRequested')
