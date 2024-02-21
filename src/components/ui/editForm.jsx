@@ -7,18 +7,18 @@ import RadioField from '../common/form/radioField'
 import MultiSelectField from '../common/form/multiSelectField'
 import * as yup from 'yup'
 import PropTypes from 'prop-types'
-import useTransformedUser from '../../hooks/useTransformedUser'
+import useUserFormData from '../../hooks/useUserFormData'
 import { getQualities } from '../../store/qualities'
-import { getProfessions } from '../../store/professions'
+import { getProfessions, getProfessionsLoadingStatus } from '../../store/professions'
 import { updateUser } from '../../store/users'
 
 const EditForm = ({ user }) => {
-    const [data, setData] = useTransformedUser(user)
+    const [data, setData] = useUserFormData(user)
     const [errors, setErrors] = useState({})
     const qualities = useSelector(getQualities())
     const isQualitiesLoading = !('qualities' in data)
     const professions = useSelector(getProfessions())
-    const isProfessionsLoading = !('profession' in data)
+    const isProfessionsLoading = useSelector(getProfessionsLoadingStatus())
     const dispatch = useDispatch()
     useEffect(() => {
         validate()
@@ -68,7 +68,7 @@ const EditForm = ({ user }) => {
                     <SelectField
                         label="Profession"
                         name="profession"
-                        value={data.profession._id}
+                        value={data.profession}
                         onChange={handleChange}
                         options={professions}
                         error={errors.profession}
