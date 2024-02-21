@@ -11,6 +11,7 @@ import useUserFormData from '../../hooks/useUserFormData'
 import { getQualities } from '../../store/qualities'
 import { getProfessions, getProfessionsLoadingStatus } from '../../store/professions'
 import { updateUser } from '../../store/users'
+import { useNavigate } from 'react-router-dom'
 
 const EditForm = ({ user }) => {
     const [data, setData] = useUserFormData(user)
@@ -20,6 +21,7 @@ const EditForm = ({ user }) => {
     const professions = useSelector(getProfessions())
     const isProfessionsLoading = useSelector(getProfessionsLoadingStatus())
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     useEffect(() => {
         validate()
     }, [data])
@@ -58,7 +60,8 @@ const EditForm = ({ user }) => {
                 ...data,
                 qualities: data.qualities.map(({ value }) => value)
             }
-            dispatch(updateUser(newUser))
+            await dispatch(updateUser(newUser))
+            navigate(`/users/${newUser._id}`)
         }
     }
     const renderProfessionsSelect = () => {

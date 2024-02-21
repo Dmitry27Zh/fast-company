@@ -43,8 +43,8 @@ const UsersTable = (props) => {
         },
         bookmark: {
             value: 'Избранное',
-            component: ({ _id, bookmark = false }) => (
-                <Bookmark done={bookmark} onBookmark={() => onBookmark(_id)} />
+            component: ({ _id }) => (
+                <Bookmark userId={_id} />
             )
         },
         delete: {

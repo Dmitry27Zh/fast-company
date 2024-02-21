@@ -49,8 +49,11 @@ const slice = createSlice({
         },
         userUpdated: (state, action) => {
             state.entities = state.entities.map((user) => {
-                if (user._id === action.payload._id) {
-                    return action.payload
+                if (user._id === state.auth.userId) {
+                    return {
+                        ...user,
+                        ...action.payload
+                    }
                 } else {
                     return user
                 }
@@ -100,8 +103,12 @@ export const updateUser = (payload) => async (dispatch, getState) => {
     dispatch(userUpdateRequested())
     try {
         const { content } = await usersService.update(getState().users.auth.userId, payload)
-        dispatch(userUpdated(content))
-        customHistory.push(`/users/${content._id}`)
+        const update = Array.isArray(content)
+            ? {
+                [Object.keys(payload)[0]]: content[0]
+            }
+            : content
+        dispatch(userUpdated(update))
     } catch (e) {
         dispatch(userUpdateFailed(e.message))
     }
